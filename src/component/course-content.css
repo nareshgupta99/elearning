@@ -1,0 +1,12 @@
+@media (min-width: 576px ) { 
+    .accordion-container{
+        width: 450px;
+
+    }
+}
+
+.accordion-button:focus{
+    border-color: "#f7f9fa";
+outline: none;
+box-shadow: none;
+}
