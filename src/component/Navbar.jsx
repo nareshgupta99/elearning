@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import {AiOutlineShoppingCart} from 'react-icons/ai';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {CgProfile} from 'react-icons/cg';
 
 function Navbar() {
 
     const [login,setLogin]=useState(false);
-    
+
+  
 
   return (
     <header class=" sticky-top">

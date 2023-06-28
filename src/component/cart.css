@@ -1,0 +1,11 @@
+.checkout-btn{
+    background-color:#a435f0;
+    width: 20vw;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .checkout-btn:hover{
+    color: white;
+    background-color: #8221c2;
+  }

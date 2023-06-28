@@ -10,6 +10,10 @@ import Login from './component/Login';
 import Curriculum from './component/admin/Curriculum';
 import Player from './component/Player';
 import CourseContent from './component/CourseContent';
+import InstructorDashboard from './component/admin/InstructorDashboard';
+import Overview from './component/admin/Overview';
+import Cart from './component/Cart';
+import TeachWithUs from './component/admin/TeachWithUs';
 function App() {
   return (
    <BrowserRouter>
@@ -21,6 +25,11 @@ function App() {
     <Route path='/curriculum' element={<Curriculum />} />
     <Route path='/player' element={<Player />} />
     <Route path='/course-content' element={<CourseContent />} />
+    <Route path='/teach-with-us' element={<TeachWithUs />} />
+    <Route path='/create-course' element={<InstructorDashboard/>} />
+    <Route path='/overview' element={<Overview />} />
+    <Route path='/cart' element={<Cart />} />
+    <Route path='/teacher-dashboard' element={<InstructorDashboard />} />
    </Routes>
     
    

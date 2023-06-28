@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import "../admin/curriculum.css";
+import SectioService from "../../service/SectioService";
 
 function Curriculum() {
   const [section, setSection] = useState(null);
+  const[sectionData,setSectionData]=useState({
+  sectionName:""    
+  })
+  const [sections,setSections]=useState([]);
+
   const[lecture,setLecture]=useState([]);
+
 
   const sectionButton = () => {
     console.log("hello");
@@ -15,16 +22,18 @@ function Curriculum() {
   };
 
   function handleAddSection() {
-    let object={
-      title:"",
-      objective:""
-    }
-    setLecture([...lecture,object])
-    setSection(null)
+    SectioService.saveSection(sectionData).then((resp)=>{
+      console.log(resp.data)
+      setSections([...sections,resp.data])
+      setSection(null)
+    }).catch((error)=>{
+      console.log(error)
+    })
   }
 
   function handleDeleteSection(index){
     console.log(index)
+    console.log(sections[index])
   }
   return (
     <div>
@@ -89,6 +98,7 @@ function Curriculum() {
                     value="Add Section"
                     id="add-section"
                     onClick={handleAddSection}
+                    
                   />
                 </div>
               
@@ -99,7 +109,10 @@ function Curriculum() {
                     class="w-75"
                     placeholder="Enter a Title"
                     id="title"
-                    name="title"
+                    name="sectionName"
+                    onChange={(e)=>{
+                      setSectionData({[e.target.name]:e.target.value});
+                    }}
                   />
                 </div>{" "}
                 <div class="m-2">
@@ -123,7 +136,7 @@ function Curriculum() {
 
           
         {/* sections */}
-        {lecture.map((lecture,index)=>(
+        {sections.map((s,index)=>(
 
         
       
@@ -135,8 +148,8 @@ function Curriculum() {
         <input
           class="fw-bold ms-3 mt-3 border-0 title-label"
           id=""
-          value=""
-          name="lecture"
+          value={`${s.sectionName}`}
+          name="title"
           readonly
         />
         <input

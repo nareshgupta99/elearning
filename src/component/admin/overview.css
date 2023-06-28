@@ -1,0 +1,21 @@
+.course {
+	margin-top: 20px;
+	border: 6px solid whitesmoke;
+	box-shadow: 10px 3px 19px 13px whitesmoke;
+	border-radius: 5px;
+   min-height: 80vh;
+   
+  
+}
+.header{
+    padding: 30px 0px 0px 30px ;
+    font-weight: 600;
+}
+hr{
+    
+}
+@media only screen and (max-width: 575px) {
+  .course {
+    padding-top: 30px;
+  }
+}

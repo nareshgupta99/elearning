@@ -9,9 +9,9 @@ function Login() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const [showForgotPassword, setShowForgotPassword] = useState(true);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
 
-  const [showOtp, setShowOtp] = useState(true);
+  const [showOtp, setShowOtp] = useState(false);
 
   const passwordToogler = () => {
     setShowPassword(!showPassword);
