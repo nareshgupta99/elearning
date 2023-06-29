@@ -3,6 +3,7 @@ import banner  from '../../images/instructor2.jpg';
 import inspire from '../../images/inspire-learner.jpg';
 import rewarde from "../../images/rewarde.jpg";
 import teach from '../../images/teach-your-way.jpg'
+import { Link } from 'react-router-dom';
 
 function TeachWithUs() {
 
@@ -24,7 +25,7 @@ function TeachWithUs() {
 
        <p> Become an instructor and change lives â including your own </p>
 
-       <a href="registration-instructor.jsp" class="btn btn-dark " style={{width: "200px"}}>Get Started</a>
+       <Link to="/instructor/register" class="btn btn-dark " style={{width: "200px"}}>Get Started</Link>
 
     </div>
 

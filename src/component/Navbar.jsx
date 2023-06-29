@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {AiOutlineShoppingCart} from 'react-icons/ai';
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import {CgProfile} from 'react-icons/cg';
 
 function Navbar() {
@@ -59,10 +59,10 @@ function Navbar() {
                 <AiOutlineShoppingCart size={20} />
                 </Link>
               </li>
-{login==false?
+{login===false?
                 <>
               <li class="nav-item">
-                <Link class="nav-link " to="/registration">
+                <Link class="nav-link " to="/student/register">
                 Signup
                 </Link>
               </li>

@@ -1,11 +1,26 @@
 import React, { useState } from "react";
 import { BsArrowLeftShort } from "react-icons/bs";
+import AuthService from "../service/AuthService";
 
 function Login() {
+
   const [data, setData] = useState({
     email: "",
     password: "",
   });
+
+  function handleLogin(e){
+    e.preventDefault();
+    AuthService.login(data).then((resp)=>{
+      console.log(resp.data);
+      localStorage.setItem("token","Bearer "+resp.data.token);
+      console.log(localStorage.getItem("token"))
+    }).catch((err)=>{
+      console.log(err);
+    })
+  }
+
+  
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -19,7 +34,8 @@ function Login() {
 
   const handleChange = (event) => {
     let name = event.target.name;
-    setData({ [name]: event.target.value });
+    console.log(data);
+    setData({ ...data,[name]: event.target.value });
   };
 
   return (
@@ -72,6 +88,7 @@ function Login() {
                 type="submit"
                 class="btn btn-success w-100 mt-2"
                 value="SIGN IN"
+                onClick={handleLogin}
               />
             </form>
             <p class="mt-3" id="forgot-password-button">

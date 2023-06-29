@@ -2,23 +2,14 @@ import React, { useState } from "react";
 import './registration.css';
 import { Link } from "react-router-dom";
 
-function Registration() {
-
-    const [data,setData]=useState({
-        name:"",
-        email:"",
-        password:""
-    });
+function Registration({handleSubmit,data,setData}) {
 
     const [showPassword,setShowPassword]=useState(false);
 
     const handleChange=(event)=>{
         let name=event.target.name;
-        setData({[name]:event.target.value});
+        setData({...data,[name]:event.target.value});
         console.log(data)
-    }
-    const handleSubmit=(event)=>{
-        event.preventDeffault();
     }
 
     const toggllePassword=(event)=>{
@@ -94,6 +85,7 @@ function Registration() {
               type="submit"
               class="btn btn-success w-100 mt-3"
               value="SIGN UP"
+              onClick={handleSubmit}
             />
           </form>
           <p class="mt-3">

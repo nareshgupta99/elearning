@@ -14,13 +14,14 @@ import InstructorDashboard from './component/admin/InstructorDashboard';
 import Overview from './component/admin/Overview';
 import Cart from './component/Cart';
 import TeachWithUs from './component/admin/TeachWithUs';
+import Instructor from './component/Instructor';
+import Student from './component/Student';
 function App() {
   return (
    <BrowserRouter>
    <Navbar />
    <Routes>
     <Route path='/' element={<Home />} />
-    <Route path='/registration' element={<Registration />} />
     <Route path='/login' element={<Login />} />
     <Route path='/curriculum' element={<Curriculum />} />
     <Route path='/player' element={<Player />} />
@@ -30,6 +31,8 @@ function App() {
     <Route path='/overview' element={<Overview />} />
     <Route path='/cart' element={<Cart />} />
     <Route path='/teacher-dashboard' element={<InstructorDashboard />} />
+    <Route path='/instructor/register' element={<Instructor />} />
+    <Route path='/student/register' element={<Student />} />
    </Routes>
     
    
