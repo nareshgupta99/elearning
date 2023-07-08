@@ -54,7 +54,7 @@ function Curriculum() {
             className="complte-course-container "
             method="post"
             action="saveCourse"
-            enctype="multipart/form-data"
+            encType="multipart/form-data"
           >
             <input type="submit" value="next" />
           </form>

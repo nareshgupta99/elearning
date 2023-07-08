@@ -11,10 +11,9 @@ export const getLoginUser = async () => {
       const { data } = await privateAxios.get("/user");
       return data;
     } catch (err) {
-      return err.message;
+      return false;
     }
   } else {
-    console.log("false");
     return false;
   }
 };

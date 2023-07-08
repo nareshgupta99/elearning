@@ -3,7 +3,7 @@ import '../admin/overview.css';
 
 
 function Overview() {
-  const [data, setData] = useState([1, 2, 3, 4, 5, 6]);
+  const [data, setData] = useState([100, 200, 300, 400, 52, 61]);
 
   return (
     <div className="course-container d-flex flex-column justify-content-center">
@@ -15,12 +15,12 @@ function Overview() {
             
               <div>
                 <h5>Total revenu</h5>
-                {data.map((d) => ( <h4>100</h4>))} 
+                {data.map((d,index) => ( <h4 key={index}>100</h4>))} 
               </div>
 
               <div>
                 <h5>Total enrollments</h5>
-                {data.map((d) => ( <h4>100</h4>))} 
+                {data.map((d,index) => ( <h4 key={index}>100</h4>))} 
               </div>
               </div>
          

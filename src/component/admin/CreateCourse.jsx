@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import "../admin/create-course.css";
 import initialImage from "../../images/image.jpg";
+import { useState,useRef,useEffect } from "react";
+import { privateAxios } from "../../service/helper";
+import { addCourse } from "../../service/CourseService";
+
 
 
 function CreateCourse() {
@@ -24,12 +28,24 @@ function CreateCourse() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    addCourse(course).then((res)=>{
+      console.log(res.data)
+    }).catch((err)=>{
+      console.log(err.message)
+    })
    
-    	}
+ 	}
 	  function handleImage(e){
+      let previous; 
       // setCourse({...course,[e.target.name]:URL.createObjectURL(e.target.files[0])})
-		setImage(URL.createObjectURL(e.target.files[0]));
-		console.log(course);
+      
+		setImage((pre)=>{
+      return URL.createObjectURL(e.target.files[0])
+    });
+    
+    
+    
+   
 	  }
   return (
     <div className="  course-container d-flex flex-column justify-content-center ">
@@ -74,84 +90,6 @@ function CreateCourse() {
           <div className="text-editor">
             <h4 className="fs-5 fw-bold">Course Description</h4>
             <section className="mx-auto mt-4">
-              <div className="row">
-                <div className="col">
-                  <div className="first box">
-                    <input
-                      id="font-size"
-                      type="number"
-                      value="16"
-                      min="1"
-                      max="100"
-                      
-                    />
-                  </div>
-                  <div className="second box">
-                    <button
-                      className="create-course-btns"
-                      type="button"
-                      
-                    >
-                      <i className="fa-solid fa-bold"></i>
-                    </button>
-                    <button
-                      className="create-course-btns"
-                      type="button"
-                      
-                    >
-                      <i className="fa-solid fa-italic"></i>
-                    </button>
-                    <button
-                      className="create-course-btns"
-                      type="button"
-                      
-                    >
-                      <i className="fa-solid fa-underline"></i>
-                    </button>
-                  </div>
-                  <div className="third box">
-                    <button
-                      className="create-course-btns"
-                      type="button"
-                     
-                    >
-                      <i className="fa-solid fa-align-left"></i>
-                    </button>
-                    <button
-                      className="create-course-btns"
-                      type="button"
-                     
-                    >
-                      <i className="fa-solid fa-align-center"></i>
-                    </button>
-                    <button
-                      className="create-course-btns"
-                      type="button"
-                     
-                    >
-                      <i className="fa-solid fa-align-right"></i>
-                    </button>
-                  </div>
-                  <div className="fourth box">
-                    <button
-                      className="create-course-btns"
-                      type="button"
-                      
-                    >
-                      aA
-                    </button>
-                    <button
-                      className="create-course-btns"
-                      type="button"
-                     
-                    >
-                      <i className="fa-solid fa-text-slash"></i>
-                    </button>
-                    <input type="color" />
-                  </div>
-                </div>
-              </div>
-
               <div className="row mt-1">
                 <div className="col">
                   <textarea
