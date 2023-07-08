@@ -16,18 +16,21 @@ import Cart from './component/Cart';
 import TeachWithUs from './component/admin/TeachWithUs';
 import Instructor from './component/Instructor';
 import Student from './component/Student';
+import { getToken } from './service/UserDetail';
+import Logout from './component/Logout';
 function App() {
   return (
    <BrowserRouter>
    <Navbar />
    <Routes>
     <Route path='/' element={<Home />} />
+    <Route path='/home' element={<Home />} />
     <Route path='/login' element={<Login />} />
-    <Route path='/curriculum' element={<Curriculum />} />
+    <Route path='/logout' element={<Logout />}/>
+    <Route path='/curriculum' element={<Curriculum />} /> 
     <Route path='/player' element={<Player />} />
     <Route path='/course-content' element={<CourseContent />} />
     <Route path='/teach-with-us' element={<TeachWithUs />} />
-    <Route path='/create-course' element={<InstructorDashboard/>} />
     <Route path='/overview' element={<Overview />} />
     <Route path='/cart' element={<Cart />} />
     <Route path='/teacher-dashboard' element={<InstructorDashboard />} />

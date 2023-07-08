@@ -83,6 +83,7 @@ function Navbar() {
               </li>
               
 
+
               <li class="nav-item">
                 <Link class="nav-link " to="/profile">
                     <CgProfile size={25} />

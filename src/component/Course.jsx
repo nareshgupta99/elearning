@@ -13,13 +13,6 @@ export default function Course() {
     backgroundColor: "rgba(0,0,0,0.5)",
   };
 
-  useEffect(()=>{
-    CourseService.getAllCourseByUserId().then((resp)=>{
-      setData(resp.data)
-    }).catch((err)=>{
-      console.log(err)
-    })
-  })
   
 
   const [data,setData]=useState([]);

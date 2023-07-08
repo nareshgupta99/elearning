@@ -37,11 +37,11 @@ function Curriculum() {
   }
   return (
     <div>
-      <div class="course-container d-flex flex-column justify-content-center">
-        <div class="container course p-3">
-          <h3 class="fw-bolder">Curriculum</h3>
+      <div className="course-container d-flex flex-column justify-content-center">
+        <div className="container course p-3">
+          <h3 className="fw-bolder">Curriculum</h3>
           <hr />
-          <p class="mt-5">
+          <p className="mt-5">
             Start putting together your course by creating sections, lectures
             and practice activities (quizzes, coding exercises and assignments).
             Use your course outline to structure your content and label your
@@ -51,7 +51,7 @@ function Curriculum() {
           </p>
 
           <form
-            class="complte-course-container "
+            className="complte-course-container "
             method="post"
             action="saveCourse"
             enctype="multipart/form-data"
@@ -59,12 +59,12 @@ function Curriculum() {
             <input type="submit" value="next" />
           </form>
 
-          <div class="mt-3">
-            <i class="fa-regular fa-xmark d-none" id="close"></i>
+          <div className="mt-3">
+            <i className="fa-regular fa-xmark d-none" id="close"></i>
             {section===null?
             
             <button
-              class="p-1 px-2 "
+              className="p-1 px-2 "
               id="section-button"
               onClick={sectionButton}
             >
@@ -72,7 +72,7 @@ function Curriculum() {
             </button>
             :
             <button
-              class="py-1 px-3 "
+              className="py-1 px-3 "
               id="close-button"
               onClick={() => setSection(null)}
             >
@@ -82,19 +82,19 @@ function Curriculum() {
           </div>
           {/* Section render on click section */}
           {section !== null ? (
-            <div class="mt-3 " id="section-container">
+            <div className="mt-3 " id="section-container">
               <div
-                class="mt-4 p-2"
+                className="mt-4 p-2"
                 id="section"
                 style={{ backgroundColor: "#f7f9fa" }}
               >
                 {" "}
-                <div class="d-flex justify-content-between ">
+                <div className="d-flex justify-content-between ">
                   {" "}
                   <label>New Section:</label>{" "}
                   <input
                     type="button"
-                    class=" "
+                    className=" "
                     value="Add Section"
                     id="add-section"
                     onClick={handleAddSection}
@@ -102,11 +102,11 @@ function Curriculum() {
                   />
                 </div>
               
-                <div class="m-2">
+                <div className="m-2">
                   <input
                     type="text"
                     required
-                    class="w-75"
+                    className="w-75"
                     placeholder="Enter a Title"
                     id="title"
                     name="sectionName"
@@ -115,12 +115,12 @@ function Curriculum() {
                     }}
                   />
                 </div>{" "}
-                <div class="m-2">
+                <div className="m-2">
                   {" "}
                   What will students be able to do at the end of this section?
                   <input
                     type="text"
-                    class="w-75"
+                    className="w-75"
                     placeholder="Enter a Learning Objective"
                     required
                     id="section-objective"
@@ -142,11 +142,11 @@ function Curriculum() {
       
       <div
         id=""
-        class="mt-4  border border-black"
+        className="mt-4  border border-black"
         style={{backgroundColor: "#f7f9fa"}}
       >
         <input
-          class="fw-bold ms-3 mt-3 border-0 title-label"
+          className="fw-bold ms-3 mt-3 border-0 title-label"
           id=""
           value={`${s.sectionName}`}
           name="title"
@@ -155,7 +155,7 @@ function Curriculum() {
         <input
           style={{marginLeft: "21%"}}
           type="button"
-          class="mt-1 mb-2 edit"
+          className="mt-1 mb-2 edit"
           value="edit"
           id=""
           onclick="handleEditSection(event)"
@@ -163,17 +163,17 @@ function Curriculum() {
         <input
           style={{marginLeft: "1em"}}
           type="button"
-          class="mt-1 mb-2 "
+          className="mt-1 mb-2 "
           value="delete"
           id=""
           onClick={()=>handleDeleteSection(index)}
         />
-        <div class="accordion accordion-flush" id="accordionFlushExample">
-          <div class="accordion-item">
+        <div className="accordion accordion-flush" id="accordionFlushExample">
+          <div className="accordion-item">
             {" "}
-            <h2 class="accordion-header" id="">
+            <h2 className="accordion-header" id="">
               <button
-                class="accordion-button collapsed"
+                className="accordion-button collapsed"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#flush-collapse${dynamicId}"
@@ -185,14 +185,14 @@ function Curriculum() {
             </h2>
             <div
               id="flush-collapse${dynamicId}"
-              class="accordion-collapse collapse unique"
+              className="accordion-collapse collapse unique"
               aria-labelledby=""
               data-bs-parent="#accordionFlushExample"
             >
-              <div class="accordion-body" id="accordion-body${dynamicId}">
+              <div className="accordion-body" id="accordion-body${dynamicId}">
                 <input
                   type="button"
-                  class="px-2 mx-auto position-relative "
+                  className="px-2 mx-auto position-relative "
                   style={{left:"90%"}}
                   value="Add Video"
                   id=""
