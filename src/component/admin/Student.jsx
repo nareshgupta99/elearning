@@ -3,11 +3,11 @@ import React from 'react'
 function Student() {
   return (
     
-        <div class="course-container d-flex flex-column justify-content-center  ">
-    <h4 class="header">Students</h4>
-    <div class="container-md container-fluid course p-sm-5">
-        <div class="table-responsive">
-            <table class="table align-middle">
+        <div className="course-container d-flex flex-column justify-content-center  ">
+    <h4 className="header">Students</h4>
+    <div className="container-md container-fluid course p-sm-5">
+        <div className="table-responsive">
+            <table className="table align-middle">
               <thead>
                 <tr>
                   

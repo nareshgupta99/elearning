@@ -176,7 +176,7 @@ function Curriculum() {
                 className="accordion-button collapsed"
                 type="button"
                 data-bs-toggle="collapse"
-                data-bs-target="#flush-collapse${dynamicId}"
+                data-bs-target="#flush-collapse"
                 aria-expanded="false"
                 aria-controls=""
               >
@@ -184,12 +184,12 @@ function Curriculum() {
               </button>{" "}
             </h2>
             <div
-              id="flush-collapse${dynamicId}"
+              id="flush-collapse"
               className="accordion-collapse collapse unique"
               aria-labelledby=""
               data-bs-parent="#accordionFlushExample"
             >
-              <div className="accordion-body" id="accordion-body${dynamicId}">
+              <div className="accordion-body" id="accordion-body">
                 <input
                   type="button"
                   className="px-2 mx-auto position-relative "

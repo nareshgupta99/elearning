@@ -12,33 +12,33 @@ function InstructorDashboard() {
     const [page,setPage]=useState();
 
   return (
-    <div class="d-flex">
-	<div class="wrapper sidebar-container "  >
+    <div className="d-flex">
+	<div className="wrapper sidebar-container "  >
         <nav id="sidebar">
-            <div class="sidebar-header">
+            <div className="sidebar-header">
                 <h3><Link to="/">E-Learning </Link></h3>
             </div>
-            <ul class="list-unstyled component">
+            <ul className="list-unstyled component">
                 <li>
-                    <button class="btn-links" id="courses-btn" onClick={()=>{setPage('course')}}>Courses</button>
+                    <button className="btn-links" id="courses-btn" onClick={()=>{setPage('course')}}>Courses</button>
                 </li>
                 <li>
-                    <button class="btn-links" id="create-btn" onClick={()=>{setPage('createCourse')}}>Create Course</button>
+                    <button className="btn-links" id="create-btn" onClick={()=>{setPage('createCourse')}}>Create Course</button>
                 </li>
                 <li>
-                	 <button class="btn-links" id=""  onClick={()=>{setPage('curriculum')}}>Curriculum</button>
+                	 <button className="btn-links" id=""  onClick={()=>{setPage('curriculum')}}>Curriculum</button>
                 </li>
                 <li>
-                    <button class="btn-links" id="overview-btn" onClick={()=>{setPage('overview')}}>Overview</button>
+                    <button className="btn-links" id="overview-btn" onClick={()=>{setPage('overview')}}>Overview</button>
                 </li>
                 <li>
-                   <button class="btn-links" id="students-btn" onClick={()=>{setPage('student')}}>Students</button>
+                   <button className="btn-links" id="students-btn" onClick={()=>{setPage('student')}}>Students</button>
                 </li>
             </ul>
         </nav>
     </div>
     
-    <div class=" " id="overview" style={{width:"-moz-available"}}>
+    <div className=" " id="overview" style={{width:"-moz-available"}}>
         {page==='course'? <Course />:""}
         {page==='curriculum' ?<Curriculum />:""}
         {page==='createCourse'?<CreateCourse />:""}

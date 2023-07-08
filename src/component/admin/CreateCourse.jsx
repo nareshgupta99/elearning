@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import "../admin/create-course.css";
-import image from "../../images/image.jpg";
-import { addCourse,getLoginUser } from "../../service/CourseService.js";
-import { privateAxios } from "../../service/helper";
+import initialImage from "../../images/image.jpg";
 
 
 function CreateCourse() {
@@ -14,8 +12,9 @@ function CreateCourse() {
     category: "",
   });
 
-  const [image,setImage]=useState()
-
+  const [image,setImage]=useState(initialImage)
+  const [languages,setLanguages]=useState(["English (US)","English (UK)","HINDI","HINGLISH"])
+  const[categories,setCategories]=useState(["Development","Business","Finance & Accounting","IT & Software","Design"])
   function handleData(e) {
     console.log(course);
     let name = e.target.name;
@@ -84,28 +83,28 @@ function CreateCourse() {
                       value="16"
                       min="1"
                       max="100"
-                      onchange="f1(this)"
+                      
                     />
                   </div>
                   <div className="second box">
                     <button
                       className="create-course-btns"
                       type="button"
-                      onclick="f2(this)"
+                      
                     >
                       <i className="fa-solid fa-bold"></i>
                     </button>
                     <button
                       className="create-course-btns"
                       type="button"
-                      onclick="f3(this)"
+                      
                     >
                       <i className="fa-solid fa-italic"></i>
                     </button>
                     <button
                       className="create-course-btns"
                       type="button"
-                      onclick="f4(this)"
+                      
                     >
                       <i className="fa-solid fa-underline"></i>
                     </button>
@@ -114,21 +113,21 @@ function CreateCourse() {
                     <button
                       className="create-course-btns"
                       type="button"
-                      onclick="f5(this)"
+                     
                     >
                       <i className="fa-solid fa-align-left"></i>
                     </button>
                     <button
                       className="create-course-btns"
                       type="button"
-                      onclick="f6(this)"
+                     
                     >
                       <i className="fa-solid fa-align-center"></i>
                     </button>
                     <button
                       className="create-course-btns"
                       type="button"
-                      onclick="f7(this)"
+                     
                     >
                       <i className="fa-solid fa-align-right"></i>
                     </button>
@@ -137,18 +136,18 @@ function CreateCourse() {
                     <button
                       className="create-course-btns"
                       type="button"
-                      onclick="f8(this)"
+                      
                     >
                       aA
                     </button>
                     <button
                       className="create-course-btns"
                       type="button"
-                      onclick="f9()"
+                     
                     >
                       <i className="fa-solid fa-text-slash"></i>
                     </button>
-                    <input type="color" onchange="f10(this)" />
+                    <input type="color" />
                   </div>
                 </div>
               </div>
@@ -175,10 +174,14 @@ function CreateCourse() {
               value={course.language}
               aria-label=".form-select-lg example"
             >
-              <option selected>---Select Language---</option>
-              <option value="English(US)">English (US)</option>
-              <option value="English(UK)">English (UK)</option>
-              <option value="Hindi">Hindi</option>
+              <option defaultChecked>---Select Language---</option>
+              {languages.map((lang,index)=>(
+                
+                <option key={index} aria-readonly={true}  value={lang}>{lang}</option>
+              ))
+
+              }
+              
             </select>{" "}
             <select
               name="level"
@@ -186,7 +189,7 @@ function CreateCourse() {
               className="form-select form-select-lg mb-3 w-25 border-black border-1"
               aria-label=".form-select-lg example"
             >
-              <option selected>---Select Level---</option>
+              <option defaultChecked  >---Select Level---</option>
               <option value="Beginner">Beginner Level</option>
               <option value="Intermediate">Intermediate Level</option>
               <option value="Expert">Expert Level</option>
@@ -198,12 +201,13 @@ function CreateCourse() {
               className="form-select form-select-lg mb-3 w-25 border-black border-1"
               aria-label=".form-select-lg example"
             >
-              <option selected>---Select Category---</option>
-              <option value="Development">Development</option>
-              <option value="Business">Business</option>
-              <option value="Finance & Accounting">Finance & Accounting</option>
-              <option value="IT & Software">IT & Software</option>
-              <option value="Design">Design</option>
+              <option defaultChecked >---Select Category---</option>
+              {categories.map((cat,index)=>(
+                <option key={index} aria-readonly={true} value={cat}>{cat}</option>
+
+              ))
+                
+              }
             </select>
           </div>
 
@@ -216,6 +220,7 @@ function CreateCourse() {
                   width="480px"
                   height="270px"
                   id="renderImage"
+                  alt={""}
                 />
               </div>
 

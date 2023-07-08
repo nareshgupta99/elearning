@@ -2,28 +2,28 @@ import React from "react";
 
 function SideNavbar() {
   return (
-    <header class=" sticky-top">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid d-flex">
-          <a class="navbar-brand mx-lg-3" href="index.jsp">
+    <header className=" sticky-top">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <div className="container-fluid d-flex">
+          <a className="navbar-brand mx-lg-3" href="index.jsp">
             E-Learning
           </a>
 
-          <form class="d-none d-md-flex mx-lg-5">
+          <form className="d-none d-md-flex mx-lg-5">
             <input
-              class="form-control me-2 rounded-3 "
+              className="form-control me-2 rounded-3 "
               type="search"
               placeholder="Search"
               aria-label="Search"
               style="width: 310px "
             />
-            <button class="btn btn-outline-success" type="submit">
+            <button className="btn btn-outline-success" type="submit">
               Search
             </button>
           </form>
 
           <button
-            class="navbar-toggler"
+            className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent"
@@ -31,46 +31,46 @@ function SideNavbar() {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-center ">
-              <li class="nav-item">
-                <a class="nav-link " aria-current="page" href="index.jsp ">
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav ms-auto mb-2 mb-lg-0 text-center ">
+              <li className="nav-item">
+                <a className="nav-link " aria-current="page" href="index.jsp ">
                   Home
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="teach-with-us.jsp">
+              <li className="nav-item">
+                <a className="nav-link" href="teach-with-us.jsp">
                   Teach With Us
                 </a>
               </li>
 
-              <li class="nav-item">
-                <a class="nav-link " aria-current="page" href="cart.jsp ">
+              <li className="nav-item">
+                <a className="nav-link " aria-current="page" href="cart.jsp ">
                   cart
                 </a>
               </li>
 
-              <li class="nav-item">
-                <a class="nav-link " href="registration.jsp"></a>
+              <li className="nav-item">
+                <a className="nav-link " href="registration.jsp"></a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link " href="login.jsp"></a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link " href="logout"></a>
+              <li className="nav-item">
+                <a className="nav-link " href="login.jsp"></a>
               </li>
 
-              <li class="nav-item">
-                <a class="nav-link " href="profile.jsp">
+              <li className="nav-item">
+                <a className="nav-link " href="logout"></a>
+              </li>
+
+              <li className="nav-item">
+                <a className="nav-link " href="profile.jsp">
                   {" "}
                   <image
                     src="./images/image.jpg"
                     width="64px"
                     height="64px"
-                    class="img-fluid rounded d-none"
+                    className="img-fluid rounded d-none"
                   />
                 </a>
               </li>
@@ -80,15 +80,15 @@ function SideNavbar() {
         </div>
       </nav>
 
-      <div class="container-fluid mt-1 d-md-none">
-        <form class="d-flex justify-content-center">
+      <div className="container-fluid mt-1 d-md-none">
+        <form className="d-flex justify-content-center">
           <input
-            class="form-control me-2 w-50 "
+            className="form-control me-2 w-50 "
             type="search"
             placeholder="Search"
             aria-label="Search"
           />
-          <button class="btn btn-outline-success" type="submit">
+          <button className="btn btn-outline-success" type="submit">
             Search
           </button>
         </form>

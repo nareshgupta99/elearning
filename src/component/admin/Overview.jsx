@@ -6,11 +6,11 @@ function Overview() {
   const [data, setData] = useState([1, 2, 3, 4, 5, 6]);
 
   return (
-    <div class="course-container d-flex flex-column justify-content-center">
-      <h4 class="header">Overview</h4>
-      <p class="px-4">Get top insights about your performance</p>
-      <div class="container-md container-fluid course p-3 ">
-        <div class="d-flex gap-5">
+    <div className="course-container d-flex flex-column justify-content-center">
+      <h4 className="header">Overview</h4>
+      <p className="px-4">Get top insights about your performance</p>
+      <div className="container-md container-fluid course p-3 ">
+        <div className="d-flex gap-5">
           
             
               <div>
