@@ -5,8 +5,8 @@ import {CgProfile} from 'react-icons/cg';
 
 function Navbar() {
 
-    const [login,setLogin]=useState(false);
-
+    const [login,setLogin]=useState(true);
+    const[role,setRole]=useState("ROLE_INSTRUCTOR")
   
 
   return (
@@ -48,11 +48,22 @@ function Navbar() {
                   Home
                 </Link>
               </li>
-              <li className="nav-item">
+  {role==="ROLE_INSTRUCTOR"?
+  
+  <li className="nav-item">
+                <Link className="nav-link" to="/">
+                  Student
+                </Link>
+              </li>
+
+  : 
+
+    <li className="nav-item">
                 <Link className="nav-link" to="/teach-with-us">
                   Teach With Us
                 </Link>
               </li>
+ }
 
               <li className="nav-item">
                 <Link className="nav-link " aria-current="page" to="/cart ">

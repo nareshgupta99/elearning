@@ -19,6 +19,7 @@
     border-color: white;
     box-shadow: 10px 10px 16px 2px;
    transition: opacity .5s, visibility .5s bottom .5s;
+  
   }
   #popover::before{
     content: '';
@@ -29,6 +30,6 @@
     transform: translateX(-50%);
    left: 43%;
   }
-  #course-popover:hover #popover{
+  .course-popover:hover #popover{
     display: block; 
   } 
