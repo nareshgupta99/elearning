@@ -24,8 +24,9 @@ function Hero() {
         line of code to help you learn! LEARN key Spring Boot 3 features: Core,
         Annotations, Java Config, Spring MVC, Hibernate/JPA and Maven
       </p>
-
       <button className="card-button btn">Add to cart</button>
+     
+
     </div>
   </div>
   );

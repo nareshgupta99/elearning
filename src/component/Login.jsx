@@ -24,7 +24,7 @@ function Login() {
       toast.success("Loggin Success !", {
         position: toast.POSITION.TOP_RIGHT
       });
-      // navigate("/")
+    
      
 
     }).catch((err)=>{

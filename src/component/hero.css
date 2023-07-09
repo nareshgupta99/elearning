@@ -5,9 +5,9 @@
   .card-button {
     background-color: #4a2e91 !important;
     color: white !important;
-    width: 70%;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
+    
+   
   }
   .fs-11 {
     font-size: 11px;
@@ -15,21 +15,7 @@
   .txt-grey {
     color: grey;
   }
-  #popover{
-    border-color: white;
-    box-shadow: 10px 10px 16px 2px;
-   transition: opacity .5s, visibility .5s bottom .5s;
+  .popver-btn-container{
+    width: 100%;
+  }
   
-  }
-  #popover::before{
-    content: '';
-    position: absolute;
-    border: 1rem solid black;
-    border-color: white transparent transparent;
-    bottom: -2rem;
-    transform: translateX(-50%);
-   left: 43%;
-  }
-  .course-popover:hover #popover{
-    display: block; 
-  } 

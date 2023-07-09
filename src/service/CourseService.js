@@ -1,5 +1,10 @@
 import { privateAxios } from "./helper";
 
-export  function addCourse(course){
-return privateAxios.post("/course/create",course)
-}
+
+export  function addCourse(formData){
+    return privateAxios.post("/course/creates",formData,{
+        headers:{
+            'Content-Type': 'multipart/form-data' 
+        }
+    })
+    }

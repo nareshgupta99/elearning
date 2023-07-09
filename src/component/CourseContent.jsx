@@ -14,7 +14,6 @@ function CourseContent() {
       >
           <h4 style={{borderBottom: "1px solid grey",height:"50px"}} className='p-2'>Course Content</h4>
 
-
         {courses.map((course,index)=>(
 
         

@@ -21,6 +21,7 @@ import { ToastContainer } from "react-toastify";
 import AdminRoutes from "./routes/PrivateRoutes";
 import InstructorDashboard from "./component/admin/InstructorDashboard";
 import PrivateRoutes from "./routes/PrivateRoutes";
+import Profile from "./component/Profile";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/logout" element={<Logout />} />
         <Route path="teach-with-us" element={<TeachWithUs />} />
         <Route path="cart" element={<Cart />} />
+        <Route path="/profile" element={<Profile/>} />
 
         <Route path="auth" element={<PrivateRoutes />}>
           <Route path="overview" element={<Overview />} />
