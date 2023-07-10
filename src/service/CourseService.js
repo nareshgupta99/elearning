@@ -1,4 +1,4 @@
-import { privateAxios } from "./helper";
+import { privateAxios, publicAxios } from "./helper";
 
 
 export  function addCourse(formData){
@@ -7,4 +7,13 @@ export  function addCourse(formData){
             'Content-Type': 'multipart/form-data' 
         }
     })
-    }
+}
+
+export function getLoginUserCourse(){
+    return privateAxios.get();
+}
+
+export function getAllCourse(){
+    return publicAxios.get("/course/courses");
+}
+

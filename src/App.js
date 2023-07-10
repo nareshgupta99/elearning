@@ -22,6 +22,7 @@ import AdminRoutes from "./routes/PrivateRoutes";
 import InstructorDashboard from "./component/admin/InstructorDashboard";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import Profile from "./component/Profile";
+import Courses from "./component/admin/Courses";
 
 function App() {
   return (
@@ -36,11 +37,12 @@ function App() {
         <Route path="teach-with-us" element={<TeachWithUs />} />
         <Route path="cart" element={<Cart />} />
         <Route path="/profile" element={<Profile/>} />
+         <Route path="student/register" element={<Student />} />
+        <Route path="instructor/register" element={<Instructor />} />
 
         <Route path="auth" element={<PrivateRoutes />}>
           <Route path="overview" element={<Overview />} />
-          <Route path="instructor/register" element={<Instructor />} />
-          <Route path="student/register" element={<Student />} />
+          <Route path="courses" element={<Courses />} />
           <Route path="curriculum" element={<Curriculum />} />
           <Route path="player" element={<Player />} />
           <Route path="course-content" element={<CourseContent />} />

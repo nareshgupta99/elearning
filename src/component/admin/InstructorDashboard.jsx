@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import '../admin/instructorDashboard.css';
 import Curriculum from './Curriculum';
-import Course from '../Course';
+
 import CreateCourse from './CreateCourse';
 import { Link } from 'react-router-dom';
 import Overview from './Overview';
 import Student from './Student';
+import Courses from './Courses';
 
 function InstructorDashboard() {
 
@@ -39,7 +40,7 @@ function InstructorDashboard() {
     </div>
     
     <div className=" " id="overview" style={{width:"-moz-available"}}>
-        {page==='course'? <Course />:""}
+        {page==='course'? <Courses/>:""}
         {page==='curriculum' ?<Curriculum />:""}
         {page==='createCourse'?<CreateCourse />:""}
         {page==='overview'?<Overview/>:""}
