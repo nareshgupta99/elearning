@@ -11,7 +11,9 @@ function InstructorRoutes() {
     return (
       <div className="d-flex">
         <InstructorDashboard />
+        <div className="w-100">
         <Outlet />
+        </div>
       </div>
     );
   } else {
