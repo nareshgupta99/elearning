@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../admin/curriculum.css";
 import SectioService from "../../service/SectioService";
+import { useParams } from "react-router";
 
 function Curriculum() {
   const [section, setSection] = useState(null);
@@ -10,6 +11,12 @@ function Curriculum() {
   const [sections,setSections]=useState([]);
 
   const[lecture,setLecture]=useState([]);
+
+  const id=useParams("id");
+
+  useEffect(()=>{
+    
+  })
 
 
   const sectionButton = () => {
