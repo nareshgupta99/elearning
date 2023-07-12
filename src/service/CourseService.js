@@ -20,3 +20,7 @@ export function getAllPublicCourse(){
 export function getAllInstructorCourses(){
    return privateAxios.get("/course/instructor");    
 }
+
+export function getInstructorCourse({id}){
+    return privateAxios.get(`/course/instructor/${id}`);
+}

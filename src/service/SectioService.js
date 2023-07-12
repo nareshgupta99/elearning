@@ -1,16 +1,15 @@
 import axios from "axios";
-const APP_BASE_URL="http://localhost:8181/api/section";
+import { privateAxios } from "./helper";
 
 
 class SectionService{
 
-    saveSection(data){
-        console.log(data)
-       return axios.post(APP_BASE_URL+"/create",data);
+    saveSection(data,{id}){
+       return privateAxios.post(`/section/create/${id}`,data);
     }
 
     deleteSection(id){
-        axios.delete(`${APP_BASE_URL}/delete`);
+        return privateAxios.delete(`/section/delete`);
     }
 
 
