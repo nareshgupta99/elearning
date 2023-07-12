@@ -87,7 +87,7 @@ function CreateCourse() {
         </p>
         <form
           method="post"
-          enctype="multipart/form-data"
+          encType="multipart/form-data"
           onSubmit={handleSubmit}
         >
           <div>

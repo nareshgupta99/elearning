@@ -1,16 +1,12 @@
 import React, { useState } from 'react'
 import '../admin/instructorDashboard.css';
-import Curriculum from './Curriculum';
-
-import CreateCourse from './CreateCourse';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import Overview from './Overview';
-import Student from './Student';
-import Courses from './Courses';
+
 
 function InstructorDashboard() {
 
-    const [page,setPage]=useState();
+   const navigate=useNavigate();
 
   return (
     <div className="d-flex">
@@ -21,32 +17,25 @@ function InstructorDashboard() {
             </div>
             <ul className="list-unstyled component">
                 <li>
-                    <button className="btn-links" id="courses-btn" onClick={()=>{setPage('course')}}>Courses</button>
+                    <button className="btn-links" id="courses-btn" onClick={()=>navigate("/instructor/courses")}>Courses</button>
                 </li>
                 <li>
-                    <button className="btn-links" id="create-btn" onClick={()=>{setPage('createCourse')}}>Create Course</button>
+                    <button className="btn-links" id="create-btn" onClick={()=>{navigate('/instructor/createCourse')}}>Create Course</button>
                 </li>
                 <li>
-                	 <button className="btn-links" id=""  onClick={()=>{setPage('curriculum')}}>Curriculum</button>
+                	 <button className="btn-links" id=""  onClick={()=>{navigate('/instructor/curriculum')}}>Curriculum</button>
                 </li>
                 <li>
-                    <button className="btn-links" id="overview-btn" onClick={()=>{setPage('overview')}}>Overview</button>
+                    <button className="btn-links" id="overview-btn" onClick={()=>{navigate('/instructor/overview')}}>Overview</button>
                 </li>
                 <li>
-                   <button className="btn-links" id="students-btn" onClick={()=>{setPage('student')}}>Students</button>
+                   <button className="btn-links" id="students-btn" onClick={()=>{navigate('/instructor/students')}}>Students</button>
                 </li>
             </ul>
         </nav>
     </div>
     
-    <div className=" " id="overview" style={{width:"-moz-available"}}>
-        {page==='course'? <Courses/>:""}
-        {page==='curriculum' ?<Curriculum />:""}
-        {page==='createCourse'?<CreateCourse />:""}
-        {page==='overview'?<Overview/>:""}
-        {page==='student'?<Student/>:""}
-        
-    </div>
+   
     
   
 	

@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "./hero.css";
-import image from "../images/image.jpg";
 import { Link } from "react-router-dom";
 import { Popover } from "antd";
-import { getAllCourse } from "../service/CourseService";
-import { publicAxios } from "../service/helper";
+import { getAllPublicCourse } from "../service/CourseService";
 
 function Hero() {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
-    getAllCourse()
+ getAllPublicCourse()
       .then((res) => {
         let data = res.data;
         data.map((d) => {
-          //decoding a String of data which has been encoded by atob() or decoding  base64String
+          //decoding a String of data which has been encoded by btoa() or decoding  base64String
           const byteCharacters = atob(d.imageBytes);
           //charCodeAt() effectively converts the character to its corresponding byte number.
           const byteNumbers = new Array(byteCharacters.length);
@@ -34,6 +32,8 @@ function Hero() {
         console.log(err.message);
       });
   }, []);
+
+  
 
   const content = (
     <div className="card m-2 " id="" style={{ width: "20rem" }}>

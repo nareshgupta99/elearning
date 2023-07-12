@@ -23,6 +23,9 @@ import InstructorDashboard from "./component/admin/InstructorDashboard";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import Profile from "./component/Profile";
 import Courses from "./component/admin/Courses";
+import InstructorRoutes from "./routes/InstructorRoutes";
+import CreateCourse from "./component/admin/CreateCourse";
+import EnrolledStudent from "./component/admin/EnrolledStudent";
 
 function App() {
   return (
@@ -41,13 +44,20 @@ function App() {
         <Route path="instructor/register" element={<Instructor />} />
 
         <Route path="auth" element={<PrivateRoutes />}>
+          <Route path="course-content" element={<CourseContent />} />
+          <Route path="instructor" element={<AdminRoutes />} />
+
+        </Route>
+        <Route path="instructor" element={<InstructorRoutes />} >
+
           <Route path="overview" element={<Overview />} />
           <Route path="courses" element={<Courses />} />
           <Route path="curriculum" element={<Curriculum />} />
           <Route path="player" element={<Player />} />
-          <Route path="course-content" element={<CourseContent />} />
-          <Route path="instructor" element={<AdminRoutes />} />
-          <Route path="teacher-dashboard" element={<InstructorDashboard />} />
+          <Route path="createCourse" element={<CreateCourse />} />
+          <Route path="students" element={<EnrolledStudent/>} />
+       
+      
         </Route>
       </Routes>
     </BrowserRouter>

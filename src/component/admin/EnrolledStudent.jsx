@@ -1,9 +1,9 @@
 import React from 'react'
 
-function Student() {
+function EnrolledStudent() {
   return (
     
-        <div className="course-container d-flex flex-column justify-content-center  ">
+        <div className="course-container d-flex flex-column justify-content-center w-100  ">
     <h4 className="header">Students</h4>
     <div className="container-md container-fluid course p-sm-5">
         <div className="table-responsive">
@@ -43,4 +43,4 @@ function Student() {
   )
 }
 
-export default Student
+export default EnrolledStudent;

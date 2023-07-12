@@ -13,7 +13,10 @@ export function getLoginUserCourse(){
     return privateAxios.get();
 }
 
-export function getAllCourse(){
+export function getAllPublicCourse(){
     return publicAxios.get("/course/courses");
 }
 
+export function getAllInstructorCourses(){
+   return privateAxios.get("/course/instructor");    
+}
