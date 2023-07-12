@@ -39,7 +39,7 @@ function Curriculum() {
       setSections([...sections,resp.data])
       setSectionToggler(null)
     }).catch((error)=>{
-      console.log(error.message   )
+      console.log(error)
     })
   }
 
