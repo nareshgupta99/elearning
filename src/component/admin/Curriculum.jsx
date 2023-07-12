@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import "../admin/curriculum.css";
 import SectioService from "../../service/SectioService";
 import { useParams } from "react-router";
+import { getInstructorCourse } from "../../service/CourseService";
 
 function Curriculum() {
-  const [section, setSection] = useState(null);
+  const [sectionToggler, setSectionToggler] = useState(null);
   const[sectionData,setSectionData]=useState({
   sectionName:""    
   })
@@ -15,7 +16,11 @@ function Curriculum() {
   const id=useParams("id");
 
   useEffect(()=>{
-    
+    getInstructorCourse(id).then((res)=>{
+      console.log(res.data)
+    }).catch((err)=>{
+      console.log(err.message)
+    })    
   })
 
 
@@ -25,16 +30,16 @@ function Curriculum() {
       title: "",
       objective: "",
     };
-    setSection(object);
+    setSectionToggler(object);
   };
 
   function handleAddSection() {
-    SectioService.saveSection(sectionData).then((resp)=>{
+    SectioService.saveSection(sectionData,id).then((resp)=>{
       console.log(resp.data)
       setSections([...sections,resp.data])
-      setSection(null)
+      setSectionToggler(null)
     }).catch((error)=>{
-      console.log(error)
+      console.log(error.message   )
     })
   }
 
@@ -68,7 +73,7 @@ function Curriculum() {
 
           <div className="mt-3">
             <i className="fa-regular fa-xmark d-none" id="close"></i>
-            {section===null?
+            {sectionToggler===null?
             
             <button
               className="p-1 px-2 "
@@ -81,14 +86,14 @@ function Curriculum() {
             <button
               className="py-1 px-3 "
               id="close-button"
-              onClick={() => setSection(null)}
+              onClick={() => setSectionToggler(null)}
             >
               - close
             </button>
 }
           </div>
           {/* Section render on click section */}
-          {section !== null ? (
+          {sectionToggler !== null ? (
             <div className="mt-3 " id="section-container">
               <div
                 className="mt-4 p-2"
