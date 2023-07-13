@@ -12,6 +12,10 @@ class SectionService{
         return privateAxios.delete(`/section/delete`);
     }
 
+    saveFile(data){
+        return privateAxios.post("",data);
+    }
+
 
 }
 

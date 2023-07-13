@@ -5,8 +5,8 @@ import {CgProfile} from 'react-icons/cg';
 
 function Navbar() {
 
-    const [login,setLogin]=useState(true);
-    const[role,setRole]=useState("ROLE_INSTRUCTOR")
+    const [login,setLogin]=useState(false);
+    const[role,setRole]=useState("ROLE_STUDENT")
   
 
   return (
