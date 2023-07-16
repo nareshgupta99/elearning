@@ -3,6 +3,7 @@ import "../admin/curriculum.css";
 import SectioService from "../../service/SectioService";
 import { useParams } from "react-router";
 import { getInstructorCourse } from "../../service/CourseService";
+import {RxCross1} from 'react-icons/rx';
 
 function Curriculum() {
   const [sectionToggler, setSectionToggler] = useState(null);
@@ -10,21 +11,21 @@ function Curriculum() {
   const [sectionData, setSectionData] = useState({
     sectionName: "",
   });
-  const [course,setCourse]=useState(null);
+  const [fileData, setFileData] = useState();
   const [sections, setSections] = useState([]);
-  const [file,setFile]=useState()
+  const [file, setFile] = useState();
   const id = useParams("id");
 
   useEffect(() => {
     getInstructorCourse(id)
       .then((res) => {
-       setCourse(res.data)
-       console.log(res.data)
+        setSections(res.data.sections);
+        console.log(sections);
       })
       .catch((err) => {
         console.log(err.message);
       });
-  },[]);
+  }, []);
 
   const sectionButton = () => {
     console.log("hello");
@@ -34,6 +35,8 @@ function Curriculum() {
     };
     setSectionToggler(object);
   };
+
+  const deleteFile = (id) => {};
 
   function handleAddSection() {
     SectioService.saveSection(sectionData, id)
@@ -47,14 +50,17 @@ function Curriculum() {
       });
   }
 
-  function handleDeleteSection(index) {
-    console.log(index);
-    console.log(sections[index]);
+  function handleDeleteSection(id) {
+   SectioService.deleteSection(id).then((res)=>{
+    const list=sections.filter(section=>section.id!==id)
+    setSections(list);
+   }).catch((err)=>{
+    console.log(err.message);
+   })
+   
   }
 
-  function saveFile(){
-
-  }
+  function saveFile() {}
 
   return (
     <div>
@@ -179,33 +185,34 @@ function Curriculum() {
                 className="mt-1 mb-2 "
                 value="delete"
                 id=""
-                onClick={() => handleDeleteSection(index)}
+                onClick={() => handleDeleteSection(s.id)}
               />
               <div
                 className="accordion accordion-flush"
-                id="accordionFlushExample"
+                id={`accordionFlushExample`}
               >
                 <div className="accordion-item">
                   {" "}
-                  <h2 className="accordion-header" id="">
+                  <h2 className="accordion-header">
                     <button
                       className="accordion-button collapsed"
                       type="button"
                       data-bs-toggle="collapse"
-                      data-bs-target="#flush-collapse"
+                      data-bs-target={`#flush-collapse-${index}`}
                       aria-expanded="false"
-                      aria-controls=""
+                      aria-controls={`flush-collapse-${index}`}
+                      id={index}
                     >
                       Accordion Item #3{" "}
                     </button>{" "}
                   </h2>
                   <div
-                    id="flush-collapse"
-                    className="accordion-collapse collapse unique"
+                    id={`flush-collapse-${index}`}
+                    className={`accordion-collapse collapse unique`}
                     aria-labelledby=""
                     data-bs-parent="#accordionFlushExample"
                   >
-                    <div className="accordion-body" id="accordion-body">
+                    <div className="accordion-body" id={`accordion-body`}>
                       <input
                         type="button"
                         className="px-2 mx-auto position-relative "
@@ -218,21 +225,40 @@ function Curriculum() {
                       />
 
                       {fileToggler ? (
-                        <div className="d-flex">
+                        < div className=" ">
+                       <RxCross1  style={{position:"relative",bottom:"23px",left:"75%"}} size={21} onClick={()=>setFileToggler(false)}/>
+                        <div className="  border border-dark p-2 d-flex flex-column gap-2  w-75">
+                          <div className="w-50 d-flex flex-column gap-2 p-2">
                           <input
-                            class="form-control formFile w-50"
+                            className="form-control formFile w-100 "
                             type="file"
                             id=""
                             name="course-video"
                             accept="video/*"
                           />
+                            <input
+                            class="form-control formFile w-100 "
+                            type="text"
+                            id=""
+                            name="lectureTitle"
+                            placeholder="Enter your Lecture Name"
+                           
+                          />
+                          </div>
+                          <div className="">
+
                           <input
                             type="button"
-                            className="px-3 mx-auto "
+                            className="px-3"
                             value="save"
                             id=""
                             onClick={saveFile}
-                          />
+                            />
+                            </div>
+
+
+                          
+                        </div>
                         </div>
                       ) : (
                         ""

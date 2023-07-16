@@ -1,4 +1,3 @@
-import axios from "axios";
 import { privateAxios } from "./helper";
 
 
@@ -9,7 +8,7 @@ class SectionService{
     }
 
     deleteSection(id){
-        return privateAxios.delete(`/section/delete`);
+        return privateAxios.delete(`/section/${id}/delete`);
     }
 
     saveFile(data){

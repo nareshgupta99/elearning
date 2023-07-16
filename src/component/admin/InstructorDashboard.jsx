@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import '../admin/instructorDashboard.css';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -22,9 +21,7 @@ function InstructorDashboard() {
                 <li>
                     <button className="btn-links" id="create-btn" onClick={()=>{navigate('/instructor/createCourse')}}>Create Course</button>
                 </li>
-                <li>
-                	 <button className="btn-links" id=""  onClick={()=>{navigate('/instructor/curriculum')}}>Curriculum</button>
-                </li>
+                
                 <li>
                     <button className="btn-links" id="overview-btn" onClick={()=>{navigate('/instructor/overview')}}>Overview</button>
                 </li>

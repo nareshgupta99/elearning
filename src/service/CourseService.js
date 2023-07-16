@@ -22,5 +22,5 @@ export function getAllInstructorCourses(){
 }
 
 export function getInstructorCourse({id}){
-    return privateAxios.get(`/course/instructor/${id}`);
+    return privateAxios.get(`/course/${id}/instructor`);
 }
