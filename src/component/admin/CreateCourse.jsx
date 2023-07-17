@@ -70,7 +70,6 @@ function CreateCourse() {
     setCourse({
       ...course,
       [e.target.name]:e.target.files[0] });
-    console.log(course)
   }
   return (
     <div className="  course-container d-flex flex-column justify-content-center ">

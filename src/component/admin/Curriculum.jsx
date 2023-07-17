@@ -4,6 +4,7 @@ import SectioService from "../../service/SectioService";
 import { useParams } from "react-router";
 import { getInstructorCourse } from "../../service/CourseService";
 import {RxCross1} from 'react-icons/rx';
+import saveLecture from "../../service/LectureService";
 
 function Curriculum() {
   const [sectionToggler, setSectionToggler] = useState(null);
@@ -11,7 +12,10 @@ function Curriculum() {
   const [sectionData, setSectionData] = useState({
     sectionName: "",
   });
-  const [fileData, setFileData] = useState();
+  const [fileData, setFileData] = useState({
+    name:"",
+    video:""
+  });
   const [sections, setSections] = useState([]);
   const [file, setFile] = useState();
   const id = useParams("id");
@@ -46,7 +50,7 @@ function Curriculum() {
         setSectionToggler(null);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.message);
       });
   }
 
@@ -54,13 +58,20 @@ function Curriculum() {
    SectioService.deleteSection(id).then((res)=>{
     const list=sections.filter(section=>section.id!==id)
     setSections(list);
+    console.log(res.data)
    }).catch((err)=>{
     console.log(err.message);
    })
    
   }
 
-  function saveFile() {}
+  function handleSave(id) {
+    console.log(id)
+  const formData=new FormData();
+  formData.append("file",fileData.video);
+  formData.append("name",fileData.name);
+  }
+
 
   return (
     <div>
@@ -213,36 +224,46 @@ function Curriculum() {
                     data-bs-parent="#accordionFlushExample"
                   >
                     <div className="accordion-body" id={`accordion-body`}>
+                      
+                      {fileToggler ===index? (
+
+                        < div className=" ">
                       <input
                         type="button"
                         className="px-2 mx-auto position-relative "
                         style={{ left: "90%" }}
-                        value="Add Video"
+                        value="close"
                         id=""
                         onClick={() => {
-                          setFileToggler(true);
+                          setFileToggler(false);
                         }}
                       />
 
-                      {fileToggler ? (
-                        < div className=" ">
-                       <RxCross1  style={{position:"relative",bottom:"23px",left:"75%"}} size={21} onClick={()=>setFileToggler(false)}/>
+
+                      
+                       
                         <div className="  border border-dark p-2 d-flex flex-column gap-2  w-75">
                           <div className="w-50 d-flex flex-column gap-2 p-2">
                           <input
                             className="form-control formFile w-100 "
                             type="file"
                             id=""
-                            name="course-video"
+                            name="video"
                             accept="video/*"
+                            onChange={(e)=>{
+                              const file = e.target.files[0];
+                             const url = URL.createObjectURL(file);
+                             setFileData({...fileData,[e.target.name]:url})
+                            }}
                           />
                             <input
                             class="form-control formFile w-100 "
                             type="text"
                             id=""
-                            name="lectureTitle"
+                            name="name"
                             placeholder="Enter your Lecture Name"
-                           
+                           onChange={(e)=>
+                            setFileData({...fileData,[e.target.name]:e.target.value})}
                           />
                           </div>
                           <div className="">
@@ -250,9 +271,9 @@ function Curriculum() {
                           <input
                             type="button"
                             className="px-3"
-                            value="save"
                             id=""
-                            onClick={saveFile}
+                            value="save"
+                            onClick={()=>handleSave(s.id)}
                             />
                             </div>
 
@@ -261,7 +282,16 @@ function Curriculum() {
                         </div>
                         </div>
                       ) : (
-                        ""
+                        <input
+                        type="button"
+                        className="px-2 mx-auto position-relative "
+                        style={{ left: "90%" }}
+                        value="Add Video"
+                        id=""
+                        onClick={() => {
+                          setFileToggler(index);
+                        }}
+                      />
                       )}
                     </div>
                   </div>
