@@ -3,8 +3,7 @@ import "../admin/curriculum.css";
 import SectioService from "../../service/SectioService";
 import { useParams } from "react-router";
 import { getInstructorCourse } from "../../service/CourseService";
-import {RxCross1} from 'react-icons/rx';
-import saveLecture from "../../service/LectureService";
+import { saveLecture } from "../../service/LectureService";
 
 function Curriculum() {
   const [sectionToggler, setSectionToggler] = useState(null);
@@ -12,19 +11,20 @@ function Curriculum() {
   const [sectionData, setSectionData] = useState({
     sectionName: "",
   });
-  const [fileData, setFileData] = useState({
-    name:"",
-    video:""
+  const [lectureData, setLectureData] = useState({
+    name: "",
+    video: "",
   });
   const [sections, setSections] = useState([]);
-  const [file, setFile] = useState();
+  const [lecture, setLecture] = useState([]);
   const id = useParams("id");
 
   useEffect(() => {
     getInstructorCourse(id)
       .then((res) => {
         setSections(res.data.sections);
-        console.log(sections);
+        
+        console.log(res.data.sections[0].lecture)
       })
       .catch((err) => {
         console.log(err.message);
@@ -55,23 +55,36 @@ function Curriculum() {
   }
 
   function handleDeleteSection(id) {
-   SectioService.deleteSection(id).then((res)=>{
-    const list=sections.filter(section=>section.id!==id)
-    setSections(list);
-    console.log(res.data)
-   }).catch((err)=>{
-    console.log(err.message);
-   })
-   
+    SectioService.deleteSection(id)
+      .then((res) => {
+        const list = sections.filter((section) => section.id !== id);
+        setSections(list);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   }
 
-  function handleSave(id) {
-    console.log(id)
-  const formData=new FormData();
-  formData.append("file",fileData.video);
-  formData.append("name",fileData.name);
-  }
+  function handleSubmit(event, id,index) {
+    event.preventDefault();
+    const form = new FormData();
+    form.append("name", lectureData.name);
+    form.append("file", lectureData.video);
 
+    console.log(form.get("name"));
+
+    saveLecture(id, form)
+      .then((res) => {
+        console.log(res.data);
+        const updatedSactions=[...sections];
+        // setSections(updatedSactions[index].lecture.push(res.data))
+        setFileToggler(false);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }
 
   return (
     <div>
@@ -87,15 +100,6 @@ function Curriculum() {
             course for free, the total length of video content must be less than
             2 hours.
           </p>
-
-          <form
-            className="complte-course-container "
-            method="post"
-            action="saveCourse"
-            encType="multipart/form-data"
-          >
-            <input type="submit" value="next" />
-          </form>
 
           <div className="mt-3">
             <i className="fa-regular fa-xmark d-none" id="close"></i>
@@ -172,6 +176,7 @@ function Curriculum() {
           {sections.map((s, index) => (
             <div
               id=""
+              key={index}
               className="mt-4  border border-black"
               style={{ backgroundColor: "#f7f9fa" }}
             >
@@ -188,7 +193,6 @@ function Curriculum() {
                 className="mt-1 mb-2 edit"
                 value="edit"
                 id=""
-                onclick="handleEditSection(event)"
               />
               <input
                 style={{ marginLeft: "1em" }}
@@ -224,75 +228,87 @@ function Curriculum() {
                     data-bs-parent="#accordionFlushExample"
                   >
                     <div className="accordion-body" id={`accordion-body`}>
-                      
-                      {fileToggler ===index? (
-
-                        < div className=" ">
-                      <input
-                        type="button"
-                        className="px-2 mx-auto position-relative "
-                        style={{ left: "90%" }}
-                        value="close"
-                        id=""
-                        onClick={() => {
-                          setFileToggler(false);
-                        }}
-                      />
-
-
-                      
-                       
-                        <div className="  border border-dark p-2 d-flex flex-column gap-2  w-75">
-                          <div className="w-50 d-flex flex-column gap-2 p-2">
-                          <input
-                            className="form-control formFile w-100 "
-                            type="file"
-                            id=""
-                            name="video"
-                            accept="video/*"
-                            onChange={(e)=>{
-                              const file = e.target.files[0];
-                             const url = URL.createObjectURL(file);
-                             setFileData({...fileData,[e.target.name]:url})
-                            }}
-                          />
-                            <input
-                            class="form-control formFile w-100 "
-                            type="text"
-                            id=""
-                            name="name"
-                            placeholder="Enter your Lecture Name"
-                           onChange={(e)=>
-                            setFileData({...fileData,[e.target.name]:e.target.value})}
-                          />
-                          </div>
-                          <div className="">
-
+                      {fileToggler === index ? (
+                        <div className=" ">
                           <input
                             type="button"
-                            className="px-3"
+                            className="px-2 mx-auto position-relative "
+                            style={{ left: "90%" }}
+                            value="close"
                             id=""
-                            value="save"
-                            onClick={()=>handleSave(s.id)}
-                            />
+                            onClick={() => {
+                              setFileToggler(false);
+                            }}
+                          />
+
+                          <form
+                            method="post"
+                            encType="multipart/form-data"
+                            onSubmit={(event) => handleSubmit(event, s.id,index)}
+                          >
+                            <div className="  border border-dark p-2 d-flex flex-column gap-2  w-75">
+                              <div className="w-50 d-flex flex-column gap-2 p-2">
+                                <input
+                                  className="form-control formFile w-100 "
+                                  type="file"
+                                  id=""
+                                  name="video"
+                                  accept="video/*"
+                                  onChange={(e) => {
+                                    const file = e.target.files[0];
+                                    setLectureData({
+                                      ...lectureData,
+                                      [e.target.name]: file,
+                                    });
+                                  }}
+                                />
+                                <input
+                                  class="form-control formFile w-100 "
+                                  type="text"
+                                  id=""
+                                  name="name"
+                                  placeholder="Enter your Lecture Name"
+                                  onChange={(e) =>
+                                    setLectureData({
+                                      ...lectureData,
+                                      [e.target.name]: e.target.value,
+                                    })
+                                  }
+                                />
+                              </div>
+                              <div className="">
+                                <input
+                                  type="submit"
+                                  className="px-3"
+                                  id=""
+                                  value="save"
+                                />
+                              </div>
                             </div>
-
-
-                          
-                        </div>
+                          </form>
                         </div>
                       ) : (
                         <input
-                        type="button"
-                        className="px-2 mx-auto position-relative "
-                        style={{ left: "90%" }}
-                        value="Add Video"
-                        id=""
-                        onClick={() => {
-                          setFileToggler(index);
-                        }}
-                      />
+                          type="button"
+                          className="px-2 mx-auto position-relative "
+                          style={{ left: "90%" }}
+                          value="Add Video"
+                          onClick={() => {
+                            setFileToggler(index);
+                          }}
+                        />
                       )}
+                      <div className="mt-2">
+                      {sections[index].lecture.map((lect,index)=>(
+
+                        <div  className=" border-success d-flex " key={index}>
+                          <p>{lect.name}</p>
+                          <button className="px-3 position-absolute" style={{right:"15em"}}> Delete</button>
+                        </div>
+                          ))
+                        }
+                        </div>
+                      
                     </div>
                   </div>
                 </div>

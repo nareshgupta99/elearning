@@ -47,6 +47,7 @@ function CreateCourse() {
     formData.append("level", course.level);
     formData.append("category", course.category);
     formData.append("image", course.image);
+    console.log(formData.get("image"))
 
     addCourse(formData)
       .then((res) => {
