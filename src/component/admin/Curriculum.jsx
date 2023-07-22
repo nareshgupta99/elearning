@@ -40,16 +40,22 @@ function Curriculum() {
     setSectionToggler(object);
   };
 
-  const handleDeleteLecture = (lectureId,secIndex,lectureIndex) => {
+  const handleDeleteLecture = (lectureId,sectionIndex,lectureIndex) => {
     deleteLecture(lectureId).then((res)=>{
-      console.log(res.data)
-      let sec=sections[secIndex];
-      let lec=sec.lecture;
-      lec.splice(lectureIndex);
+      const updatedSection = { ...sections[sectionIndex] };
+      // Filter out the lecture with the specified ID
+    updatedSection.lecture = updatedSection.lecture.filter(
+      (lecture) => lecture.lectureId !== lectureId
+    );
 
-      let newSection=sections.filter((section)=>sec.id!==section.id)
+// Copy the sections array and update the section with the filtered lectures
+const updatedSections = [...sections];
+updatedSections[sectionIndex] = updatedSection;
 
-      console.log(newSection)
+// Update the state with the new sections array
+setSections(updatedSections);
+
+
     }).catch((err)=>{
       console.log(err.message)
     })

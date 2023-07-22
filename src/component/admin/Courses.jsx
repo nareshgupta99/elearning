@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { getAllInstructorCourses } from "../../service/CourseService";
+import { deleteCourse, getAllInstructorCourses } from "../../service/CourseService";
 import './courses.css';
 import { useNavigate } from "react-router";
+import {toast} from 'react-toastify'
+import { Link } from "react-router-dom";
 
 export default function Courses() {
 
@@ -31,6 +33,23 @@ export default function Courses() {
       .catch((err) => console.log(err));
   }, []);
 
+
+
+  function handleDeleteCourse(event,courseId){
+    event.preventDefault();
+    deleteCourse(courseId).then((res)=>{
+      toast.success("Deleted ", {
+        position: toast.POSITION.TOP_RIGHT
+      });
+    
+      let updateCourse=data.filter((course)=>courseId!==course.courseId);
+      setData(updateCourse)
+
+    }).catch((err)=>{
+      console.log(err.message)
+    })
+  }
+
   return (
     <div className="" >
       {data.map((d, index) => (
@@ -39,13 +58,19 @@ export default function Courses() {
             key={index}
             className="border d-flex gap-3 border-dark m-2 w-75 course-card"
             style={{ height: "148px" }}
+          
           >
             <img alt="image" src={d.imageBytes} width={"110px"} />
-            <p className="course-title-overlay ">{d.title} </p>
-            <div>
-              <button onClick={()=>navigate(`/instructor/curriculum/${d.courseId}`)}>edit</button>
-              <button>delete</button>
+            <div className="w-100">
+            <p className="course-title-overlay text-center">{d.title} </p>
+           
+           <div className="text-center edit-delete-section">
+              <Link to={`/instructor/curriculum/${d.courseId}`}>Edit</Link>
+              <span> /</span>
+              <Link onClick={(event)=>handleDeleteCourse(event,d.courseId)}> Delete</Link>
             </div>
+              </div>
+            
           </div>
       ))}
     </div>

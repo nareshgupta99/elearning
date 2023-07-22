@@ -24,3 +24,7 @@ export function getAllInstructorCourses(){
 export function getInstructorCourse({id}){
     return privateAxios.get(`/course/${id}/instructor`);
 }
+
+export function deleteCourse(id){
+    return privateAxios.delete(`/course/${id}/delete`)
+}

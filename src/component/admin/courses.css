@@ -1,3 +1,26 @@
+*{
+    box-sizing: border-box;
+}
 .block{
 display: block !important;
+}
+
+.edit-delete-section{
+    display:none;
+}
+
+.course-card:hover .edit-delete-section{
+    display: block;
+}
+
+
+.course-card:hover {
+    /* Sit on top of the page content */
+    display: none; /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    background-color: rgba(0,0,0,0.6); /* Black background with opacity */
+   /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
+
 }

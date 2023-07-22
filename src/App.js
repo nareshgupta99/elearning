@@ -39,13 +39,14 @@ function App() {
         <Route path="/logout" element={<Logout />} />
         <Route path="teach-with-us" element={<TeachWithUs />} />
         <Route path="cart" element={<Cart />} />
-        <Route path="/profile" element={<Profile/>} />
          <Route path="student/register" element={<Student />} />
         <Route path="instructor/register" element={<Instructor />} />
 
         <Route path="auth" element={<PrivateRoutes />}>
+           <Route path="profile" element={<Profile/>} />
           <Route path="course-content" element={<CourseContent />} />
           <Route path="instructor" element={<AdminRoutes />} />
+          <Route path="player" element={<Player />} />
 
         </Route>
         <Route path="instructor" element={<InstructorRoutes />} >
@@ -53,7 +54,6 @@ function App() {
           <Route path="overview" element={<Overview />} />
           <Route path="courses" element={<Courses />} />
           <Route path="curriculum/:id" element={<Curriculum />} />
-          <Route path="player" element={<Player />} />
           <Route path="createCourse" element={<CreateCourse />} />
           <Route path="students" element={<EnrolledStudent/>} />
        
