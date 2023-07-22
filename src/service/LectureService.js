@@ -7,3 +7,7 @@ export  function saveLecture(sectionId,formData,){
     }
    })
 }
+
+export function deleteLecture(lectureId){
+    return privateAxios.delete(`lecture/${lectureId}/delete`);
+}

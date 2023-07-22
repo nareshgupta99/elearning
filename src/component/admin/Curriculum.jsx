@@ -3,7 +3,7 @@ import "../admin/curriculum.css";
 import SectioService from "../../service/SectioService";
 import { useParams } from "react-router";
 import { getInstructorCourse } from "../../service/CourseService";
-import { saveLecture } from "../../service/LectureService";
+import { deleteLecture, saveLecture } from "../../service/LectureService";
 
 function Curriculum() {
   const [sectionToggler, setSectionToggler] = useState(null);
@@ -15,7 +15,8 @@ function Curriculum() {
     name: "",
     video: "",
   });
-  const [sections, setSections] = useState([]);
+  const [sections, setSections] = useState([
+  ]);
   const [lecture, setLecture] = useState([]);
   const id = useParams("id");
 
@@ -23,8 +24,7 @@ function Curriculum() {
     getInstructorCourse(id)
       .then((res) => {
         setSections(res.data.sections);
-        
-        console.log(res.data.sections[0].lecture)
+        console.log(res.data.sections)
       })
       .catch((err) => {
         console.log(err.message);
@@ -40,12 +40,27 @@ function Curriculum() {
     setSectionToggler(object);
   };
 
-  const deleteFile = (id) => {};
+  const handleDeleteLecture = (lectureId,secIndex,lectureIndex) => {
+    deleteLecture(lectureId).then((res)=>{
+      console.log(res.data)
+      let sec=sections[secIndex];
+      let lec=sec.lecture;
+      lec.splice(lectureIndex);
+
+      let newSection=sections.filter((section)=>sec.id!==section.id)
+
+      console.log(newSection)
+    }).catch((err)=>{
+      console.log(err.message)
+    })
+  };
 
   function handleAddSection() {
     SectioService.saveSection(sectionData, id)
       .then((resp) => {
-        console.log(resp.data);
+       let sec= resp.data
+       sec.lecture=[]
+        console.log(sec);
         setSections([...sections, resp.data]);
         setSectionToggler(null);
       })
@@ -78,7 +93,7 @@ function Curriculum() {
       .then((res) => {
         console.log(res.data);
         const updatedSactions=[...sections];
-        // setSections(updatedSactions[index].lecture.push(res.data))
+        setSections([...sections],sections[index].lecture.push(res.data))
         setFileToggler(false);
       })
       .catch((err) => {
@@ -298,16 +313,17 @@ function Curriculum() {
                           }}
                         />
                       )}
-                      <div className="mt-2">
-                      {sections[index].lecture.map((lect,index)=>(
-
-                        <div  className=" border-success d-flex " key={index}>
+                      {sections[index].lecture!=null?
+                        <div className="mt-2">
+                      {sections[index].lecture.map((lect,lectureIndex)=>(
+                        <div  className=" border-success d-flex " key={lectureIndex}>
                           <p>{lect.name}</p>
-                          <button className="px-3 position-absolute" style={{right:"15em"}}> Delete</button>
+                          <button className="px-3 position-absolute" style={{right:"15em"}} onClick={()=>handleDeleteLecture(sections[index].lecture[lectureIndex].lectureId,index,lectureIndex)}> Delete</button>
                         </div>
                           ))
                         }
-                        </div>
+                        </div>:""
+                        }
                       
                     </div>
                   </div>
