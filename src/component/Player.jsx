@@ -1,13 +1,13 @@
 import React from 'react'
 import ReactPlayer from 'react-player'
 
-function Player() {
+function Player({video}) {
   return (
     
-    <div>
+    <div className='d-flex'>
         <ReactPlayer
-            url="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-            width="70%"
+            url={video}
+            width="100%"
             height="50%"
             poster=""
             controls

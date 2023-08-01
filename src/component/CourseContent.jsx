@@ -1,7 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './course-content.css';
 
-function CourseContent() {
+
+function CourseContent({setVideo}) {
+
+  useEffect(()=>{
+    
+  })
+
+  
 
   const [courses,setCourses]=useState([1,1,1,1,1,1,1,1,1,1])
   return (

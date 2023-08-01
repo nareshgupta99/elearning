@@ -4,11 +4,13 @@ import initialImage from "../../images/image.jpg";
 import { useState } from "react";
 import { addCourse} from "../../service/CourseService";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
 
 
 function CreateCourse() {
 
+  const navigate=useNavigate();
   const [image,setImage]=useState(initialImage)
   const [course, setCourse] = useState({
     title: "",
@@ -17,6 +19,7 @@ function CreateCourse() {
     level: "",
     category: "",
     image: initialImage,
+    subTitle:""
   });
   const [languages, setLanguages] = useState([
     "English (US)",
@@ -47,15 +50,16 @@ function CreateCourse() {
     formData.append("level", course.level);
     formData.append("category", course.category);
     formData.append("image", course.image);
-    console.log(formData.get("image"))
+    formData.append("subTitle",course.subTitle);
 
     addCourse(formData)
       .then((res) => {
         let data = res.data;
-        
+        console.log(data)
         toast.success("suucess", {
           position: toast.POSITION.TOP_RIGHT,
         });
+        navigate(`/instructor/course/review/${data.id}`)
       })
       .catch((err) => {
         console.log(err)
@@ -110,6 +114,24 @@ function CreateCourse() {
               Your title should be a mix of attention-grabbing, informative, and
               optimized for search
             </p>
+          </div>
+
+          <div>
+            <h4 className="fs-5 fw-bold">Course Subtitle</h4>
+            <div className="d-flex course-subcontainer align-items-center">
+              <input
+                type="text"
+                placeholder="insert your Subtitle "
+                name="subTitle"
+                onChange={handleData}
+                value={course.title}
+                className="input"
+                required
+              />
+              <p className="pe-2" style={{ color: "grey" }} id="title-range">
+                40
+              </p>
+            </div>
           </div>
 
           <div className="text-editor">

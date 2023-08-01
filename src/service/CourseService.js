@@ -28,3 +28,7 @@ export function getInstructorCourse({id}){
 export function deleteCourse(id){
     return privateAxios.delete(`/course/${id}/delete`)
 }
+
+export function publishCourse({id},formData){
+    return privateAxios.post(`course/${id}/publish`,formData);
+}

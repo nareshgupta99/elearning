@@ -26,6 +26,11 @@ import Courses from "./component/admin/Courses";
 import InstructorRoutes from "./routes/InstructorRoutes";
 import CreateCourse from "./component/admin/CreateCourse";
 import EnrolledStudent from "./component/admin/EnrolledStudent";
+import Course from "./page/Course";
+import Review from "./component/admin/Review";
+import PurchasedHistory from "./component/PurchasedHistory";
+import UserProfile from "./component/UserProfile";
+import ChangePassword from "./component/ChangePassword";
 
 function App() {
   return (
@@ -37,17 +42,20 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
-        <Route path="teach-with-us" element={<TeachWithUs />} />
-        <Route path="cart" element={<Cart />} />
-         <Route path="student/register" element={<Student />} />
-        <Route path="instructor/register" element={<Instructor />} />
+        <Route path="/teach-with-us" element={<TeachWithUs />} />
+        <Route path="/cart" element={<Cart />} />
+         <Route path="/student/register" element={<Student />} />
+        <Route path="/instructor/register" element={<Instructor />} />
 
         <Route path="auth" element={<PrivateRoutes />}>
            <Route path="profile" element={<Profile/>} />
           <Route path="course-content" element={<CourseContent />} />
           <Route path="instructor" element={<AdminRoutes />} />
           <Route path="player" element={<Player />} />
-
+          <Route path="course/:id" element={<Course />} />
+          <Route path="purchase-history" element={<PurchasedHistory />} />
+          <Route path="user-profile" element={<UserProfile />} />
+          <Route path="change-password" element={<ChangePassword />} />
         </Route>
         <Route path="instructor" element={<InstructorRoutes />} >
 
@@ -56,7 +64,7 @@ function App() {
           <Route path="curriculum/:id" element={<Curriculum />} />
           <Route path="createCourse" element={<CreateCourse />} />
           <Route path="students" element={<EnrolledStudent/>} />
-       
+          <Route path="course/review/:id" element={<Review/>} />
       
         </Route>
       </Routes>
