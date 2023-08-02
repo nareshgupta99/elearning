@@ -1,4 +1,4 @@
-import { privateAxios } from "./helper";
+import { privateAxios, publicAxios } from "./helper";
 
 export function updateUserDetail(formData) {
   return privateAxios.post(`/user/update`, formData, {
@@ -11,4 +11,14 @@ export function updateUserDetail(formData) {
 export function changePassword(formData){
 
     return privateAxios.post(`/user/update-password`,formData);
+}
+
+
+export function requestPasswordResetService(formData){
+  return publicAxios.post("/auth/request-reset-link",formData)
+
+}
+
+export function resetPasswordService(formData){
+  return publicAxios.post("/auth/reset-password/password",formData)
 }

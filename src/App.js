@@ -31,6 +31,8 @@ import Review from "./component/admin/Review";
 import PurchasedHistory from "./component/PurchasedHistory";
 import UserProfile from "./component/UserProfile";
 import ChangePassword from "./component/ChangePassword";
+import ResetPassword from "./component/ResetPassword";
+import ForgotPassword from "./component/ForgotPassword";
 
 function App() {
   return (
@@ -46,6 +48,8 @@ function App() {
         <Route path="/cart" element={<Cart />} />
          <Route path="/student/register" element={<Student />} />
         <Route path="/instructor/register" element={<Instructor />} />
+        <Route path="/forgot-password/reset-password" element={<ResetPassword />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
 
         <Route path="auth" element={<PrivateRoutes />}>
            <Route path="profile" element={<Profile/>} />
