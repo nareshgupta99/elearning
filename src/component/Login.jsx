@@ -3,6 +3,8 @@ import AuthService from "../service/AuthService";
 import { useNavigate } from "react-router";
 
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../redux/action/authActions";
 
 function Login() {
   const [data, setData] = useState({
@@ -10,6 +12,7 @@ function Login() {
     password: "",
   });
 
+  const dispatch=useDispatch();
   const navigate = useNavigate();
 
   function handleLogin(e) {
@@ -17,10 +20,11 @@ function Login() {
     AuthService.login(data)
       .then((resp) => {
         let token = resp.data.token;
-        localStorage.setItem("token", token);
+        dispatch(loginSuccess(token));
         toast.success("Loggin Success !", {
           position: toast.POSITION.TOP_RIGHT,
         });
+        
       })
       .catch((err) => {
         toast.error("Wrong UserName and Password ", {
