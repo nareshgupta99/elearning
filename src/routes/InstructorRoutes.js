@@ -1,13 +1,20 @@
 import React from "react";
-import { Navigate, Outlet } from "react-router";
-import { getLoginUser, getToken } from "../service/UserDetail";
+import { Navigate, Outlet, useNavigate } from "react-router";
 import InstructorDashboard from "../component/admin/InstructorDashboard";
-function InstructorRoutes() {
-  let token = getToken();
-  let user = getLoginUser();
-  user.then((res) => {}).catch((err) => {});
-  console.log(user);
-  if (token) {
+import AuthService from "../service/AuthService";
+function InstructorRoutes({auth}) {
+ 
+  const navigate=useNavigate()
+  let isAuthenticated=auth.isAuthenticated;
+  let isTokenValid= AuthService.isTokenValid(auth.token);
+  let roles=auth.roles;
+
+  if (isAuthenticated && isTokenValid  ) {
+    if(!checkInstructorRole(roles)){
+      navigate('/')
+    }
+  
+
     return (
       <div className="d-flex">
         <InstructorDashboard />
@@ -19,6 +26,17 @@ function InstructorRoutes() {
   } else {
     return <Navigate to="/login" />;
   }
+
+  function checkInstructorRole(roles){
+    for (const role of roles) {
+      if(role.roleName==='ROLE_INSTRUCTOR') {
+        return true;
+      }
+    }
+  }
+
+
+
 }
 
 export default InstructorRoutes;

@@ -53,7 +53,7 @@ function Login() {
           <p className="text-danger font-weight-normal"></p>
           <form method="post" action="login" className="">
             <div className="form-group">
-              <label className="form-label" for="email">
+              <label className="form-label" >
                 Email
               </label>
               <input
@@ -66,7 +66,7 @@ function Login() {
               />
             </div>
             <div className="form-group">
-              <label className="form-label" for="password">
+              <label className="form-label">
                 Password
               </label>
               <input
@@ -86,7 +86,7 @@ function Login() {
                 type="checkbox"
                 onClick={passwordToogler}
               />
-              <label className="form-check-label" for="checkbox">
+              <label className="form-check-label" >
                 Show Password
               </label>
             </div>

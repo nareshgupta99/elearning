@@ -10,7 +10,7 @@ function Profile() {
     <div>
  <div className="card" style={{width: "18rem"}}>
   <ul className="list-group list-group-flush">
-  <Link to="/auth/user-profile" style={{textDecoration:"none"}} >  <li className="list-group-item pb-5"><image src={initialImage}  /> Name<p style={{fontSize:"10px"}}> naresh@example.com </p></li> </Link>
+  <Link to="/auth/user-profile" style={{textDecoration:"none"}} >  <li className="list-group-item pb-5"><img src={initialImage} style={{width:"250px",borderRadius:"400px"}} /> Name<p style={{fontSize:"10px"}}> naresh@example.com </p></li> </Link>
    <Link to="" style={{textDecoration:"none"}} > <li className="list-group-item">My Course</li> </Link>
    <Link to="/auth/purchase-history"  style={{textDecoration:"none"}}> <li className="list-group-item">Purchased History</li> </Link>
    <Link to="/cart" style={{textDecoration:"none"}}> <li className="list-group-item">My Cart</li> </Link>

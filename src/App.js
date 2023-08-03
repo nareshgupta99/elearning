@@ -33,8 +33,18 @@ import UserProfile from "./component/UserProfile";
 import ChangePassword from "./component/ChangePassword";
 import ResetPassword from "./component/ResetPassword";
 import ForgotPassword from "./component/ForgotPassword";
+import { useDispatch, useSelector } from "react-redux";
+
 
 function App() {
+
+
+  const auth=useSelector((state)=>state.auth)
+  console.log(auth)
+  console.log("appp")
+  
+  
+  
   return (
     <BrowserRouter>
       <Navbar />
@@ -51,8 +61,8 @@ function App() {
         <Route path="/forgot-password/reset-password" element={<ResetPassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
 
-        <Route path="auth" element={<PrivateRoutes />}>
-           <Route path="profile" element={<Profile/>} />
+        <Route path="/auth" element={<PrivateRoutes auth={auth} />}>
+          <Route path="profile" element={<Profile/>} />
           <Route path="course-content" element={<CourseContent />} />
           <Route path="instructor" element={<AdminRoutes />} />
           <Route path="player" element={<Player />} />
@@ -61,7 +71,7 @@ function App() {
           <Route path="user-profile" element={<UserProfile />} />
           <Route path="change-password" element={<ChangePassword />} />
         </Route>
-        <Route path="instructor" element={<InstructorRoutes />} >
+        <Route path="instructor" element={<InstructorRoutes  auth={auth}/>} >
 
           <Route path="overview" element={<Overview />} />
           <Route path="courses" element={<Courses />} />

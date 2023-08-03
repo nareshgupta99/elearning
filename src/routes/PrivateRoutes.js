@@ -1,27 +1,43 @@
 import React from 'react'
-import { Navigate, Outlet } from 'react-router';
-import { getLoginUser, getToken } from '../service/UserDetail';
-
-function PrivateRoutes() {
+import { Navigate, Outlet, useNavigate } from 'react-router';
+import AuthService from '../service/AuthService';
 
 
+function PrivateRoutes({auth}) {
 
-  let token=getToken();
-  let user=getLoginUser();
-  user.then((res)=>{
+  let isAuthenticated=auth.isAuthenticated;
+  let isTokenValid= AuthService.isTokenValid(auth.token);
+  let roles=auth.roles;
+  const navigate=useNavigate()
 
-  }).catch((err)=>{
+  function checkStudentRole(roles){
+    for (const role of roles) {
+      if(role.roleName==='ROLE_STUDENT') {
+        return true;
+      }
+    }
+  }
     
-  })
- console.log(user)
-  if(token ){
+
+ 
+  
+
+  if(isAuthenticated && isTokenValid  ){  
+    if(!checkStudentRole(roles)) {
+      
+      navigate("/")
+    }
+   
 
    return <Outlet />
   }
+
   else{
     return <Navigate to="/login" />
   }
 
 }
+
+
 
 export default PrivateRoutes
