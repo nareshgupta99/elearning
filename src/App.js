@@ -35,6 +35,8 @@ function App() {
 
 
   const auth=useSelector((state)=>state.auth);
+  const cart=useSelector((state)=>state.cart)
+  console.log(cart)
   
   
   

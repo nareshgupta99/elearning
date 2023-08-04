@@ -16,6 +16,8 @@ function Login() {
 
   function handleLogin(e) {
     e.preventDefault();
+    isEmailValid(data.email);
+    isPasswordValid(data.password);
     AuthService.login(data)
       .then((resp) => {
        let roles= AuthService.fetchUserRoles()
@@ -33,7 +35,8 @@ function Login() {
 
       })
       .catch((err) => {
-        toast.error("Wrong UserName and Password ", {
+       let msg= err.response.data.message
+        toast.error(msg, {
           position: toast.POSITION.TOP_RIGHT,
         });
       });
@@ -47,9 +50,21 @@ function Login() {
 
   const handleChange = (event) => {
     let name = event.target.name;
-    console.log(data);
-    setData({ ...data, [name]: event.target.value });
+    let value=event.target.value
+    
+    setData({ ...data, [name]: value });
   };
+
+  
+  function isPasswordValid(password){
+    if(password.startsWith()){
+      
+    }
+  }
+  
+  function isEmailValid(value){
+
+  }
 
   return (
     <div>

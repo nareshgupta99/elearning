@@ -9,7 +9,6 @@ function Registration({handleSubmit,data,setData}) {
     const handleChange=(event)=>{
         let name=event.target.name;
         setData({...data,[name]:event.target.value});
-        console.log(data)
     }
 
     const toggllePassword=(event)=>{

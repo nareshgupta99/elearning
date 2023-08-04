@@ -35,10 +35,14 @@ function CreateCourse() {
     "Design",
   ]);
   function handleData(e) {
-    console.log(course);
     let name = e.target.name;
     let value = e.target.value;
+
     setCourse({ ...course, [name]: value });
+  }
+
+  function validation(name,value){
+
   }
 
   function handleSubmit(e) {
@@ -59,7 +63,7 @@ function CreateCourse() {
         toast.success("suucess", {
           position: toast.POSITION.TOP_RIGHT,
         });
-        navigate(`/instructor/course/review/${data.id}`)
+        navigate(`/instructor/curriculum/${data.id}`)
       })
       .catch((err) => {
         console.log(err)
@@ -226,7 +230,7 @@ function CreateCourse() {
             </div>
           </div>
 
-          <input type="submit" value="Create Course" className="mt-2" />
+          <input type="submit" value="Create Course" className="mt-2 btn btn-success" />
         </form>
       </div>
     </div>
