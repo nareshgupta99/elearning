@@ -1,13 +1,18 @@
-import React, { useState } from "react";
-import {AiOutlineShoppingCart} from 'react-icons/ai';
-import { Link} from "react-router-dom";
-import {CgProfile} from 'react-icons/cg';
+import React, { useEffect, useState } from "react";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import { Link } from "react-router-dom";
+import { CgProfile } from "react-icons/cg";
+import AuthService from "../service/AuthService";
 
-function Navbar() {
+function Navbar({ auth }) {
+  let roles = auth.roles;
+  let isAuthenticated = auth.isAuthenticated;
+  let isTokenValid = AuthService.isTokenValid(auth.token);
 
-    const [login,setLogin]=useState(false);
-    const[role,setRole]=useState("ROLE_STUDENT")
-  
+  let isInstructorPresent = AuthService.isInstructorPresent(roles);
+  console.log(AuthService.isInstructorPresent(roles));
+
+  useEffect(() => {}, []);
 
   return (
     <header className=" sticky-top">
@@ -23,7 +28,7 @@ function Navbar() {
               type="search"
               placeholder="Search"
               aria-label="Search"
-              style={{width: "310px" }}
+              style={{ width: "310px" }}
             />
             <button className="btn btn-outline-success" type="submit">
               Search
@@ -48,61 +53,57 @@ function Navbar() {
                   Home
                 </Link>
               </li>
-  {role==="ROLE_INSTRUCTOR"?
-  
-  <li className="nav-item">
-                <Link className="nav-link" to="/">
-                  Student
-                </Link>
-              </li>
-
-  : 
-
-    <li className="nav-item">
-                <Link className="nav-link" to="/teach-with-us">
-                  Teach With Us
-                </Link>
-              </li>
- }
 
               <li className="nav-item">
                 <Link className="nav-link " aria-current="page" to="/cart ">
-                <AiOutlineShoppingCart size={20} />
+                  <AiOutlineShoppingCart size={20} />
                 </Link>
               </li>
-{login===false?
+
+              {!(isAuthenticated && isTokenValid) ? (
                 <>
-              <li className="nav-item">
-                <Link className="nav-link " to="/student/register">
-                Signup
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link " to="/login">
-                Login
-                </Link>
-              </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/teach-with-us">
+                      Teach With Us
+                    </Link>
+                  </li>
+
+                  <li className="nav-item">
+                    <Link className="nav-link " to="/student/register">
+                      Signup
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link " to="/login">
+                      Login
+                    </Link>
+                  </li>
                 </>
-                :
-              
-<>
-              <li className="nav-item">
-                <Link className="nav-link " to="/logout">
-                  Logout
-                </Link>
-                
-              </li>
-              
+              ) : (
+                <>
+                  {isInstructorPresent ? (
+                    <li className="nav-item">
+                      <Link className="nav-link" to="/">
+                        Student
+                      </Link>
+                    </li>
+                  ) : (
+                    ""
+                  )}
 
+                  <li className="nav-item">
+                    <Link className="nav-link " to="/logout">
+                      Logout
+                    </Link>
+                  </li>
 
-              <li className="nav-item">
-                <Link className="nav-link " to="/profile">
-                    <CgProfile size={25} />
-                  
-                </Link>
-              </li>
-              </>
-}
+                  <li className="nav-item">
+                    <Link className="nav-link " to="/profile">
+                      <CgProfile size={25} />
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>

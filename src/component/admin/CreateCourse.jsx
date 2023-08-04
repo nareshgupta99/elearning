@@ -124,7 +124,7 @@ function CreateCourse() {
                 placeholder="insert your Subtitle "
                 name="subTitle"
                 onChange={handleData}
-                value={course.title}
+                value={course.subTitle}
                 className="input"
                 required
               />

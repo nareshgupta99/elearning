@@ -39,8 +39,8 @@ const fetchUserRoles = async () => {
 
 }
 
-privateAxios.get("/user/roles").then((res)=>{
-  console.log(res.data)   
-  return res.data
-}).catch((err)=>{console.log(err.message)
-})
+// privateAxios.get("/user/roles").then((res)=>{
+//   console.log(res.data)   
+//   return res.data
+// }).catch((err)=>{console.log(err.message)
+// })

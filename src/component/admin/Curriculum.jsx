@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../admin/curriculum.css";
 import SectioService from "../../service/SectioService";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { getInstructorCourse } from "../../service/CourseService";
 import { deleteLecture, saveLecture } from "../../service/LectureService";
 
@@ -19,6 +19,8 @@ function Curriculum() {
   ]);
   const [lecture, setLecture] = useState([]);
   const id = useParams("id");
+  const navigate=useNavigate()
+  
 
   useEffect(() => {
     getInstructorCourse(id)
@@ -87,6 +89,12 @@ setSections(updatedSections);
       });
   }
 
+  console.log(id.id)
+  const handleNext=(e)=>{
+    
+    navigate(`/instructor/course/review/${id.id}`)
+  }
+
   function handleSubmit(event, id,index) {
     event.preventDefault();
     const form = new FormData();
@@ -94,6 +102,8 @@ setSections(updatedSections);
     form.append("file", lectureData.video);
 
     console.log(form.get("name"));
+
+    
 
     saveLecture(id, form)
       .then((res) => {
@@ -126,7 +136,7 @@ setSections(updatedSections);
             <i className="fa-regular fa-xmark d-none" id="close"></i>
             {sectionToggler === null ? (
               <button
-                className="p-1 px-2 "
+                className={`p-1 px-2 btn btn-success`}
                 id="section-button"
                 onClick={sectionButton}
               >
@@ -134,7 +144,7 @@ setSections(updatedSections);
               </button>
             ) : (
               <button
-                className="py-1 px-3 "
+                className="py-1 px-3 btn btn-danger"
                 id="close-button"
                 onClick={() => setSectionToggler(null)}
               >
@@ -156,7 +166,7 @@ setSections(updatedSections);
                   <label>New Section:</label>{" "}
                   <input
                     type="button"
-                    className=" "
+                    className="btn  btn-success "
                     value="Add Section"
                     id="add-section"
                     onClick={handleAddSection}
@@ -218,7 +228,7 @@ setSections(updatedSections);
               <input
                 style={{ marginLeft: "1em" }}
                 type="button"
-                className="mt-1 mb-2 "
+                className="mt-1 mb-2 btn btn-danger"
                 value="delete"
                 id=""
                 onClick={() => handleDeleteSection(s.id)}
@@ -337,6 +347,10 @@ setSections(updatedSections);
               </div>
             </div>
           ))}
+
+          <div>
+            <input type="button" value="next" className="px-3 mt-4 btn btn-success" onClick={handleNext} style={{position:"relative",top:1,left:"93%"}} />
+          </div>
         </div>
       </div>
     </div>
