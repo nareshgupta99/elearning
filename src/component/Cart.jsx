@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./cart.css";
 import { useDispatch, useSelector } from "react-redux";
-import { removeFromCart } from "../redux/action/cartActions";
+import { emptyCart, removeFromCart } from "../redux/action/cartActions";
 import { initiatePayment } from "../service/paymentService";
 import axios from "axios";
 import { privateAxios } from "../service/helper";
+import { Link } from "react-router-dom";
 function Cart() {
   let courses = useSelector((state) => state.cart.courses);
+  let cart = useSelector((state) => state.cart);
   const [cartItems, setCartItems] = useState([]);
   const dispatch = useDispatch();
   const [total, setTotal] = useState({
@@ -23,7 +25,7 @@ function Cart() {
       origSum = origSum + Number.parseInt(course.originalPrice);
     });
     setTotal({ ...total, discountedPrice: disSum, originalPrice: origSum });
-  }, []);
+  }, [cart]);
 
   function paymentStart() {
     console.log("payment started");
@@ -31,39 +33,35 @@ function Cart() {
     let key;
     let formData = new FormData();
     formData.append("amount", amt);
-     privateAxios.get("/payment/key").then(({data})=>{
-       key=data;
-    })
+    privateAxios.get("/payment/key").then(({ data }) => {
+      key = data;
+    });
 
-    
     initiatePayment(formData)
-      .then(({data}) => {
+      .then(({ data }) => {
         if (data.status === "created") {
-          checkOut(data,key);
+          checkOut(data, key);
         }
       })
       .catch((err) => {
         console.log(err);
       });
   }
-  function checkOut(data,key) {
-
-    
-
+  function checkOut(data, key) {
     const options = {
-      key: key, // Enter the Key ID generated from the Dashboard
-      amount: data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      key: key,
+      amount: data.amount,
       currency: "INR",
-      name: "E-Learning ", //your business name
+      name: "E-Learning ",
       description: "",
-      image: "https://t3.ftcdn.net/jpg/01/19/17/16/240_F_119171661_QK0G1WTgm2u5OUnXhs2p7SMqpvLhNete.jpg",
-      order_id: data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-      callback_url: "http://localhost:300/home",
+      image:
+        "https://t3.ftcdn.net/jpg/01/19/17/16/240_F_119171661_QK0G1WTgm2u5OUnXhs2p7SMqpvLhNete.jpg",
+      order_id: data.id,
+      callback_url: "http://localhost:3000/home",
       prefill: {
-        //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
-        name: "", //your customer's name
+        name: "",
         email: "",
-        contact: "", //Provide the customer's phone number for better conversion rates
+        contact: "",
       },
       notes: {
         address: "",
@@ -73,8 +71,9 @@ function Cart() {
       },
     };
 
-    const razorpay=new window.Razorpay(options);
+    const razorpay = new window.Razorpay(options);
     razorpay.open();
+    //  dispatch(emptyCart());
   }
 
   return (
@@ -117,20 +116,36 @@ function Cart() {
           {/*** */}
         </div>
 
-        <div className="amount">
-          <h5>Total:</h5>
-          <h2 style={{ fontSize: "60px" }}>
-            <span style={{ fontSize: "60px" }}>&#8377;</span>
-            {total.discountedPrice}
-          </h2>
-          <h6>
-            <del>&#8377;{total.originalPrice}</del>
-          </h6>
-          <button className="btn checkout-btn" onClick={paymentStart}>
-            Checkout
-          </button>
-          <hr className="" style={{ width: "70vh" }} />
-        </div>
+        {cartItems.length===0 ? (
+           <div>
+           <div className="d-flex gap-5 ms-2 ">
+             {/* <img src={""} width="120" height="68" /> */}
+             <div className="heading">
+               <p style={{ fontWeight: " 700", marginLeft: "" }}>
+                 <Link to="/home" style={{textDecorationLine:"none"}}> No, Item in cart click here to go courses page to add item in a cart </Link>
+               </p>
+             </div>
+           </div>
+           <hr />
+           </div>
+
+        ) : (
+          <div className="amount">
+            <h5>Total:</h5>
+            <h2 style={{ fontSize: "60px" }}>
+              <span style={{ fontSize: "60px" }}>&#8377;</span>
+              {total.discountedPrice}
+            </h2>
+            <h6>
+              <del>&#8377;{total.originalPrice}</del>
+            </h6>
+            <button className="btn checkout-btn" onClick={paymentStart}>
+              Checkout
+            </button>
+            <hr className="" style={{ width: "70vh" }} />
+          </div>
+         
+        )}
       </div>
     </div>
   );

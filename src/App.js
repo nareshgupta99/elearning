@@ -29,6 +29,7 @@ import ChangePassword from "./component/ChangePassword";
 import ResetPassword from "./component/ResetPassword";
 import ForgotPassword from "./component/ForgotPassword";
 import {  useSelector } from "react-redux";
+import SimpleRoutes from "./routes/SimpleRoutes";
 
 
 function App() {
@@ -48,17 +49,19 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/logout" element={<Logout />} />
-        <Route path="/teach-with-us" element={<TeachWithUs />} />
-        <Route path="/cart" element={<Cart />} />
+        <Route path="/" element={<SimpleRoutes auth={auth} />}  >
+
          <Route path="/student/register" element={<Student />} />
         <Route path="/instructor/register" element={<Instructor />} />
+        <Route path="login" element={<Login />} />
         <Route path="/forgot-password/reset-password" element={<ResetPassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/teach-with-us" element={<TeachWithUs />} />
+        </Route>
+        <Route path="logout" element={<Logout />} />
+        <Route path="/cart" element={<Cart />} />
 
         <Route path="/auth" element={<PrivateRoutes auth={auth} />}>
-          <Route path="profile" element={<Profile/>} />
           <Route path="course-content" element={<CourseContent />} />
           <Route path="instructor" element={<AdminRoutes />} />
           <Route path="course/play/:id" element={<Course />} />

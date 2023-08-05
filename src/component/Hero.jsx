@@ -3,13 +3,13 @@ import "./hero.css";
 import { Link } from "react-router-dom";
 import { Popover } from "antd";
 import { getAllPublicCourse } from "../service/CourseService";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../redux/action/cartActions";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, removeFromCart } from "../redux/action/cartActions";
 
 function Hero() {
   const [courses, setCourses] = useState([]);
   const dispatch=useDispatch();
-  
+  const cart=useSelector((state)=>state.cart)
   useEffect(() => {
     
  getAllPublicCourse()
@@ -37,6 +37,11 @@ function Hero() {
       });
   }, []);
 
+  useEffect(()=>{
+    // console.log(cart.courses.some(c=>c.courseId===course.courseId);
+
+  },[cart])
+
   
 
   const content = (course)=>(
@@ -59,7 +64,12 @@ function Hero() {
           line of code to help you learn! LEARN key Spring Boot 3 features:
           Core, Annotations, Java Config, Spring MVC, Hibernate/JPA and Maven
         </p>
+        
+        {cart.courses.some(c=>c.courseId==course.courseId)?
+        <button className="card-button btn " style={{backgroundColor:"red"}}  onClick={()=>{dispatch(removeFromCart(course.courseId))}}>Remove from cart</button>
+        :
         <button className="card-button btn" onClick={()=>{dispatch(addToCart(course))}}>Add to cart</button>
+      }
       </div>
     </div>
   );

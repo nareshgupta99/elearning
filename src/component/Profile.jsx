@@ -1,10 +1,8 @@
 import React from 'react'
-import image from '../images/image.jpg';
 import initialImage from "../images/image.jpg";
 import { Link, useNavigate } from 'react-router-dom';
 
 function Profile() {
-
   const navigate=useNavigate();  
   return (
     <div>

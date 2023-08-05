@@ -5,9 +5,12 @@ import { CgProfile } from "react-icons/cg";
 import AuthService from "../service/AuthService";
 import './navbar.css';
 import { useSelector } from "react-redux";
+import { Popover } from "antd";
+import Profile from "./Profile";
+import CartPopover from "./CartPopover";
 
 function Navbar({ auth }) {
-  let courses=useSelector((state)=>state.cart.courses)
+  let cart=useSelector((state)=>state.cart)
   const [counter,setCounter]=useState();
   let roles = auth.roles;
   let isAuthenticated = auth.isAuthenticated;
@@ -17,9 +20,9 @@ function Navbar({ auth }) {
  
 
   useEffect(() => {
-    let num=courses.length;
+    let num=cart.courses.length;
     setCounter(num);
-  }, []);
+  }, [cart]);
 
   return (
     <header className=" sticky-top">
@@ -63,7 +66,9 @@ function Navbar({ auth }) {
 
               <li className="nav-item">
                 <Link className="nav-link " aria-current="page" to="/cart ">
+                  <Popover placement="bottom" content={<CartPopover />}>
                   <AiOutlineShoppingCart size={20} />
+                  </Popover>
                   <span className="text-white circle fw-bolder " style={{position:"fixed" ,top:7 ,right:"19%" ,backgroundColor:"rgb(3, 207, 252)",}}>{counter}</span>
                 </Link>
               </li>
@@ -107,7 +112,9 @@ function Navbar({ auth }) {
 
                   <li className="nav-item">
                     <Link className="nav-link " to="/profile">
+                      <Popover placement="bottom" content={<Profile />}>
                       <CgProfile size={25} />
+                      </Popover>
                     </Link>
                   </li>
                 </>

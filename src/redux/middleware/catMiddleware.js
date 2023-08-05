@@ -1,11 +1,9 @@
-import { ADD_TO_CART, CHECK_CART, INIT, REMOVE_FROM_CART } from "../action/action-type"
+import { ADD_TO_CART, CHECK_CART, EMPTY_CART, INIT, REMOVE_FROM_CART } from "../action/action-type"
 import { addToCart, checkCart } from "../action/cartActions";
 
 export function saveCourseMiddleware(store){
     return function(next){
         return function(action){
-            console.log("2 save course middleware")
-            console.log(action.payload)
             if(action.type===ADD_TO_CART){
                 let localStorageItem=localStorage.getItem("cart");
                 if(!localStorageItem){
@@ -26,6 +24,12 @@ export function saveCourseMiddleware(store){
                     localStorage.setItem("cart",JSON.stringify(updatedCart));  
                 }
             }
+
+            if(action.type===EMPTY_CART){
+               localStorage.setItem("cart",[]);
+            }
+
+            
   
             next(action);
         }
