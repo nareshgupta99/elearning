@@ -3,11 +3,15 @@ import "./hero.css";
 import { Link } from "react-router-dom";
 import { Popover } from "antd";
 import { getAllPublicCourse } from "../service/CourseService";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/action/cartActions";
 
 function Hero() {
   const [courses, setCourses] = useState([]);
-
+  const dispatch=useDispatch();
+  
   useEffect(() => {
+    
  getAllPublicCourse()
       .then((res) => {
         let data = res.data;
@@ -26,7 +30,7 @@ function Hero() {
           d.imageBytes = imageUrl;
         });
         setCourses(data);
-        console.log(data);
+
       })
       .catch((err) => {
         console.log(err.message);
@@ -35,17 +39,19 @@ function Hero() {
 
   
 
-  const content = (
+  const content = (course)=>(
     <div className="card m-2 " id="" style={{ width: "20rem" }}>
       <div className="card-body">
         <h5 className="card-title">
-          [NEW] Spring Boot 3, Spring 6 & Hibernate for Beginners
+        {course.title}
+         {/*  [NEW] Spring Boot 3, Spring 6 & Hibernate for Beginners */}
         </h5>
-        <span className="time fs-11 txt-grey">44hours</span>
-        <span className="level fs-11 txt-grey">Beginner</span>
+        <span className="time fs-11 txt-grey">{course.duration}</span>
+        <span className="level fs-11 txt-grey">{course.level}</span>
         <p className="about">
-          Spring Boot 3: Learn Spring 6, Spring REST API, Spring MVC, Spring
-          Security, Thymeleaf, JPA & Hibernate
+          {/* Spring Boot 3: Learn Spring 6, Spring REST API, Spring MVC, Spring
+          Security, Thymeleaf, JPA & Hibernate */}
+          {course.about}
         </p>
         <p className="key-point">
           NEW FOR 2023: SPRING BOOT 3, SPRING 6 and IntelliJ (free version) You
@@ -53,23 +59,25 @@ function Hero() {
           line of code to help you learn! LEARN key Spring Boot 3 features:
           Core, Annotations, Java Config, Spring MVC, Hibernate/JPA and Maven
         </p>
-        <button className="card-button btn">Add to cart</button>
+        <button className="card-button btn" onClick={()=>{dispatch(addToCart(course))}}>Add to cart</button>
       </div>
     </div>
   );
 
+
   return (
     <div>
       <div className="d-flex  ">
-        {courses.map((c, index) => (
-          <Popover content={content} placement="right">
+        
+        {courses.map((course, index) => (
+          <Popover content={content(course)} placement="right" key={index}>
             <div
               className="card m-2 course-popover "
               style={{ width: "18rem" }}
-              key={index}
+              
             >
               <Link to={`course`}>
-                <img src={c.imageBytes} className="card-img-top" alt="..." />
+                <img src={course.imageBytes} className="card-img-top" alt="..." />
               </Link>
 
               <div className="card-body d-flex flex-column">
@@ -78,21 +86,22 @@ function Hero() {
                   className="fw-bold"
                   id="card-heading"
                 >
-                  Jdbc Servlet
+                {course.courseSubtitle}
                 </span>
                 <span id="instructor-name" className="txt-grey fs-11">
                   {" "}
                   Naresh
                 </span>
                 <section className="d-flex">
-                  <p id="price">&#8377;389</p>
+                  <p id="price">&#8377;{course.discountedPrice}</p>
                   <p id="original-price" className="ms-4 txt-grey">
-                    <del>&#8377;3000</del>
+                    <del>&#8377;{course.originalPrice}</del>
                   </p>
                 </section>
               </div>
             </div>
           </Popover>
+          
         ))}
       </div>
     </div>

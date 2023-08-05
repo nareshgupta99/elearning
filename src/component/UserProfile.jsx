@@ -17,7 +17,7 @@ function UserProfile() {
     const file=e.target.files[0]
     const name=e.target.name;
     setUserDetails({...userDetails,[name]:file})
-    console.log(userDetails)
+  
   }
 
   function handleSubmit(event){
@@ -27,8 +27,6 @@ function UserProfile() {
     formData.append("lastName",userDetails.lastName);
     formData.append("profilePic",userDetails.profilePic);
     formData.append("phone",userDetails.phone);
-
-    console.log(formData  )
 
     updateUserDetail(formData).then((res)=>{
       console.log(res.data)

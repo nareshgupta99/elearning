@@ -41,7 +41,6 @@ class DynamicCurriculum {
   }
 
   renderSection() {
-    console.log("hello");
     let container = $(".complte-course-container");
     // $(container).append(`<div id="${dynamicId+"renderd-section"}" class="mt-4  border border-black"  style="background-color: #f7f9fa"><input class="fw-bold ms-3 mt-3 border-0 title-label" id="${dynamicId+"input"}" value="${temp.title}" readonly></input><input clss="" style="margin-left: 21em;" type="button" class="mt-1 mb-2 edit" value="edit" id="${dynamicId+"edit"}" onclick="handleEditSection(event)"/><input class="" style="margin-left: 1em;" type="button" class="mt-1 mb-2 " value="delete" id="${dynamicId+"delete"}" onclick="handleDeleteSection(event)"  /><div class="m-2 border border-black "><p class="m-2"><a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">toogler</a></p><div class="collapse" id="collapseExample"><div class="card card-body"></div></div>  </div>  <div></div>`)
     $(container).append(`<div id="${
@@ -75,7 +74,6 @@ class DynamicCurriculum {
     let objective = $("#section-objective").val();
     temp.title = title;
     temp.objective = objective;
-    console.log(temp);
     data = [...data, temp];
     // renderSection();
     // $("#title").val("")
@@ -98,8 +96,7 @@ class DynamicCurriculum {
     let str = event.target.id;
     t = str.substr(0, 1);
     t = t + "renderd-section";
-    console.log($(`#${t}`));
-    $(`#${t}`).remove();
+      $(`#${t}`).remove();
   }
 
   addInputFile(event) {

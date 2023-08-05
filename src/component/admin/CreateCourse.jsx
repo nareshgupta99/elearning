@@ -14,7 +14,7 @@ function CreateCourse() {
   const [image,setImage]=useState(initialImage)
   const [course, setCourse] = useState({
     title: "",
-    description: "",
+    about: "",
     language: "",
     level: "",
     category: "",
@@ -37,19 +37,14 @@ function CreateCourse() {
   function handleData(e) {
     let name = e.target.name;
     let value = e.target.value;
-
     setCourse({ ...course, [name]: value });
-  }
-
-  function validation(name,value){
-
   }
 
   function handleSubmit(e) {
     e.preventDefault();
     const formData = new FormData();
     formData.append("title", course.title);
-    formData.append("description", course.description);
+    formData.append("about", course.about);
     formData.append("language", course.language);
     formData.append("level", course.level);
     formData.append("category", course.category);
@@ -59,7 +54,6 @@ function CreateCourse() {
     addCourse(formData)
       .then((res) => {
         let data = res.data;
-        console.log(data)
         toast.success("suucess", {
           position: toast.POSITION.TOP_RIGHT,
         });
@@ -146,8 +140,8 @@ function CreateCourse() {
                   <textarea
                     id="textarea1"
                     placeholder="insert your course description."
-                    name="description"
-                    value={course.description}
+                    name="about"
+                    value={course.about}
                     onChange={handleData}
                   ></textarea>
                 </div>

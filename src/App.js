@@ -35,8 +35,9 @@ function App() {
 
 
   const auth=useSelector((state)=>state.auth);
-  const cart=useSelector((state)=>state.cart)
-  console.log(cart)
+  const cart=useSelector((state)=>state.cart);
+
+  
   
   
   
@@ -60,7 +61,7 @@ function App() {
           <Route path="profile" element={<Profile/>} />
           <Route path="course-content" element={<CourseContent />} />
           <Route path="instructor" element={<AdminRoutes />} />
-          <Route path="course/:id" element={<Course />} />
+          <Route path="course/play/:id" element={<Course />} />
           <Route path="purchase-history" element={<PurchasedHistory />} />
           <Route path="user-profile" element={<UserProfile />} />
           <Route path="change-password" element={<ChangePassword />} />

@@ -26,7 +26,6 @@ function Curriculum() {
     getInstructorCourse(id)
       .then((res) => {
         setSections(res.data.sections);
-        console.log(res.data.sections)
       })
       .catch((err) => {
         console.log(err.message);
@@ -34,7 +33,7 @@ function Curriculum() {
   }, []);
 
   const sectionButton = () => {
-    console.log("hello");
+
     let object = {
       title: "",
       objective: "",
@@ -68,7 +67,7 @@ setSections(updatedSections);
       .then((resp) => {
        let sec= resp.data
        sec.lecture=[]
-        console.log(sec);
+       
         setSections([...sections, resp.data]);
         setSectionToggler(null);
       })
@@ -82,14 +81,13 @@ setSections(updatedSections);
       .then((res) => {
         const list = sections.filter((section) => section.id !== id);
         setSections(list);
-        console.log(res.data);
+
       })
       .catch((err) => {
         console.log(err.message);
       });
   }
 
-  console.log(id.id)
   const handleNext=(e)=>{
     
     navigate(`/instructor/course/review/${id.id}`)
@@ -101,13 +99,11 @@ setSections(updatedSections);
     form.append("name", lectureData.name);
     form.append("file", lectureData.video);
 
-    console.log(form.get("name"));
 
     
 
     saveLecture(id, form)
       .then((res) => {
-        console.log(res.data);
         const updatedSactions=[...sections];
         setSections([...sections],sections[index].lecture.push(res.data))
         setFileToggler(false);
@@ -249,7 +245,7 @@ setSections(updatedSections);
                       aria-controls={`flush-collapse-${index}`}
                       id={index}
                     >
-                      Accordion Item #3{" "}
+                     {" "}
                     </button>{" "}
                   </h2>
                   <div

@@ -27,7 +27,6 @@ export const logoutSuccess = () => ({
 
 
 
-
 const fetchUserRoles = async () => {
   try {
     let {data}= await privateAxios.get("/user/roles");
@@ -39,8 +38,3 @@ const fetchUserRoles = async () => {
 
 }
 
-// privateAxios.get("/user/roles").then((res)=>{
-//   console.log(res.data)   
-//   return res.data
-// }).catch((err)=>{console.log(err.message)
-// })

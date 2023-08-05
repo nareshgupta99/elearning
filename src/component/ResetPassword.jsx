@@ -13,7 +13,7 @@ function ForgotPassword(props) {
 
     function handleChange(e){
         setPassword(e.target.value);
-        console.log(password);
+       
     }
 
     function resetPassword(e){

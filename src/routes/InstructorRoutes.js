@@ -8,7 +8,7 @@ function InstructorRoutes({auth}) {
   let isAuthenticated=auth.isAuthenticated;
   let isTokenValid= AuthService.isTokenValid(auth.token);
   let roles=auth.roles;
-  console.log(roles)
+  
 
   if (isAuthenticated && isTokenValid  ) {
     if(!checkInstructorRole(roles)){

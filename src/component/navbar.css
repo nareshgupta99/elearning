@@ -1,0 +1,7 @@
+.circle {
+    width: 25px; /* Adjust the size as needed */
+    height: 25px; /* Make sure width and height are equal for a perfect circle */
+    background-color: blue; /* Just for visibility, you can remove this */
+    border-radius: 50%; /* Set border-radius to 50% to create a circle */
+  }
+

@@ -1,7 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./cart.css";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromCart } from "../redux/action/cartActions";
+;
 
 function Cart() {
+
+  let courses=useSelector((state)=>state.cart.courses);
+  const [cartItems,setCartItems]=useState([]);
+  const dispatch=useDispatch()
+  const [total,setTotal]=useState({
+    originalPrice:0,
+    discountedPrice:0
+  });
+
+  useEffect(()=>{
+    let disSum=0;
+    let origSum=0;
+    setCartItems(courses)
+    courses.forEach((course)=>{
+      
+      disSum=disSum+Number.parseInt(course.discountedPrice);
+      origSum=origSum+Number.parseInt(course.originalPrice);
+    })
+    setTotal({...total,discountedPrice:disSum,originalPrice:origSum});
+  },[])
+  
+
   return (
     <div>
       <h1 className="m-3"> Shopping Cart</h1>
@@ -10,87 +35,46 @@ function Cart() {
         style={{ width: "100%" }}
       >
         <div>
-          <div className="d-flex gap-5 ms-2">
-            <img src="./computer-cart.jpg" width="120" height="68" />
+          {cartItems.map((item,index)=>(
+            <div key={index}>
+
+            <div className="d-flex gap-5 ms-2 " >
+            <img src={item.imageBytes} width="120" height="68" />
             <div className="heading">
               <p style={{ fontWeight: " 700" }}>
                 JSP, Servlets and JDBC for Beginners: Build a Database App
               </p>
               <p>By Chad Darby</p>
               <div>
-                <span>9 total hours</span>
+                <span>{item.duration}</span>
                 <span>118 lectures</span>
-                <span>All levels</span>
+                <span>{item.level}</span>
               </div>
             </div>
-            <a href="#">Remove</a>
+            <p onClick={()=>dispatch(removeFromCart(item.courseId))}>Remove</p>
             <div>
-              <p>&#8377;389</p>
+              <p>&#8377;{item.discountedPrice}</p>
               <p>
-                <del>2879</del>
+                <del>{item.originalPrice}</del>
               </p>
             </div>
           </div>
           <hr />
-
-          <div>
-            <div className="d-flex gap-5 ms-2">
-              <img src="./computer-cart.jpg" width="120" height="68" />
-              <div className="heading">
-                <p style={{ fontWeight: "700" }}>
-                  JSP, Servlets and JDBC for Beginners: Build a Database App
-                </p>
-                <p>By Chad Darby</p>
-                <div>
-                  <span>9 total hours</span>
-                  <span>118 lectures</span>
-                  <span>All levels</span>
-                </div>
-              </div>
-              <a href="#">Remove</a>
-              <div>
-                <p>&#8377;389</p>
-                <p>
-                  <del>2879</del>
-                </p>
-              </div>
             </div>
-            <hr />
-          </div>
+          ))}
 
-          <div>
-            <div className="d-flex gap-5 ms-2">
-              <img src="./computer-cart.jpg" width="120" height="68" />
-              <div className="heading">
-                <p style={{ fontWeight: "700" }}>
-                  JSP, Servlets and JDBC for Beginners: Build a Database App
-                </p>
-                <p>By Chad Darby</p>
-                <div>
-                  <span>9 total hours</span>
-                  <span>118 lectures</span>
-                  <span>All levels</span>
-                </div>
-              </div>
-              <a href="#">Remove</a>
-              <div>
-                <p>&#8377;389</p>
-                <p>
-                  <del>2879</del>
-                </p>
-              </div>
-            </div>
-            <hr />
-          </div>
+            {/*** */}
+        
+        
         </div>
 
         <div className="amount">
           <h5>Total:</h5>
           <h2 style={{ fontSize: "60px" }}>
-            <span style={{ fontSize: "60px" }}>&#8377;</span>389
+            <span style={{ fontSize: "60px" }}>&#8377;</span>{total.discountedPrice}
           </h2>
           <h6>
-            <del>&#8377;2877</del>
+            <del>&#8377;{total.originalPrice}</del>
           </h6>
           <button className="btn checkout-btn">Checkout</button>
           <hr className="" style={{ width: "70vh" }} />

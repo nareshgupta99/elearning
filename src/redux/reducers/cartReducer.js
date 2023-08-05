@@ -1,17 +1,22 @@
-import { ADD_TO_CART, REMOVE_FROM_CART } from "../action/action-type";
+
+import { ADD_TO_CART, CHECK_CART, REMOVE_FROM_CART } from "../action/action-type";
 
 const initialState={
-   cart:[]
+   courses:[]
 }
 
 export const cartReducer=(state=initialState,action)=>{
     switch(action.type){
         case ADD_TO_CART:
             return {...state,
-                cart:[...state.cart,action.payload]
+                courses:[...state.courses,action.payload]
             }
         case REMOVE_FROM_CART:
-            return {...state}
+            let updatedCourse=state.courses.filter((c)=>c.courseId!=action.payload)
+            return {...state,courses:updatedCourse}
+        case CHECK_CART:
+            let courses=action.payload;
+            return {...state.courses,courses}
         default :
             return state;
     }

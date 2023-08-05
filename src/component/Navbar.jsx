@@ -3,16 +3,23 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import AuthService from "../service/AuthService";
+import './navbar.css';
+import { useSelector } from "react-redux";
 
 function Navbar({ auth }) {
+  let courses=useSelector((state)=>state.cart.courses)
+  const [counter,setCounter]=useState();
   let roles = auth.roles;
   let isAuthenticated = auth.isAuthenticated;
   let isTokenValid = AuthService.isTokenValid(auth.token);
 
   let isInstructorPresent = AuthService.isInstructorPresent(roles);
-  console.log(AuthService.isInstructorPresent(roles));
+ 
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    let num=courses.length;
+    setCounter(num);
+  }, []);
 
   return (
     <header className=" sticky-top">
@@ -57,6 +64,7 @@ function Navbar({ auth }) {
               <li className="nav-item">
                 <Link className="nav-link " aria-current="page" to="/cart ">
                   <AiOutlineShoppingCart size={20} />
+                  <span className="text-white circle fw-bolder " style={{position:"fixed" ,top:7 ,right:"19%" ,backgroundColor:"rgb(3, 207, 252)",}}>{counter}</span>
                 </Link>
               </li>
 

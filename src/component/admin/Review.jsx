@@ -1,18 +1,20 @@
 import React, { useEffect } from "react";
 import "../admin/create-course.css";
-
+import { toast } from "react-toastify";
 import { useState } from "react";
 import { publishCourse } from "../../service/CourseService";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 function Review() {
 
     const id=useParams("id");
+    const navigate=useNavigate()
+    
 
     const [data,setData]=useState({
         duration:"",
-        originalPrice:0,
-        discountedPrice:0,
+        originalPrice:null,
+        discountedPrice:null,
         timeUnit:""
     })
 
@@ -21,7 +23,7 @@ function Review() {
   function handleData(event) {
    const name= event.target.name;
    setData({...data,[name]:event.target.value})
-   console.log(data)
+   
   }
 
   function handleSubmit(event){
@@ -31,10 +33,16 @@ function Review() {
     formData.append("originalPrice",data.originalPrice);
     formData.append("discountedPrice",data.discountedPrice);
 
-    console.log(formData)
+  
     
     publishCourse(id,formData).then((res)=>{
-        console.log(res.data);
+        let resource=res.data.resource;
+        let message=res.data.message;
+        toast.success(`${resource} ${message}`, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        navigate("/instructor/courses");
+
     }).catch((err)=>{
         console.log(err.message)
     })
@@ -61,8 +69,8 @@ function Review() {
               </div>
               <select className="px-1" onChange={handleData} name="timeUnit">
                 <option defaultChecked>select</option>
-                <option >hour</option>
-                <option >minute</option>
+                <option >hours</option>
+                <option >minutes</option>
               </select>
             </div>
           </div>
@@ -111,7 +119,7 @@ function Review() {
           </div>
 
 
-          <input type="submit" value="Publish " className="p-1 mt-3" />
+          <input type="submit" value="Publish " className="p-1 mt-3 btn btn-success" />
         </div>
       </form>
     </div>
