@@ -2,30 +2,80 @@ import React, { useEffect, useState } from "react";
 import "./cart.css";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromCart } from "../redux/action/cartActions";
-;
-
+import { initiatePayment } from "../service/paymentService";
+import axios from "axios";
+import { privateAxios } from "../service/helper";
 function Cart() {
-
-  let courses=useSelector((state)=>state.cart.courses);
-  const [cartItems,setCartItems]=useState([]);
-  const dispatch=useDispatch()
-  const [total,setTotal]=useState({
-    originalPrice:0,
-    discountedPrice:0
+  let courses = useSelector((state) => state.cart.courses);
+  const [cartItems, setCartItems] = useState([]);
+  const dispatch = useDispatch();
+  const [total, setTotal] = useState({
+    originalPrice: 0,
+    discountedPrice: 0,
   });
 
-  useEffect(()=>{
-    let disSum=0;
-    let origSum=0;
-    setCartItems(courses)
-    courses.forEach((course)=>{
-      
-      disSum=disSum+Number.parseInt(course.discountedPrice);
-      origSum=origSum+Number.parseInt(course.originalPrice);
+  useEffect(() => {
+    let disSum = 0;
+    let origSum = 0;
+    setCartItems(courses);
+    courses.forEach((course) => {
+      disSum = disSum + Number.parseInt(course.discountedPrice);
+      origSum = origSum + Number.parseInt(course.originalPrice);
+    });
+    setTotal({ ...total, discountedPrice: disSum, originalPrice: origSum });
+  }, []);
+
+  function paymentStart() {
+    console.log("payment started");
+    let amt = total.discountedPrice;
+    let key;
+    let formData = new FormData();
+    formData.append("amount", amt);
+     privateAxios.get("/payment/key").then(({data})=>{
+       key=data;
     })
-    setTotal({...total,discountedPrice:disSum,originalPrice:origSum});
-  },[])
-  
+
+    
+    initiatePayment(formData)
+      .then(({data}) => {
+        if (data.status === "created") {
+          checkOut(data,key);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  function checkOut(data,key) {
+
+    
+
+    const options = {
+      key: key, // Enter the Key ID generated from the Dashboard
+      amount: data.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      currency: "INR",
+      name: "E-Learning ", //your business name
+      description: "",
+      image: "https://t3.ftcdn.net/jpg/01/19/17/16/240_F_119171661_QK0G1WTgm2u5OUnXhs2p7SMqpvLhNete.jpg",
+      order_id: data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      callback_url: "http://localhost:300/home",
+      prefill: {
+        //We recommend using the prefill parameter to auto-fill customer's contact information especially their phone number
+        name: "", //your customer's name
+        email: "",
+        contact: "", //Provide the customer's phone number for better conversion rates
+      },
+      notes: {
+        address: "",
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+
+    const razorpay=new window.Razorpay(options);
+    razorpay.open();
+  }
 
   return (
     <div>
@@ -35,48 +85,50 @@ function Cart() {
         style={{ width: "100%" }}
       >
         <div>
-          {cartItems.map((item,index)=>(
+          {cartItems.map((item, index) => (
             <div key={index}>
-
-            <div className="d-flex gap-5 ms-2 " >
-            <img src={item.imageBytes} width="120" height="68" />
-            <div className="heading">
-              <p style={{ fontWeight: " 700" }}>
-                JSP, Servlets and JDBC for Beginners: Build a Database App
-              </p>
-              <p>By Chad Darby</p>
-              <div>
-                <span>{item.duration}</span>
-                <span>118 lectures</span>
-                <span>{item.level}</span>
+              <div className="d-flex gap-5 ms-2 ">
+                <img src={item.imageBytes} width="120" height="68" />
+                <div className="heading">
+                  <p style={{ fontWeight: " 700" }}>
+                    JSP, Servlets and JDBC for Beginners: Build a Database App
+                  </p>
+                  <p>By Chad Darby</p>
+                  <div>
+                    <span>{item.duration}</span>
+                    <span>118 lectures</span>
+                    <span>{item.level}</span>
+                  </div>
+                </div>
+                <p onClick={() => dispatch(removeFromCart(item.courseId))}>
+                  Remove
+                </p>
+                <div>
+                  <p>&#8377;{item.discountedPrice}</p>
+                  <p>
+                    <del>{item.originalPrice}</del>
+                  </p>
+                </div>
               </div>
-            </div>
-            <p onClick={()=>dispatch(removeFromCart(item.courseId))}>Remove</p>
-            <div>
-              <p>&#8377;{item.discountedPrice}</p>
-              <p>
-                <del>{item.originalPrice}</del>
-              </p>
-            </div>
-          </div>
-          <hr />
+              <hr />
             </div>
           ))}
 
-            {/*** */}
-        
-        
+          {/*** */}
         </div>
 
         <div className="amount">
           <h5>Total:</h5>
           <h2 style={{ fontSize: "60px" }}>
-            <span style={{ fontSize: "60px" }}>&#8377;</span>{total.discountedPrice}
+            <span style={{ fontSize: "60px" }}>&#8377;</span>
+            {total.discountedPrice}
           </h2>
           <h6>
             <del>&#8377;{total.originalPrice}</del>
           </h6>
-          <button className="btn checkout-btn">Checkout</button>
+          <button className="btn checkout-btn" onClick={paymentStart}>
+            Checkout
+          </button>
           <hr className="" style={{ width: "70vh" }} />
         </div>
       </div>

@@ -12,7 +12,7 @@ export const cartReducer=(state=initialState,action)=>{
                 courses:[...state.courses,action.payload]
             }
         case REMOVE_FROM_CART:
-            let updatedCourse=state.courses.filter((c)=>c.courseId!=action.payload)
+            let updatedCourse=state.courses.filter((c)=>c.courseId!==action.payload)
             return {...state,courses:updatedCourse}
         case CHECK_CART:
             let courses=action.payload;
