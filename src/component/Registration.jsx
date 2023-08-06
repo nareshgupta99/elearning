@@ -1,95 +1,120 @@
 import React, { useState } from "react";
-import './registration.css';
+import "./registration.css";
 import { Link } from "react-router-dom";
 
-function Registration({handleSubmit,data,setData}) {
+function Registration({ formik }) {
+  const [showPassword, setShowPassword] = useState(false);
+  const { errors, handleBlur, handleChange, handleSubmit, values, touched } =
+    formik;
 
-    const [showPassword,setShowPassword]=useState(false);
-
-    const handleChange=(event)=>{
-        let name=event.target.name;
-        setData({...data,[name]:event.target.value});
-    }
-
-    const toggllePassword=(event)=>{
-        setShowPassword(!showPassword);
-
-    }
+  const toggllePassword = (event) => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <div>
-      <div class="login-container">
-        <div class="login">
-          <p class="text-danger font-weight-normal"></p>
+      <div className="login-container">
+        <div className="login">
+          <p className="text-danger font-weight-normal"></p>
           <h3>E-Learning </h3>
-          <form method="post" action="/learning-management-system/registration">
-            <div class="form-group">
-              <label class="form-label" for="Name">
-                Name
-              </label>
+          <form method="post">
+            <div className="form-group">
+              <label className="form-label">Name</label>
               <input
                 type="text"
-                class="form-control"
+                className="form-control"
                 id="name"
                 name="name"
-                value={data.name}
+                value={values.name}
                 required
+                onBlur={handleBlur}
                 onChange={handleChange}
               />
+              {errors.name && touched.name ? (
+                <p className="form-error text-danger">{errors.name}</p>
+              ) : (
+                ""
+              )}
             </div>
-            <div class="form-group">
-              <label class="form-label" for="email">
-                Email
-              </label>
+            <div className="form-group">
+              <label className="form-label">Email</label>
               <input
                 type="email"
-                class="form-control"
+                className="form-control"
                 id="email"
-                value={data.email}
+                value={values.email}
                 name="email"
                 required
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
+              {errors.email && touched.email ? (
+                <p className="form-error text-danger">{errors.email}</p>
+              ) : (
+                ""
+              )}
             </div>
-            <div class="form-group">
-              <label class="form-label" for="password">
-                Password
-              </label>
+            <div className="form-group">
+              <label className="form-label">Password</label>
               <input
-                type={showPassword===true?"text":"password"}
-                class="form-control"
+                type={showPassword === true ? "text" : "password"}
+                className="form-control"
                 id="password"
                 name="password"
-                value={data.password}
+                value={values.password}
                 required
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
+              {errors.password && touched.password ? (
+                <p className="form-error text-danger">{errors.password}</p>
+              ) : (
+                ""
+              )}
             </div>
 
-            <div class="form-group form-check">
+            <div className="form-group">
+              <label className="form-label">Confirm Password</label>
               <input
-                class="form-check-input"
+                type={showPassword === true ? "text" : "password"}
+                className="form-control"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={values.confirmPassword}
+                required
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              {errors.confirmPassword && touched.confirmPassword ? (
+                <p className="form-error text-danger">
+                  {errors.confirmPassword}
+                </p>
+              ) : (
+                ""
+              )}
+            </div>
+
+            <div className="form-group form-check">
+              <input
+                className="form-check-input"
                 type="checkbox"
                 id="checkbox"
                 name="t&c"
                 required
                 onClick={toggllePassword}
               />
-              <div class="form-check-label" for="checkbox">
-                Show Password
-              </div>
+              <div className="form-check-label">Show Password</div>
             </div>
 
             <input
               type="submit"
-              class="btn btn-success w-100 mt-3"
+              className="btn btn-success w-100 mt-3"
               value="SIGN UP"
               onClick={handleSubmit}
             />
           </form>
-          <p class="mt-3">
+          <p className="mt-3">
             Already Registered<Link to="/login"> click here </Link>
-            
           </p>
         </div>
       </div>

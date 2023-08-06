@@ -1,41 +1,44 @@
-import React, { useState } from "react";
 import AuthService from "../service/AuthService";
 import Registration from "./Registration";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
-import { checkEmail } from "../service/Validation";
+import { useFormik } from "formik";
+import { signUpSchema } from "../schemas";
 
 function Student() {
   const navigate = useNavigate();
-  const [data, setData] = useState({
+  const initialValues = {
     name: "",
     email: "",
     password: "",
+  };
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: signUpSchema,
+    onSubmit: (values, action) => {
+      AuthService.registerStudent(values)
+        .then((resp) => {
+          let msg = resp.data.message;
+          let res = resp.data.resource;
+          toast.success(` ${res} ${msg}  !!`, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+
+          navigate("/login");
+        })
+        .catch((err) => {
+          let msg = err.response.data.message;
+          toast.error(msg, {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        });
+    },
   });
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    checkEmail(data.email);
-    AuthService.registerStudent(data)
-      .then((resp) => {
-        let msg = resp.data.message;
-        let res = resp.data.resource;
-        toast.success(` ${res} ${msg}  !!`, {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-        
-        navigate("/login");
-      })
-      .catch((err) => {
-        let msg = err.response.data.message;
-        toast.error(msg, {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-      });
-  };
   return (
     <div>
-      <Registration handleSubmit={handleSubmit} data={data} setData={setData} />
+      <Registration formik={formik} />
     </div>
   );
 }

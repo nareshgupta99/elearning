@@ -4,67 +4,51 @@ import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../redux/action/authActions";
+import { useFormik } from "formik";
+import { loginSchema } from "../schemas";
 
 function Login() {
-  const [data, setData] = useState({
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const initialValues = {
     email: "",
     password: "",
-  });
+  };
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { errors, handleBlur, handleChange, handleSubmit, values, touched } =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: loginSchema,
+      onSubmit: (values, action) => {
+        AuthService.login(values)
+          .then((resp) => {
+            let roles = AuthService.fetchUserRoles();
+            let token = resp.data.token;
+            dispatch(loginSuccess(token));
+            toast.success("Loggin Success !", {
+              position: toast.POSITION.TOP_RIGHT,
+            });
 
-  function handleLogin(e) {
-    e.preventDefault();
-    isEmailValid(data.email);
-    isPasswordValid(data.password);
-    AuthService.login(data)
-      .then((resp) => {
-       let roles= AuthService.fetchUserRoles()
-        let token = resp.data.token;
-        dispatch(loginSuccess(token));
-        toast.success("Loggin Success !", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-       
-      if(AuthService.isInstructorPresent){
-        navigate("/instructor/overview");
-      }else{
-        navigate("/home");
-      }
-
-      })
-      .catch((err) => {
-       let msg= err.response.data.message
-        toast.error(msg, {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-      });
-  }
-
-  const [showPassword, setShowPassword] = useState(false);
+            if (AuthService.isInstructorPresent) {
+              navigate("/instructor/overview");
+            } else {
+              navigate("/home");
+            }
+          })
+          .catch((err) => {
+            let msg = err.response.data.message;
+            toast.error(msg, {
+              position: toast.POSITION.TOP_RIGHT,
+            });
+          });
+      },
+    });
 
   const passwordToogler = () => {
     setShowPassword(!showPassword);
   };
-
-  const handleChange = (event) => {
-    let name = event.target.name;
-    let value=event.target.value
-    
-    setData({ ...data, [name]: value });
-  };
-
-  
-  function isPasswordValid(password){
-    if(password.startsWith()){
-      
-    }
-  }
-  
-  function isEmailValid(value){
-
-  }
 
   return (
     <div>
@@ -80,9 +64,15 @@ function Login() {
                 className="form-control"
                 id="email"
                 name="email"
-                value={data.email}
+                value={values.email}
+                onBlur={handleBlur}
                 onChange={handleChange}
               />
+              {errors.email && touched.email ? (
+                <p className="form-error text-danger">{errors.email}</p>
+              ) : (
+                ""
+              )}
             </div>
             <div className="form-group">
               <label className="form-label">Password</label>
@@ -91,9 +81,15 @@ function Login() {
                 className="form-control"
                 id="password"
                 name="password"
-                value={data.password}
+                value={values.password}
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
+              {errors.password && touched.password ? (
+                <p className="form-error text-danger">{errors.password}</p>
+              ) : (
+                ""
+              )}
             </div>
 
             <div className="form-group form-check">
@@ -109,7 +105,7 @@ function Login() {
               type="submit"
               className="btn btn-success w-100 mt-2"
               value="SIGN IN"
-              onClick={handleLogin}
+              onClick={handleSubmit}
             />
           </form>
           <p className="mt-3" id="forgot-password-button">
