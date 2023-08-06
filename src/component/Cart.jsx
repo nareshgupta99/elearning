@@ -2,13 +2,17 @@ import React, { useEffect, useState } from "react";
 import "./cart.css";
 import { useDispatch, useSelector } from "react-redux";
 import { emptyCart, removeFromCart } from "../redux/action/cartActions";
-import { initiatePayment } from "../service/paymentService";
-import axios from "axios";
+import {
+  initiatePayment,
+  paymentVerification,
+  updateOrder,
+} from "../service/paymentService";
 import { privateAxios } from "../service/helper";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 function Cart() {
   let courses = useSelector((state) => state.cart.courses);
   let cart = useSelector((state) => state.cart);
+  const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const dispatch = useDispatch();
   const [total, setTotal] = useState({
@@ -57,7 +61,24 @@ function Cart() {
       image:
         "https://t3.ftcdn.net/jpg/01/19/17/16/240_F_119171661_QK0G1WTgm2u5OUnXhs2p7SMqpvLhNete.jpg",
       order_id: data.id,
-      callback_url: "http://localhost:3000/home",
+      handler: function (response) {
+        const formData = new FormData();
+        formData.append("payment_id", response.razorpay_payment_id);
+        formData.append("order_id", response.razorpay_order_id);
+        formData.append("signature", response.razorpay_signature);
+        paymentVerification(formData)
+          .then(({ data }) => {
+            if (data) {
+              dispatch(emptyCart());
+              navigate("/home");
+            } else {
+            }
+            alert("payment success");
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
+      },
       prefill: {
         name: "",
         email: "",
@@ -70,10 +91,18 @@ function Cart() {
         color: "#3399cc",
       },
     };
-
     const razorpay = new window.Razorpay(options);
+    razorpay.on("payment.failed", function (response) {
+      console.log(response.error.code);
+      console.log(response.error.description);
+      console.log(response.error.source);
+      console.log(response.error.step);
+      console.log(response.error.reason);
+      console.log(response.error.metadata.order_id);
+      console.log(response.error.metadata.payment_id);
+    });
+
     razorpay.open();
-    //  dispatch(emptyCart());
   }
 
   return (
@@ -116,19 +145,22 @@ function Cart() {
           {/*** */}
         </div>
 
-        {cartItems.length===0 ? (
-           <div>
-           <div className="d-flex gap-5 ms-2 ">
-             {/* <img src={""} width="120" height="68" /> */}
-             <div className="heading">
-               <p style={{ fontWeight: " 700", marginLeft: "" }}>
-                 <Link to="/home" style={{textDecorationLine:"none"}}> No, Item in cart click here to go courses page to add item in a cart </Link>
-               </p>
-             </div>
-           </div>
-           <hr />
-           </div>
-
+        {cartItems.length === 0 ? (
+          <div>
+            <div className="d-flex gap-5 ms-2 ">
+              {/* <img src={""} width="120" height="68" /> */}
+              <div className="heading">
+                <p style={{ fontWeight: " 700", marginLeft: "" }}>
+                  <Link to="/home" style={{ textDecorationLine: "none" }}>
+                    {" "}
+                    No, Item in cart click here to go courses page to add item
+                    in a cart{" "}
+                  </Link>
+                </p>
+              </div>
+            </div>
+            <hr />
+          </div>
         ) : (
           <div className="amount">
             <h5>Total:</h5>
@@ -144,7 +176,6 @@ function Cart() {
             </button>
             <hr className="" style={{ width: "70vh" }} />
           </div>
-         
         )}
       </div>
     </div>
