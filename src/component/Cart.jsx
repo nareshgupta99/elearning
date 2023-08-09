@@ -21,6 +21,7 @@ function Cart() {
   });
 
   useEffect(() => {
+    console.log(cartDetail())
     let disSum = 0;
     let origSum = 0;
     setCartItems(courses);
@@ -63,12 +64,16 @@ function Cart() {
       order_id: data.id,
       handler: function (response) {
         const formData = new FormData();
-        formData.append("payment_id", response.razorpay_payment_id);
-        formData.append("order_id", response.razorpay_order_id);
-        formData.append("signature", response.razorpay_signature);
-        paymentVerification(formData)
-          .then(({ data }) => {
-            if (data) {
+        let courses=cartDetail()
+        let data={
+          paymentId:response.razorpay_payment_id,
+          orderId:response.razorpay_order_id,
+          signature:response.razorpay_signature,
+          coursesId:courses
+        }
+       paymentVerification(data)
+        .then(({ data }) => {
+          if (data) {
               dispatch(emptyCart());
               navigate("/home");
             } else {
@@ -105,6 +110,11 @@ function Cart() {
     razorpay.open();
   }
 
+  function cartDetail(){
+    let courses=[];
+    cart.courses.forEach((c)=>courses.push(c.courseId));
+    return courses;
+  }
   return (
     <div>
       <h1 className="m-3"> Shopping Cart</h1>

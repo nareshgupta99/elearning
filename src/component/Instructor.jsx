@@ -8,7 +8,7 @@ import { signUpSchema } from "../schemas";
 function Instructor() {
   const navigate = useNavigate();
   const initialValues = {
-    name: "",
+    firstName: "",
     email: "",
     password: "",
   };

@@ -9,5 +9,10 @@ export  function saveLecture(sectionId,formData,){
 }
 
 export function deleteLecture(lectureId){
-    return privateAxios.delete(`lecture/${lectureId}/delete`);
+    return privateAxios.delete(`/lecture/${lectureId}/delete`);
+}
+
+
+export function getVideo(videoName){
+    return privateAxios.get(`/video/${videoName}`);
 }

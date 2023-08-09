@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router";
 import InstructorDashboard from "../component/admin/InstructorDashboard";
 import AuthService from "../service/AuthService";
@@ -8,12 +8,16 @@ function InstructorRoutes({auth}) {
   let isAuthenticated=auth.isAuthenticated;
   let isTokenValid= AuthService.isTokenValid(auth.token);
   let roles=auth.roles;
-  
 
-  if (isAuthenticated && isTokenValid  ) {
+  useEffect(()=>{
     if(!checkInstructorRole(roles)){
-      navigate('/')
+      navigate("/")
     }
+
+  },[])
+
+  if (isAuthenticated && isTokenValid  && checkInstructorRole(roles)) {
+    
   
 
     return (

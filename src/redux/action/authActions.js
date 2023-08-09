@@ -12,7 +12,7 @@ export function loginSuccess(token) {
 
       // After successful login, fetch the user's roles from the server
       const roles = await fetchUserRoles();
-
+      
       // Dispatch another action to update the user's roles in the state
       dispatch({ type: 'SET_ROLES', payload: roles });
     } catch (error) {

@@ -69,7 +69,8 @@ function Navbar({ auth }) {
                   <Popover placement="bottom" content={<CartPopover />}>
                   <AiOutlineShoppingCart size={20} />
                   </Popover>
-                  <span className="text-white circle fw-bolder " style={{position:"fixed" ,top:7 ,right:"19%" ,backgroundColor:"rgb(3, 207, 252)",}}>{counter}</span>
+                  <span className="text-white circle fw-bolder" style={{backgroundColor:"rgb(3, 207, 252)",position:"relative" ,bottom:"11px",right:"12px"}}>{counter}</span>
+                 
                 </Link>
               </li>
 

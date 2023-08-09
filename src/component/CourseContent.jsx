@@ -1,71 +1,75 @@
-import React, { useEffect, useState } from 'react'
-import './course-content.css';
+import React, { useEffect, useState } from "react";
+import "./course-content.css";
 
 
-function CourseContent({setVideo}) {
+function CourseContent({ playVideo ,sections }) {
 
-  useEffect(()=>{
-    
-  })
 
-  
 
-  const [courses,setCourses]=useState([1,1,1,1,1,1,1,1,1,1])
   return (
-    <div className='accordion-container px-3'>
-      
+    <div className="accordion-container px-3 w-100">
       <div
         id="accordianWrapper"
-        class="mt-4  border border-black ms-1 me-1"
-        style={{backgroundColor: "white"}}
+        className="mt-4  border border-black ms-1 me-1"
+        style={{ backgroundColor: "white" }}
       >
-          <h4 style={{borderBottom: "1px solid grey",height:"50px"}} className='p-2'>Course Content</h4>
+        <h4
+          style={{ borderBottom: "1px solid grey", height: "50px" }}
+          className="p-2"
+        >
+          Course Content
+        </h4>
 
-        {courses.map((course,index)=>(
-
-        
-        <div class="accordion accordion-flush" id="accordionFlushExample">
-          <div class="accordion-item">
-            {" "}
-            <h2 class="accordion-header" id="">
-              <button
-                class="accordion-button collapsed "
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target={`#flush-collapse${index}`}
-                aria-expanded="false"
-                aria-controls=""
-                style={{backgroundColor: "#f7f9fa"}}
-              >
-                <div className='d-block'>
-
-                <div style={{fontWeight:"800"}}>Section 1:Core Java</div>
-                <div style={{fontSize:"12px"}} className=''>0/0 | 12hr31min </div>
-                </div>
-              </button>{" "}
-            </h2>
-            <div
-              id={`flush-collapse${index}`}
-              class="accordion-collapse collapse unique"
-              aria-labelledby=""
-              data-bs-parent="#accordionFlushExample"
-            >
-              <div class="accordion-body bg-white" id={`accordion-body${index}`}>
-                <input
+        {sections.map((section, index) => (
+          <div
+            
+            className="accordion accordion-flush"
+            id="accordionFlushExample"
+            key={index}
+          >
+            <div className="accordion-item">
+              {" "}
+              <h2 className="accordion-header" id="">
+                <button
+                  className="accordion-button collapsed "
                   type="button"
-                  class="px-2 mx-auto position-relative "
-                  style={{left:"90%"}}
-                  value="Add Video"
-                  id=""
-                                  />
-              </div>{" "}
+                  data-bs-toggle="collapse"
+                  data-bs-target={`#flush-collapse${index}`}
+                  aria-expanded="false"
+                  aria-controls=""
+                  style={{ backgroundColor: "#f7f9fa" }}
+                >
+                  <div className="d-block">
+                    <div style={{ fontWeight: "800" }}>
+                      Section {index}:{section.sectionName}
+                    </div>
+                    <div style={{ fontSize: "12px" }} className="">
+                      0/0 | 12hr31min{" "}
+                    </div>
+                  </div>
+                </button>{" "}
+              </h2>
+              <div
+                id={`flush-collapse${index}`}
+                className="accordion-collapse collapse unique"
+                aria-labelledby=""
+                data-bs-parent="#accordionFlushExample"
+              >
+                <div
+                  className="accordion-body bg-white"
+                  id={`accordion-body${index}`}
+                >
+                  {section.lectureDto.map((lecture) => (
+                    <p  onClick={() => {playVideo(lecture.videoName)}} style={{cursor:"pointer"}}>{lecture.name}</p>
+                  ))}
+                </div>{" "}
+              </div>
             </div>
           </div>
-        </div>
         ))}
       </div>
     </div>
-  )
+  );
 }
 
-export default CourseContent
+export default CourseContent;

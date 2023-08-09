@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AuthService from "../service/AuthService";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginSuccess } from "../redux/action/authActions";
 import { useFormik } from "formik";
 import { loginSchema } from "../schemas";
@@ -16,7 +16,7 @@ function Login() {
     email: "",
     password: "",
   };
-
+  
   const { errors, handleBlur, handleChange, handleSubmit, values, touched } =
     useFormik({
       initialValues: initialValues,

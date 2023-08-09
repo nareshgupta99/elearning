@@ -24,7 +24,7 @@ function Registration({ formik }) {
                 type="text"
                 className="form-control"
                 id="name"
-                name="name"
+                name="firstName"
                 value={values.name}
                 required
                 onBlur={handleBlur}
