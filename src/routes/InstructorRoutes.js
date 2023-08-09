@@ -7,7 +7,7 @@ function InstructorRoutes({auth}) {
   const navigate=useNavigate()
   let isAuthenticated=auth.isAuthenticated;
   let isTokenValid= AuthService.isTokenValid(auth.token);
-  let roles=auth.roles;
+  let roles=auth.user.roles;
 
   useEffect(()=>{
     if(!checkInstructorRole(roles)){

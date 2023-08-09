@@ -41,3 +41,7 @@ export function search(query){
     return publicAxios.get(`course/search/${query}`);
 
 }
+
+export function getCourseDetailById(id){
+    return publicAxios.get(`course/detail/${id}`)
+}

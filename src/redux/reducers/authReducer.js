@@ -7,7 +7,13 @@ import {
 const initialState = {
   token: null,
   isAuthenticated: false,
-  roles: []
+  user:{
+    roles:[],
+    profile:"",
+    email:"",
+    firstName:"",
+    lastName:""
+  }
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -17,7 +23,7 @@ export const authReducer = (state = initialState, action) => {
     case LOGOUT_SUCCESS:
       return { ...state, token: null, isAuthenticated: false };
     case SET_ROLES:
-      return {...state,roles: action.payload,  }; // Update the roles in the state
+      return {...state,user: action.payload,  }; // Update the roles in the state
     default:
       return state;
   }

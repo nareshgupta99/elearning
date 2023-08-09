@@ -22,3 +22,4 @@ export function requestPasswordResetService(formData){
 export function resetPasswordService(formData){
   return publicAxios.post("/auth/reset-password/password",formData)
 }
+

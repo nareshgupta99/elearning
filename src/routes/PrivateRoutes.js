@@ -7,7 +7,7 @@ function PrivateRoutes({auth}) {
 
   let isAuthenticated=auth.isAuthenticated;
   let isTokenValid= AuthService.isTokenValid(auth.token);
-  let roles=auth.roles;
+  let roles=auth.user.roles;
   const navigate=useNavigate()
 
   function checkStudentRole(roles){

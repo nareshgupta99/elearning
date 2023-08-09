@@ -77,7 +77,7 @@ function Hero() {
 
   return (
     <div>
-      <div className="d-flex  ">
+      <div className="d-flex flex-wrap ">
         
         {courses.map((course, index) => (
           <Popover content={content(course)} placement="right" key={index}>
@@ -86,7 +86,7 @@ function Hero() {
               style={{ width: "18rem" }}
               
             >
-              <Link to={`course`}>
+              <Link to={`course/${course.courseId}`}>
                 <img src={course.imageBytes} className="card-img-top" alt="..." />
               </Link>
 

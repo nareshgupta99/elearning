@@ -1,9 +1,6 @@
 import AuthService from "../../service/AuthService";
+
 import { privateAxios } from "../../service/helper";
-// export const loginSuccess = (token) => ({
-//     type: 'LOGIN_SUCCESS',
-//     payload: token,
-//   });
 
 export function loginSuccess(token) {
   return async (dispatch) => {
@@ -12,9 +9,11 @@ export function loginSuccess(token) {
 
       // After successful login, fetch the user's roles from the server
       const roles = await fetchUserRoles();
+      const user= await fetchUser();
+      console.log(user.roles)
       
       // Dispatch another action to update the user's roles in the state
-      dispatch({ type: 'SET_ROLES', payload: roles });
+      dispatch({ type: 'SET_ROLES', payload: user });
     } catch (error) {
       console.error('Login failed:', error);
     }
@@ -36,5 +35,15 @@ const fetchUserRoles = async () => {
     throw error
   }
 
+}
+
+const fetchUser=async ()=>{
+  try{
+    let {data}= await privateAxios.get("/user");
+    return data;
+  }
+  catch (err){
+    throw err;
+  }
 }
 

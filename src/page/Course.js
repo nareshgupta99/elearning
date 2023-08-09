@@ -31,8 +31,10 @@ const Course = () => {
   
    useEffect(()=>{
      getPurchasedCourse(id).then((res)=>{
-      console.log(res.data.sectionDto)
-       setSections(res.data.sectionDto);
+      let sec=res.data.sectionDto
+      console.log(sec)
+       setSections(sec);
+       setVideoUrl(sec[0].lectureDto[0].videoName)
      }).catch((err)=>{
        console.log(err.message)
        toast.error("Something went wrong", {

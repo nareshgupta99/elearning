@@ -17,7 +17,7 @@ function Navbar({ auth }) {
   const [query, setQuery] = useState("");
   const [searchData, setSearchData] = useState([]);
   const [counter, setCounter] = useState();
-  let roles = auth.roles;
+  let roles = auth.user.roles;
   let isAuthenticated = auth.isAuthenticated;
   let isTokenValid = AuthService.isTokenValid(auth.token);
 
@@ -62,11 +62,11 @@ function Navbar({ auth }) {
     <header className=" sticky-top">
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid d-flex">
-          <a className="navbar-brand mx-lg-3" href="index.jsp">
-            E-Learning
+          <a className="navbar-brand mx-lg-3" >
+           <Link to="/" style={{textDecoration:"none",color:"black"}}> E-Learning </Link>
           </a>
 
-          <div className="">
+          <div className="d-none d-md-block">
             <div
               className="flex border items-center bg-white   "
               style={{ borderRadius: "5px" }}
@@ -142,7 +142,22 @@ function Navbar({ auth }) {
                   Home
                 </Link>
               </li>
+              <li>
 
+              <div className="container-fluid mt-1 d-md-none 0">
+        <form className="d-flex justify-content-center">
+          <input
+            className="form-control me-2 w-50 "
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+            />
+          <button className="btn btn-outline-success" type="submit">
+            Search
+          </button>
+        </form>
+      </div>
+            </li>
               <li className="nav-item">
                 <Link className="nav-link " aria-current="page" to="/cart ">
                   <Popover placement="bottom" content={<CartPopover />}>
@@ -164,6 +179,8 @@ function Navbar({ auth }) {
 
               {!(isAuthenticated && isTokenValid) ? (
                 <>
+
+                
                   <li className="nav-item">
                     <Link className="nav-link" to="/teach-with-us">
                       Teach With Us
@@ -213,19 +230,7 @@ function Navbar({ auth }) {
         </div>
       </nav>
 
-      <div className="container-fluid mt-1 d-md-none">
-        <form className="d-flex justify-content-center">
-          <input
-            className="form-control me-2 w-50 "
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button className="btn btn-outline-success" type="submit">
-            Search
-          </button>
-        </form>
-      </div>
+     
     </header>
   );
 }

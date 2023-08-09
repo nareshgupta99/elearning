@@ -16,7 +16,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import AdminRoutes from "./routes/PrivateRoutes";
 import PrivateRoutes from "./routes/PrivateRoutes";
-import Profile from "./component/Profile";
 import Courses from "./component/admin/Courses";
 import InstructorRoutes from "./routes/InstructorRoutes";
 import CreateCourse from "./component/admin/CreateCourse";
@@ -30,12 +29,15 @@ import ResetPassword from "./component/ResetPassword";
 import ForgotPassword from "./component/ForgotPassword";
 import {  useSelector } from "react-redux";
 import SimpleRoutes from "./routes/SimpleRoutes";
+import CourseDetail from "./component/admin/CourseDetail";
+import Search from "./component/Search";
 
 
 function App() {
 
 
   const auth=useSelector((state)=>state.auth);
+
   const cart=useSelector((state)=>state.cart);
 
   
@@ -49,6 +51,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/course/:id" element={<CourseDetail />} />
+        <Route path="/search/courses" element={<Search />} />
+        
         <Route path="/" element={<SimpleRoutes auth={auth} />}  >
 
          <Route path="/student/register" element={<Student />} />
