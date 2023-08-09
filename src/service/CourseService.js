@@ -36,3 +36,8 @@ export function publishCourse({id},formData){
 export function getPurchasedCourse(id){
     return privateAxios.get(`course/${id}/purchase`);
 }
+
+export function search(query){
+    return publicAxios.get(`course/search/${query}`);
+
+}

@@ -3,26 +3,60 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import AuthService from "../service/AuthService";
-import './navbar.css';
+import "./navbar.css";
 import { useSelector } from "react-redux";
 import { Popover } from "antd";
 import Profile from "./Profile";
 import CartPopover from "./CartPopover";
+import { RxCross2 } from "react-icons/rx";
+import { AiOutlineSearch } from "react-icons/ai";
+import { search } from "../service/CourseService";
 
 function Navbar({ auth }) {
-  let cart=useSelector((state)=>state.cart)
-  const [counter,setCounter]=useState();
+  let cart = useSelector((state) => state.cart);
+  const [query, setQuery] = useState("");
+  const [searchData, setSearchData] = useState([]);
+  const [counter, setCounter] = useState();
   let roles = auth.roles;
   let isAuthenticated = auth.isAuthenticated;
   let isTokenValid = AuthService.isTokenValid(auth.token);
 
   let isInstructorPresent = AuthService.isInstructorPresent(roles);
- 
 
   useEffect(() => {
-    let num=cart.courses.length;
+    let num = cart.courses.length;
     setCounter(num);
   }, [cart]);
+
+  function searchHandler(e) {
+    console.log(query);
+    search(query)
+      .then((res) => {
+        setSearchData(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }
+
+  function changeHandler(e) {
+    let val = e.target.value;
+    setQuery(val);
+    search(val)
+      .then((res) => {
+        setSearchData(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }
+
+  function clearSearch() {
+    setQuery("");
+    setSearchData([]);
+  }
 
   return (
     <header className=" sticky-top">
@@ -32,18 +66,63 @@ function Navbar({ auth }) {
             E-Learning
           </a>
 
-          <form className="d-none d-md-flex mx-lg-5">
-            <input
-              className="form-control me-2 rounded-3 "
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-              style={{ width: "310px" }}
-            />
-            <button className="btn btn-outline-success" type="submit">
-              Search
-            </button>
-          </form>
+          <div className="">
+            <div
+              className="flex border items-center bg-white   "
+              style={{ borderRadius: "5px" }}
+            >
+              <input
+                type="text"
+                className=" my-1  p-2 ml-2  w-full focus:outline-none"
+                placeholder="Search Products.."
+                value={query}
+                onChange={changeHandler}
+                style={{
+                  width: "310px",
+                  outline: "none",
+                  border: "none",
+                  height: "30px",
+                }}
+              />
+              {query || searchData.length > 0 ? (
+                <RxCross2
+                  onClick={clearSearch}
+                  className="pr-2 "
+                  style={{ cursor: "pointer" }}
+                  size={15}
+                />
+              ) : (
+                ""
+              )}
+
+              <AiOutlineSearch
+                size={25}
+                className="cursor-pointer pr-4"
+                onClick={searchHandler}
+                style={{ cursor: "pointer" }}
+              />
+            </div>
+
+            <div
+              className="border bg-white rounded-xl  border-t "
+              style={{
+                position: "absolute",
+                zIndex: 10,
+                width: "351px",
+                borderRadius: "10px",
+              }}
+            >
+              {searchData.map((course) => (
+                <Link to={`product?id=${course.brand}`} className="">
+                  {" "}
+                  <div className="p-2 hover:bg-gray-50  " key={course.id}>
+                    {" "}
+                    {course.title} {course.brand}
+                  </div>{" "}
+                </Link>
+              ))}
+            </div>
+          </div>
 
           <button
             className="navbar-toggler"
@@ -67,10 +146,19 @@ function Navbar({ auth }) {
               <li className="nav-item">
                 <Link className="nav-link " aria-current="page" to="/cart ">
                   <Popover placement="bottom" content={<CartPopover />}>
-                  <AiOutlineShoppingCart size={20} />
+                    <AiOutlineShoppingCart size={20} />
                   </Popover>
-                  <span className="text-white circle fw-bolder" style={{backgroundColor:"rgb(3, 207, 252)",position:"relative" ,bottom:"11px",right:"12px"}}>{counter}</span>
-                 
+                  <span
+                    className="text-white circle fw-bolder"
+                    style={{
+                      backgroundColor: "rgb(3, 207, 252)",
+                      position: "relative",
+                      bottom: "11px",
+                      right: "12px",
+                    }}
+                  >
+                    {counter}
+                  </span>
                 </Link>
               </li>
 
@@ -114,7 +202,7 @@ function Navbar({ auth }) {
                   <li className="nav-item">
                     <Link className="nav-link " to="/profile">
                       <Popover placement="bottom" content={<Profile />}>
-                      <CgProfile size={25} />
+                        <CgProfile size={25} />
                       </Popover>
                     </Link>
                   </li>
