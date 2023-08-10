@@ -52,7 +52,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/course/:id" element={<CourseDetail />} />
-        <Route path="/search/courses" element={<Search />} />
+        <Route path="/search/:q" element={<Search />} />
         
         <Route path="/" element={<SimpleRoutes auth={auth} />}  >
 

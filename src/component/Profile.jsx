@@ -3,6 +3,7 @@ import initialImage from "../images/image.jpg";
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutSuccess } from '../redux/action/authActions';
+import { imageToUrl } from '../service/CourseService';
 
 
 
@@ -11,6 +12,7 @@ function Profile() {
   const roles=useSelector((state)=>state.auth.user.roles)
   const dispatch=useDispatch();
   const user=useSelector((state)=>state.auth.user);
+  
 
   function checkInstructorRole(roles){
     for (const role of roles) {
@@ -23,10 +25,10 @@ function Profile() {
     
   const navigate=useNavigate();  
   return (
-    <div>
+    <div >
  <div className="card" style={{width: "18rem"}}>
   <ul className="list-group list-group-flush">
-  <Link to="/auth/user-profile" style={{textDecoration:"none"}} >  <li className="list-group-item pb-5"><img src={initialImage} style={{width:"250px",borderRadius:"400px"}} /> {user.firstName}<p style={{fontSize:"10px"}}> {user.email}</p></li> </Link>
+  <Link to="/auth/user-profile" style={{textDecoration:"none"}} >  <li className="list-group-item pb-5"><img src={user.profile?URL.createObjectURL(imageToUrl(user.profile)):initialImage} style={{width:"100px",height:"100px",borderRadius:"100%"}} /> {user.firstName}<p style={{fontSize:"10px"}}> {user.email}</p></li> </Link>
    <Link to="" style={{textDecoration:"none"}} > <li className="list-group-item">My Course</li> </Link>
    <Link to="/auth/purchase-history"  style={{textDecoration:"none"}}> <li className="list-group-item">Purchased History</li> </Link>
    <Link to="/cart" style={{textDecoration:"none"}}> <li className="list-group-item">My Cart</li> </Link>

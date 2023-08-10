@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import AuthService from "../service/AuthService";
 import "./navbar.css";
@@ -13,6 +13,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { search } from "../service/CourseService";
 
 function Navbar({ auth }) {
+  const navigate=useNavigate();
   let cart = useSelector((state) => state.cart);
   const [query, setQuery] = useState("");
   const [searchData, setSearchData] = useState([]);
@@ -30,14 +31,8 @@ function Navbar({ auth }) {
 
   function searchHandler(e) {
     console.log(query);
-    search(query)
-      .then((res) => {
-        setSearchData(res.data);
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    navigate(`/search/${query}`)
+    setQuery("")
   }
 
   function changeHandler(e) {
@@ -46,7 +41,6 @@ function Navbar({ auth }) {
     search(val)
       .then((res) => {
         setSearchData(res.data);
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err.message);
@@ -113,11 +107,11 @@ function Navbar({ auth }) {
               }}
             >
               {searchData.map((course) => (
-                <Link to={`product?id=${course.brand}`} className="">
+                <Link to={`search/${course.title}`} onClick={()=>{}} className="">
                   {" "}
-                  <div className="p-2 hover:bg-gray-50  " key={course.id}>
+                  <div className="p-2 hover:bg-gray-50  " key={course.courseId}>
                     {" "}
-                    {course.title} {course.brand}
+                    {course.title} {course.subtitle}
                   </div>{" "}
                 </Link>
               ))}
@@ -217,8 +211,8 @@ function Navbar({ auth }) {
                   </li>
 
                   <li className="nav-item">
-                    <Link className="nav-link " to="/profile">
-                      <Popover placement="bottom" content={<Profile />}>
+                    <Link className="nav-link " to="/auth/user-profile">
+                      <Popover placement="bottom" content={<Profile />} >
                         <CgProfile size={25} />
                       </Popover>
                     </Link>

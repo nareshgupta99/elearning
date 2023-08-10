@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./hero.css";
 import { Link } from "react-router-dom";
 import { Popover } from "antd";
-import { getAllPublicCourse } from "../service/CourseService";
+import { getAllPublicCourse, imageToUrl } from "../service/CourseService";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../redux/action/cartActions";
 
@@ -16,18 +16,8 @@ function Hero() {
       .then((res) => {
         let data = res.data;
         data.map((d) => {
-          //decoding a String of data which has been encoded by btoa() or decoding  base64String
-          const byteCharacters = atob(d.imageBytes);
-          //charCodeAt() effectively converts the character to its corresponding byte number.
-          const byteNumbers = new Array(byteCharacters.length);
-          for (let i = 0; i < byteCharacters.length; i++) {
-            byteNumbers[i] = byteCharacters.charCodeAt(i);
-          }
-          const byteArray = new Uint8Array(byteNumbers);
-          let image = new Blob([byteArray], { type: "image/jpeg" });
-          // creating a image url
-          let imageUrl = URL.createObjectURL(image);
-          d.imageBytes = imageUrl;
+       let image= imageToUrl(d.imageBytes);
+          d.image =  URL.createObjectURL(image);;
         });
         setCourses(data);
 
@@ -38,7 +28,7 @@ function Hero() {
   }, []);
 
   useEffect(()=>{
-    // console.log(cart.courses.some(c=>c.courseId===course.courseId);
+    
 
   },[cart])
 
@@ -87,7 +77,7 @@ function Hero() {
               
             >
               <Link to={`course/${course.courseId}`}>
-                <img src={course.imageBytes} className="card-img-top" alt="..." />
+                <img src={course.image} className="card-img-top" alt="..." />
               </Link>
 
               <div className="card-body d-flex flex-column">

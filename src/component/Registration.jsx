@@ -25,13 +25,13 @@ function Registration({ formik }) {
                 className="form-control"
                 id="name"
                 name="firstName"
-                value={values.name}
+                value={values.firstName}
                 required
                 onBlur={handleBlur}
                 onChange={handleChange}
               />
-              {errors.name && touched.name ? (
-                <p className="form-error text-danger">{errors.name}</p>
+              {errors.firstName && touched.firstName ? (
+                <p className="form-error text-danger">{errors.firstName}</p>
               ) : (
                 ""
               )}

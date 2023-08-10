@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { requestPasswordResetService } from "../service/UserService";
 import { useFormik } from "formik";
 import { emailSchema } from "../schemas";
+import {toast } from 'react-toastify'
 
 function ForgotPassword() {
   const navigate = useNavigate();
@@ -14,13 +15,20 @@ function ForgotPassword() {
     useFormik({
       initialValues: initialValues,
       validationSchema: emailSchema,
-      onSubmit: (values) => {
+      onSubmit: (values,action) => {
         const formData = new FormData();
         formData.append("email", values.email);
 
         requestPasswordResetService(formData)
           .then((res) => {
-            console.log(res.data);
+            let message=res.data.message;
+            toast.success(` ${message}   !!`, {
+              position: toast.POSITION.TOP_RIGHT,
+            });
+
+            action.resetForm();
+            
+  
           })
           .catch((err) => {
             console.log(err.message);

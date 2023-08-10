@@ -39,3 +39,9 @@ export const updateUserSchema=yup.object({
 export const publishCourseSchema=yup.object({
     
 })
+
+export const changePasswordSchema=yup.object({
+    oldPassword:yup.string().min(9).required("Please enter your password"),
+    newPassword:yup.string().min(9).required("Please enter your password"),
+    confirmPassword:yup.string().required("Please enter your password").oneOf([yup.ref('newPassword'),null,"password and confirm password must be same"])
+})

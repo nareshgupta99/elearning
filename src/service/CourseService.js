@@ -45,3 +45,16 @@ export function search(query){
 export function getCourseDetailById(id){
     return publicAxios.get(`course/detail/${id}`)
 }
+
+export function imageToUrl(imageBytes){
+    const byteCharacters = atob(imageBytes);
+    //charCodeAt() effectively converts the character to its corresponding byte number.
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    let image = new Blob([byteArray], { type: "image/jpeg" });
+    // let imageUrl = URL.createObjectURL(image);
+    return image;
+}

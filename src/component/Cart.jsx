@@ -9,6 +9,7 @@ import {
 } from "../service/paymentService";
 import { privateAxios } from "../service/helper";
 import { Link, useNavigate } from "react-router-dom";
+import { imageToUrl } from "../service/CourseService";
 function Cart() {
   let courses = useSelector((state) => state.cart.courses);
   let cart = useSelector((state) => state.cart);
@@ -126,7 +127,7 @@ function Cart() {
           {cartItems.map((item, index) => (
             <div key={index}>
               <div className="d-flex gap-5 ms-2 ">
-                <img src={item.imageBytes} width="120" height="68" />
+                <img src={ URL.createObjectURL(imageToUrl(item.imageBytes))} width="120" height="68" />
                 <div className="heading">
                   <p style={{ fontWeight: " 700" }}>
                     JSP, Servlets and JDBC for Beginners: Build a Database App

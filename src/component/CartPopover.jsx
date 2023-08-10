@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { imageToUrl } from "../service/CourseService";
 
 function CartPopover() {
   let cart = useSelector((state) => state.cart);
@@ -13,7 +14,7 @@ function CartPopover() {
             <Link to="/cart" style={{ textDecoration: "none" }}>
               {" "}
               <li className="list-group-item pb-5">
-                <img src={""} style={{ width: "25px", borderRadius: "4px" }} />{" "}
+                <img src={ URL.createObjectURL(imageToUrl(c.imageBytes))} style={{ width: "80px", borderRadius: "4px" }} />{" "}
                {c.title}<p style={{ fontSize: "10px" }}> naresh@example.com </p>
               </li>{" "}
             </Link>
