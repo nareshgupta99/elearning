@@ -9,7 +9,7 @@ import {
 } from "../service/paymentService";
 import { privateAxios } from "../service/helper";
 import { Link, useNavigate } from "react-router-dom";
-import { imageToUrl } from "../service/CourseService";
+import { imageToUrl, savePurchasedCourse } from "../service/CourseService";
 function Cart() {
   let courses = useSelector((state) => state.cart.courses);
   let cart = useSelector((state) => state.cart);
@@ -22,7 +22,19 @@ function Cart() {
   });
 
   useEffect(() => {
-    console.log(cartDetail())
+    let data = [];
+    cartItems.forEach((course) => data.push(course.courseId));
+
+    savePurchasedCourse(data)
+      .then(({ data }) => {
+        console.log(data);
+        // dispatch(emptyCart());
+        // navigate("/home");
+      })
+      .catch(({ message }) => {
+        console.log("something went wrong contact to customer care");
+        console.log(message);
+      });
     let disSum = 0;
     let origSum = 0;
     setCartItems(courses);
@@ -65,21 +77,19 @@ function Cart() {
       order_id: data.id,
       handler: function (response) {
         const formData = new FormData();
-        let courses=cartDetail()
-        let data={
-          paymentId:response.razorpay_payment_id,
-          orderId:response.razorpay_order_id,
-          signature:response.razorpay_signature,
-          coursesId:courses
-        }
-       paymentVerification(data)
-        .then(({ data }) => {
-          if (data) {
-              dispatch(emptyCart());
-              navigate("/home");
-            } else {
+        let courses = cartDetail();
+        let data = {
+          paymentId: response.razorpay_payment_id,
+          orderId: response.razorpay_order_id,
+          signature: response.razorpay_signature,
+          courses:courses
+        };
+        paymentVerification(data)
+          .then(({ data }) => {
+            if (data) {
+              let coursesId = [];
+              cartItems.forEach((course) => coursesId.push(course.courseId));
             }
-            alert("payment success");
           })
           .catch((err) => {
             console.log(err.message);
@@ -111,9 +121,9 @@ function Cart() {
     razorpay.open();
   }
 
-  function cartDetail(){
-    let courses=[];
-    cart.courses.forEach((c)=>courses.push(c.courseId));
+  function cartDetail() {
+    let courses = [];
+    cart.courses.forEach((c) => courses.push(c.courseId));
     return courses;
   }
   return (
@@ -127,7 +137,11 @@ function Cart() {
           {cartItems.map((item, index) => (
             <div key={index}>
               <div className="d-flex gap-5 ms-2 ">
-                <img src={ URL.createObjectURL(imageToUrl(item.imageBytes))} width="120" height="68" />
+                <img
+                  src={URL.createObjectURL(imageToUrl(item.imageBytes))}
+                  width="120"
+                  height="68"
+                />
                 <div className="heading">
                   <p style={{ fontWeight: " 700" }}>
                     JSP, Servlets and JDBC for Beginners: Build a Database App

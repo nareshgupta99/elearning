@@ -58,3 +58,7 @@ export function imageToUrl(imageBytes){
     // let imageUrl = URL.createObjectURL(image);
     return image;
 }
+
+export function savePurchasedCourse(data){
+ return privateAxios.post("/save/purchased-course",data)   
+}

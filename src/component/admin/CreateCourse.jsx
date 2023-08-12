@@ -2,25 +2,58 @@ import React from "react";
 import "../admin/create-course.css";
 import initialImage from "../../images/image.jpg";
 import { useState } from "react";
-import { addCourse} from "../../service/CourseService";
+import { addCourse } from "../../service/CourseService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
-
-
-
+import { useFormik } from "formik";
+import { addCourseSchema } from "../../schemas";
 function CreateCourse() {
-
-  const navigate=useNavigate();
-  const [image,setImage]=useState(initialImage)
+  const navigate = useNavigate();
+  const [image, setImage] = useState(initialImage);
   const [course, setCourse] = useState({
+    image: initialImage,
+  });
+
+  let initial = {
     title: "",
     about: "",
     language: "",
     level: "",
     category: "",
-    image: initialImage,
-    subTitle:""
-  });
+    subTitle: "",
+  };
+
+  const { errors, handleChange, handleBlur, values, handleSubmit, touched } =
+    useFormik({
+      initialValues: initial,
+      validationSchema: addCourseSchema,
+      onSubmit: (values) => {
+        console.log(values);
+        const formData = new FormData();
+        formData.append("title", values.title);
+        formData.append("about", values.about);
+        formData.append("language", values.language);
+        formData.append("level", values.level);
+        formData.append("category", values.category);
+        formData.append("image", course.image);
+        formData.append("subTitle", values.subTitle);
+
+        addCourse(formData)
+          .then((res) => {
+            let data = res.data;
+            toast.success("suucess", {
+              position: toast.POSITION.TOP_RIGHT,
+            });
+            navigate(`/instructor/curriculum/${data.id}`);
+          })
+          .catch((err) => {
+            console.log(err);
+            toast.error(err.message, {
+              position: toast.POSITION.TOP_RIGHT,
+            });
+          });
+      },
+    });
   const [languages, setLanguages] = useState([
     "English (US)",
     "English (UK)",
@@ -34,45 +67,13 @@ function CreateCourse() {
     "IT & Software",
     "Design",
   ]);
-  function handleData(e) {
-    let name = e.target.name;
-    let value = e.target.value;
-    setCourse({ ...course, [name]: value });
-  }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("title", course.title);
-    formData.append("about", course.about);
-    formData.append("language", course.language);
-    formData.append("level", course.level);
-    formData.append("category", course.category);
-    formData.append("image", course.image);
-    formData.append("subTitle",course.subTitle);
-
-    addCourse(formData)
-      .then((res) => {
-        let data = res.data;
-        toast.success("suucess", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-        navigate(`/instructor/curriculum/${data.id}`)
-      })
-      .catch((err) => {
-        console.log(err)
-        toast.error(err.message, {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-      });
-
-  }
   function handleImage(e) {
-
-    setImage(URL.createObjectURL(e.target.files[0]) )
+    setImage(URL.createObjectURL(e.target.files[0]));
     setCourse({
       ...course,
-      [e.target.name]:e.target.files[0] });
+      [e.target.name]: e.target.files[0],
+    });
   }
   return (
     <div className="  course-container d-flex flex-column justify-content-center ">
@@ -99,15 +100,20 @@ function CreateCourse() {
                 type="text"
                 placeholder="insert your course title "
                 name="title"
-                onChange={handleData}
-                value={course.title}
+                onChange={handleChange}
+                value={values.title}
                 className="input"
-                required
+                onBlur={handleBlur}
               />
               <p className="pe-2" style={{ color: "grey" }} id="title-range">
                 60
               </p>
             </div>
+            {errors.title && touched.title ? (
+              <p className="form-error text-danger">{errors.title}</p>
+            ) : (
+              ""
+            )}
             <p className="info">
               Your title should be a mix of attention-grabbing, informative, and
               optimized for search
@@ -121,15 +127,20 @@ function CreateCourse() {
                 type="text"
                 placeholder="insert your Subtitle "
                 name="subTitle"
-                onChange={handleData}
-                value={course.subTitle}
+                onChange={handleChange}
+                value={values.subTitle}
                 className="input"
-                required
+                onBlur={handleBlur}
               />
               <p className="pe-2" style={{ color: "grey" }} id="title-range">
                 40
               </p>
             </div>
+            {errors.subTitle && touched.subTitle ? (
+              <p className="form-error text-danger">{errors.subTitle}</p>
+            ) : (
+              ""
+            )}
           </div>
 
           <div className="text-editor">
@@ -141,11 +152,17 @@ function CreateCourse() {
                     id="textarea1"
                     placeholder="insert your course description."
                     name="about"
-                    value={course.about}
-                    onChange={handleData}
+                    value={values.about}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                   ></textarea>
                 </div>
               </div>
+              {errors.about && touched.about ? (
+                <p className="form-error text-danger">{errors.about}</p>
+              ) : (
+                ""
+              )}
             </section>
           </div>
           <div className="d-flex gap-4 mt-5">
@@ -153,8 +170,9 @@ function CreateCourse() {
             <select
               name="language"
               className="form-select form-select-lg mb-3 w-25 border-black border-1"
-              onChange={handleData}
-              value={course.language}
+              onChange={handleChange}
+              value={values.language}
+              onBlur={handleBlur}
               aria-label=".form-select-lg example"
             >
               <option defaultChecked>---Select Language---</option>
@@ -166,7 +184,8 @@ function CreateCourse() {
             </select>{" "}
             <select
               name="level"
-              onChange={handleData}
+              onChange={handleChange}
+              onBlur={handleBlur}
               className="form-select form-select-lg mb-3 w-25 border-black border-1"
               aria-label=".form-select-lg example"
             >
@@ -178,7 +197,8 @@ function CreateCourse() {
             </select>{" "}
             <select
               name="category"
-              onChange={handleData}
+              onChange={handleChange}
+              onBlur={handleBlur}
               className="form-select form-select-lg mb-3 w-25 border-black border-1"
               aria-label=".form-select-lg example"
             >
@@ -190,7 +210,23 @@ function CreateCourse() {
               ))}
             </select>
           </div>
-
+          <div className="d-flex gap-5 error">
+            {errors.language && touched.language ? (
+              <p className="form-error text-danger">{errors.language}</p>
+            ) : (
+              ""
+            )}
+            {errors.category && touched.category ? (
+              <p className="form-error text-danger">{errors.category}</p>
+            ) : (
+              ""
+            )}
+            {errors.level && touched.level ? (
+              <p className="form-error text-danger">{errors.level}</p>
+            ) : (
+              ""
+            )}
+          </div>
           <div className="mt-4">
             <h4 className="fs-5 fw-bold">Course image</h4>
             <div className="d-flex">
@@ -224,7 +260,11 @@ function CreateCourse() {
             </div>
           </div>
 
-          <input type="submit" value="Create Course" className="mt-2 btn btn-success" />
+          <input
+            type="submit"
+            value="Create Course"
+            className="mt-2 btn btn-success"
+          />
         </form>
       </div>
     </div>

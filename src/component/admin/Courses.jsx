@@ -14,6 +14,7 @@ export default function Courses() {
     getAllInstructorCourses()
       .then((res) => {
         let data = res.data;
+        console.log(data)
         data.map((d) => {
           //decoding a String of data which has been encoded by atob() or decoding  base64String
           const byteCharacters = atob(d.imageBytes);
@@ -30,7 +31,7 @@ export default function Courses() {
         setData(data);
         console.log(data)
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err.message));
   }, []);
 
 

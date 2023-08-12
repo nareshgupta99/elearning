@@ -23,11 +23,10 @@ export const resetPasswordSchema=yup.object({
 export const addCourseSchema=yup.object({
     title:yup.string().min(8).max(60).required("title can not be empty"),
     about:yup.string().min(30).max(150).required("about can not be empty"),
-    language:yup.string().required("language can not be empty"),
-    level:yup.string().required("level can not be empty"),
-    category:yup.string().required("category can not be empty"),
-    subTitle:yup.string().min(8).max(50).required("category can not be empty"),
-    // image:yup.ObjectSchema().required("Course image can not be empty"), //this line create error
+    language:yup.string().min(4).required("language can not be empty"),
+    level:yup.string().min(3).required("level can not be empty"),
+    category:yup.string().min(3).required("category can not be empty"),
+    subTitle:yup.string().min(8).max(40).required("subTitle can not be empty")
 })
 
 export const updateUserSchema=yup.object({

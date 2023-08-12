@@ -8,38 +8,32 @@ import { addToCart, removeFromCart } from "../redux/action/cartActions";
 
 function Hero() {
   const [courses, setCourses] = useState([]);
-  const dispatch=useDispatch();
-  const cart=useSelector((state)=>state.cart)
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
   useEffect(() => {
-    
- getAllPublicCourse()
+    getAllPublicCourse()
       .then((res) => {
         let data = res.data;
+        console.log(data);
         data.map((d) => {
-       let image= imageToUrl(d.imageBytes);
-          d.image =  URL.createObjectURL(image);;
+          let image = imageToUrl(d.imageBytes);
+          d.image = URL.createObjectURL(image);
         });
         setCourses(data);
-
       })
       .catch((err) => {
         console.log(err.message);
       });
   }, []);
 
-  useEffect(()=>{
-    
+  useEffect(() => {}, [cart]);
 
-  },[cart])
-
-  
-
-  const content = (course)=>(
+  const content = (course) => (
     <div className="card m-2 " id="" style={{ width: "20rem" }}>
       <div className="card-body">
         <h5 className="card-title">
-        {course.title}
-         {/*  [NEW] Spring Boot 3, Spring 6 & Hibernate for Beginners */}
+          {course.title}
+          {/*  [NEW] Spring Boot 3, Spring 6 & Hibernate for Beginners */}
         </h5>
         <span className="time fs-11 txt-grey">{course.duration}</span>
         <span className="level fs-11 txt-grey">{course.level}</span>
@@ -54,27 +48,39 @@ function Hero() {
           line of code to help you learn! LEARN key Spring Boot 3 features:
           Core, Annotations, Java Config, Spring MVC, Hibernate/JPA and Maven
         </p>
-        
-        {cart.courses.some(c=>c.courseId==course.courseId)?
-        <button className="card-button btn " style={{backgroundColor:"red"}}  onClick={()=>{dispatch(removeFromCart(course.courseId))}}>Remove from cart</button>
-        :
-        <button className="card-button btn" onClick={()=>{dispatch(addToCart(course))}}>Add to cart</button>
-      }
+
+        {cart.courses.some((c) => c.courseId == course.courseId) ? (
+          <button
+            className="card-button btn "
+            style={{ backgroundColor: "red" }}
+            onClick={() => {
+              dispatch(removeFromCart(course.courseId));
+            }}
+          >
+            Remove from cart
+          </button>
+        ) : (
+          <button
+            className="card-button btn"
+            onClick={() => {
+              dispatch(addToCart(course));
+            }}
+          >
+            Add to cart
+          </button>
+        )}
       </div>
     </div>
   );
 
-
   return (
     <div>
       <div className="d-flex flex-wrap ">
-        
         {courses.map((course, index) => (
           <Popover content={content(course)} placement="right" key={index}>
             <div
               className="card m-2 course-popover "
               style={{ width: "18rem" }}
-              
             >
               <Link to={`course/${course.courseId}`}>
                 <img src={course.image} className="card-img-top" alt="..." />
@@ -86,7 +92,7 @@ function Hero() {
                   className="fw-bold"
                   id="card-heading"
                 >
-                {course.courseSubtitle}
+                  {course.courseSubtitle}
                 </span>
                 <span id="instructor-name" className="txt-grey fs-11">
                   {" "}
@@ -101,7 +107,6 @@ function Hero() {
               </div>
             </div>
           </Popover>
-          
         ))}
       </div>
     </div>
