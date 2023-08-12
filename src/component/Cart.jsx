@@ -24,17 +24,6 @@ function Cart() {
   useEffect(() => {
     let data = [];
     cartItems.forEach((course) => data.push(course.courseId));
-
-    savePurchasedCourse(data)
-      .then(({ data }) => {
-        console.log(data);
-        // dispatch(emptyCart());
-        // navigate("/home");
-      })
-      .catch(({ message }) => {
-        console.log("something went wrong contact to customer care");
-        console.log(message);
-      });
     let disSum = 0;
     let origSum = 0;
     setCartItems(courses);
@@ -77,12 +66,14 @@ function Cart() {
       order_id: data.id,
       handler: function (response) {
         const formData = new FormData();
-        let courses = cartDetail();
+        let courses= cartDetail();
+        console.log("list of course id")
+        console.log(courses)
         let data = {
           paymentId: response.razorpay_payment_id,
           orderId: response.razorpay_order_id,
           signature: response.razorpay_signature,
-          courses:courses
+          coursesId:courses
         };
         paymentVerification(data)
           .then(({ data }) => {
@@ -122,9 +113,9 @@ function Cart() {
   }
 
   function cartDetail() {
-    let courses = [];
-    cart.courses.forEach((c) => courses.push(c.courseId));
-    return courses;
+    let course = [];
+    cartItems.forEach((c) => course.push(c.courseId));
+    return course;
   }
   return (
     <div>

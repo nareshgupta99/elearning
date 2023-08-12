@@ -39,7 +39,7 @@ export default function Courses() {
   function handleDeleteCourse(event,courseId){
     event.preventDefault();
     deleteCourse(courseId).then((res)=>{
-      toast.success("Deleted ", {
+      toast.success(res.data, {
         position: toast.POSITION.TOP_RIGHT
       });
     
@@ -47,7 +47,10 @@ export default function Courses() {
       setData(updateCourse)
 
     }).catch((err)=>{
-      console.log(err.message)
+      let message=err.response.data.message
+      toast.error(message, {
+        position: toast.POSITION.TOP_RIGHT
+      });
     })
   }
 
