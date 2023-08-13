@@ -9,23 +9,32 @@ function Curriculum() {
   const [sectionToggler, setSectionToggler] = useState(null);
   const [fileToggler, setFileToggler] = useState(false);
   const [sectionData, setSectionData] = useState({
-    sectionName: "",
+    sectionName: null,
+    objective: null,
   });
   const [lectureData, setLectureData] = useState({
     name: "",
     video: "",
   });
-  const [sections, setSections] = useState([
-  ]);
+  const [sections, setSections] = useState([]);
   const [lecture, setLecture] = useState([]);
   const id = useParams("id");
-  const navigate=useNavigate()
-  
+  const navigate = useNavigate();
+
+  function handleSectionChange(e) {
+    let { name, value } = e.target;
+    setSectionData((prevSectionData) => ({
+      ...prevSectionData,
+      [name]: value,
+    }));
+    console.log(sectionData);
+  }
 
   useEffect(() => {
     getInstructorCourse(id)
       .then((res) => {
         setSections(res.data.sections);
+        console.log(res.data.sections);
       })
       .catch((err) => {
         console.log(err.message);
@@ -33,7 +42,6 @@ function Curriculum() {
   }, []);
 
   const sectionButton = () => {
-
     let object = {
       title: "",
       objective: "",
@@ -41,35 +49,63 @@ function Curriculum() {
     setSectionToggler(object);
   };
 
-  const handleDeleteLecture = (lectureId,sectionIndex,lectureIndex) => {
-    deleteLecture(lectureId).then((res)=>{
-      const updatedSection = { ...sections[sectionIndex] };
-      // Filter out the lecture with the specified ID
-    updatedSection.lecture = updatedSection.lecture.filter(
-      (lecture) => lecture.lectureId !== lectureId
-    );
+  const handleDeleteLecture = (lectureId, sectionIndex, lectureIndex) => {
+    deleteLecture(lectureId)
+      .then((res) => {
+        const updatedSection = { ...sections[sectionIndex] };
+        // Filter out the lecture with the specified ID
+        updatedSection.lecture = updatedSection.lecture.filter(
+          (lecture) => lecture.lectureId !== lectureId
+        );
 
-// Copy the sections array and update the section with the filtered lectures
-const updatedSections = [...sections];
-updatedSections[sectionIndex] = updatedSection;
+        // Copy the sections array and update the section with the filtered lectures
+        const updatedSections = [...sections];
+        updatedSections[sectionIndex] = updatedSection;
 
-// Update the state with the new sections array
-setSections(updatedSections);
-
-
-    }).catch((err)=>{
-      console.log(err.message)
-    })
+        // Update the state with the new sections array
+        setSections(updatedSections);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   };
 
+  const [errors, setErrors] = useState({
+    sectionName: null,
+    objective: null,
+    name:null,
+    file:null
+
+  });
+
   function handleAddSection() {
+    if (
+      sectionData.sectionName === "" ||
+      sectionData.sectionName === null ||
+      sectionData.sectionName.trim() < 4
+    ) {
+      setErrors({ ...errors, sectionName: "Title Must be 4 charater long" });
+      return;
+    }
+    if (
+      sectionData.objective === "" ||
+      sectionData.objective === null ||
+      sectionData.objective.trim() < 15
+    ) {
+      setErrors({ ...errors, objective: "Objective Must be 15 charater long" });
+      return;
+    }
+
     SectioService.saveSection(sectionData, id)
       .then((resp) => {
-       let sec= resp.data
-       sec.lecture=[]
-       
+        let sec = resp.data;
+        sec.lecture = [];
+
         setSections([...sections, resp.data]);
         setSectionToggler(null);
+        setErrors({ [errors.objective]: null });
+        setErrors({ [errors.sectionName]: null });
+        setSectionData({...sectionData,sectionName:null,objective:null})
       })
       .catch((error) => {
         console.log(error.message);
@@ -81,32 +117,36 @@ setSections(updatedSections);
       .then((res) => {
         const list = sections.filter((section) => section.id !== id);
         setSections(list);
-
       })
       .catch((err) => {
         console.log(err.message);
       });
   }
 
-  const handleNext=(e)=>{
-    
-    navigate(`/instructor/course/review/${id.id}`)
-  }
+  const handleNext = (e) => {
+    navigate(`/instructor/course/review/${id.id}`);
+  };
 
-  function handleSubmit(event, id,index) {
+  function handleSubmit(event, id, index) {
     event.preventDefault();
+    if(lectureData.name===null || lectureData.name==='' || lectureData.name.trim()<4){
+      setErrors({...errors,name:"Lecture name must be 4 character"})
+      return
+    }
+    if(lectureData.video===null || lectureData.video===''){
+      setErrors({...errors,name:"Video is Required"})
+      return
+    }
     const form = new FormData();
     form.append("name", lectureData.name);
     form.append("file", lectureData.video);
 
-
-    
-
     saveLecture(id, form)
       .then((res) => {
-        const updatedSactions=[...sections];
-        setSections([...sections],sections[index].lecture.push(res.data))
+        const updatedSactions = [...sections];
+        setSections([...sections], sections[index].lecture.push(res.data));
         setFileToggler(false);
+          setLectureData({...lectureData,name:null,video:null})
       })
       .catch((err) => {
         console.log(err.message);
@@ -176,10 +216,13 @@ setSections(updatedSections);
                     placeholder="Enter a Title"
                     id="title"
                     name="sectionName"
-                    onChange={(e) => {
-                      setSectionData({ [e.target.name]: e.target.value });
-                    }}
+                    onChange={handleSectionChange}
                   />
+                  {errors.sectionName ? (
+                    <p className="text-danger">{errors.sectionName}</p>
+                  ) : (
+                    ""
+                  )}
                 </div>{" "}
                 <div className="m-2">
                   {" "}
@@ -190,8 +233,15 @@ setSections(updatedSections);
                     placeholder="Enter a Learning Objective"
                     required
                     id="section-objective"
-                    name="section-objective"
+                    name="objective"
+                    value={sectionData.objective}
+                    onChange={handleSectionChange}
                   />
+                  {errors.objective ? (
+                    <p className="text-danger">{errors.objective}</p>
+                  ) : (
+                    ""
+                  )}
                 </div>{" "}
               </div>
             </div>
@@ -214,13 +264,7 @@ setSections(updatedSections);
                 name="title"
                 readOnly
               />
-              <input
-                style={{ marginLeft: "21%" }}
-                type="button"
-                className="mt-1 mb-2 edit"
-                value="edit"
-                id=""
-              />
+              
               <input
                 style={{ marginLeft: "1em" }}
                 type="button"
@@ -245,7 +289,7 @@ setSections(updatedSections);
                       aria-controls={`flush-collapse-${index}`}
                       id={index}
                     >
-                     {" "}
+                      {" "}
                     </button>{" "}
                   </h2>
                   <div
@@ -271,7 +315,9 @@ setSections(updatedSections);
                           <form
                             method="post"
                             encType="multipart/form-data"
-                            onSubmit={(event) => handleSubmit(event, s.id,index)}
+                            onSubmit={(event) =>
+                              handleSubmit(event, s.id, index)
+                            }
                           >
                             <div className="  border border-dark p-2 d-flex flex-column gap-2  w-75">
                               <div className="w-50 d-flex flex-column gap-2 p-2">
@@ -289,6 +335,7 @@ setSections(updatedSections);
                                     });
                                   }}
                                 />
+                                {errors.file?<p className="text-danger">{errors.file}</p>:""}
                                 <input
                                   class="form-control formFile w-100 "
                                   type="text"
@@ -302,6 +349,7 @@ setSections(updatedSections);
                                     })
                                   }
                                 />
+                                {errors.name?<p className="text-danger">{errors.name}</p>:""}
                               </div>
                               <div className="">
                                 <input
@@ -325,18 +373,35 @@ setSections(updatedSections);
                           }}
                         />
                       )}
-                      {sections[index].lecture!=null?
+                      {sections[index].lecture != null ? (
                         <div className="mt-2">
-                      {sections[index].lecture.map((lect,lectureIndex)=>(
-                        <div  className=" border-success d-flex " key={lectureIndex}>
-                          <p>{lect.name}</p>
-                          <button className="px-3 position-absolute" style={{right:"15em"}} onClick={()=>handleDeleteLecture(sections[index].lecture[lectureIndex].lectureId,index,lectureIndex)}> Delete</button>
+                          {sections[index].lecture.map((lect, lectureIndex) => (
+                            <div
+                              className=" border-success d-flex "
+                              key={lectureIndex}
+                            >
+                              <p>{lect.name}</p>
+                              <button
+                                className="px-3 position-absolute"
+                                style={{ right: "15em" }}
+                                onClick={() =>
+                                  handleDeleteLecture(
+                                    sections[index].lecture[lectureIndex]
+                                      .lectureId,
+                                    index,
+                                    lectureIndex
+                                  )
+                                }
+                              >
+                                {" "}
+                                Delete
+                              </button>
+                            </div>
+                          ))}
                         </div>
-                          ))
-                        }
-                        </div>:""
-                        }
-                      
+                      ) : (
+                        ""
+                      )}
                     </div>
                   </div>
                 </div>
@@ -345,7 +410,13 @@ setSections(updatedSections);
           ))}
 
           <div>
-            <input type="button" value="next" className="px-3 mt-4 btn btn-success" onClick={handleNext} style={{position:"relative",top:1,left:"93%"}} />
+            <input
+              type="button"
+              value="next"
+              className="px-3 mt-4 btn btn-success"
+              onClick={handleNext}
+              style={{ position: "relative", top: 1, left: "93%" }}
+            />
           </div>
         </div>
       </div>
