@@ -74,7 +74,8 @@ function Curriculum() {
     sectionName: null,
     objective: null,
     name:null,
-    file:null
+    file:null,
+    next:null
 
   });
 
@@ -124,6 +125,10 @@ function Curriculum() {
   }
 
   const handleNext = (e) => {
+    if(sections.length===0  ){
+      setErrors({...errors,next:"courses has no Content to publish"})
+      return
+    }
     navigate(`/instructor/course/review/${id.id}`);
   };
 
@@ -408,7 +413,6 @@ function Curriculum() {
               </div>
             </div>
           ))}
-
           <div>
             <input
               type="button"
@@ -417,6 +421,7 @@ function Curriculum() {
               onClick={handleNext}
               style={{ position: "relative", top: 1, left: "93%" }}
             />
+            {errors.next?<p className="text-danger">{errors.next}</p>:""}
           </div>
         </div>
       </div>

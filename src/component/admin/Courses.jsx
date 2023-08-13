@@ -70,8 +70,11 @@ export default function Courses() {
            
            <div className="text-center edit-delete-section">
               <Link to={`/instructor/curriculum/${d.courseId}`}>Edit</Link>
+              {!d.publish?<>
               <span> /</span>
               <Link onClick={(event)=>handleDeleteCourse(event,d.courseId)}> Delete</Link>
+              </>
+            :""}
             </div>
               </div>
             

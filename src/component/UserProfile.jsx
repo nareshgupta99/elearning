@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { updateUserDetail } from "../service/UserService";
+import { useNavigate } from "react-router";
+import {toast} from 'react-toastify'
 
 function UserProfile() {
+
+  const navigate=useNavigate()
   const [userDetails, setUserDetails] = useState({
     firstName: "",
     lastName: "",
@@ -29,7 +33,10 @@ function UserProfile() {
     formData.append("phone",userDetails.phone);
 
     updateUserDetail(formData).then((res)=>{
-      console.log(res.data)
+      toast.success("Loggin Success !", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      navigate("/")
     }).catch((err)=>{
       console.log(err.message)
     })

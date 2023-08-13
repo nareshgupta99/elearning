@@ -19,6 +19,8 @@ function Navbar({ auth }) {
   const [searchData, setSearchData] = useState([]);
   const [counter, setCounter] = useState();
   let roles = auth.user.roles;
+  let user=auth.user;
+  console.log(user)
   let isAuthenticated = auth.isAuthenticated;
   let isTokenValid = AuthService.isTokenValid(auth.token);
 

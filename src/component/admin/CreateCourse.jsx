@@ -22,6 +22,7 @@ function CreateCourse() {
     category: "",
     subTitle: "",
   };
+  const [imageError,setImageError]=useState(null)
 
   const { errors, handleChange, handleBlur, values, handleSubmit, touched } =
     useFormik({
@@ -30,6 +31,10 @@ function CreateCourse() {
       onSubmit: (values) => {
         console.log(values);
         const formData = new FormData();
+        if(course.image===''|| course.image===null){
+          setImageError("Course Image is Required")
+          return
+        }
         formData.append("title", values.title);
         formData.append("about", values.about);
         formData.append("language", values.language);
@@ -238,6 +243,7 @@ function CreateCourse() {
                   id="renderImage"
                   alt={""}
                 />
+                {imageError?<p className="text-danger"> {imageError}</p>:""}
               </div>
 
               <div className="p-2">

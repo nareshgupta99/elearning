@@ -12,13 +12,18 @@ function Review() {
     
 
     const [data,setData]=useState({
-        duration:"",
+        duration:null,
         originalPrice:null,
         discountedPrice:null,
-        timeUnit:""
+        timeUnit:null
     })
 
-  useEffect(() => {});
+    const [errors,setErrors]=useState({
+        duration:null,
+        originalPrice:null,
+        discountedPrice:null,
+        timeUnit:null
+    });
 
   function handleData(event) {
    const name= event.target.name;
@@ -28,6 +33,18 @@ function Review() {
 
   function handleSubmit(event){
     event.preventDefault();
+    if(data.duration===null || data.duration<0 || data.timeUnit==='' || data.duration<30 &&  data.timeUnit==='minute' || data.timeUnit===null || data.timeUnit==='select' ){
+      setErrors({...errors,duration:"course duration must be 30 minutes "})
+      return
+    }
+    if(data.originalPrice===null || data.originalPrice==='' || data.originalPrice<0  ){
+      setErrors({...errors,originalPrice:"price must required or price can not be less than 0 "})
+      return
+    }
+    if(data.discountedPrice===null || data.discountedPrice==='' || data.discountedPrice<0  ){
+      setErrors({...errors,discountedPrice:"price must required or price can not be less than 0 "})
+      return
+    }
     const formData=new FormData();
     formData.append("duration",`${data.duration} ${data.timeUnit}`);
     formData.append("originalPrice",data.originalPrice);
@@ -58,15 +75,16 @@ function Review() {
             <div className=" d-flex gap-2">
               <div className=" course-subcontainer align-items-center">
                 <input
-                  type="text"   
+                  type="number"   
                   placeholder="Total course time  "
                   name="duration"
                   value={data.duration}
                   onChange={handleData}
                   className="input"
-                  style={{ height: "27px" }}
+                  style={{ height: "27px" ,width:"200px"}}
                 />
               </div>
+                {errors.duration?<p className="text-danger">{errors.duration}</p>:""}
               <select className="px-1" onChange={handleData} name="timeUnit">
                 <option defaultChecked>select</option>
                 <option >hours</option>
@@ -82,15 +100,16 @@ function Review() {
               <div className=" d-flex gap-2">
                 <div className=" course-subcontainer align-items-center">
                   <input
-                    type="text"
+                    type="number"
                     placeholder="Enter price "
                     name="originalPrice"
                     value={data.originalPrice}
                     onChange={handleData}
                     className="input"
-                    style={{ height: "27px" }}
+                    style={{ height: "27px" ,width:"200px"}}
                   />
                 </div>
+                   {errors.originalPrice?<p className="text-danger">{errors.originalPrice}</p>:""}
               </div>
             </div>
             {/* </section> */}
@@ -104,15 +123,16 @@ function Review() {
               <div className=" d-flex gap-2">
                 <div className=" course-subcontainer align-items-center">
                   <input
-                    type="text"
+                    type="number"
                     placeholder="Enter price "
                     name="discountedPrice"
                     onChange={handleData}
                     value={data.discountedPrice}
                     className="input"
-                    style={{ height: "27px" }}
+                    style={{ height: "27px",width:"200px" }}
                   />
                 </div>
+                   {errors.discountedPrice?<p className="text-danger">{errors.discountedPrice}</p>:""}
               </div>
             </div>
             {/* </section> */}
