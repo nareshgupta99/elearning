@@ -1,15 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { getCourseDetailById } from "../../service/CourseService";
+import { GiCheckMark } from "react-icons/gi";
+import { auto } from "@popperjs/core";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, removeFromCart } from "../../redux/action/cartActions";
 
 function CourseDetail() {
   let { id } = useParams("id");
+  const [course, setCourse] = useState({
+    sectionDto:[]
+  });
 
-  
+  const dispatch=useDispatch();
+  let cart=useSelector((state)=>state.cart)
+
   useEffect(() => {
     getCourseDetailById(id)
       .then((res) => {
         console.log(res.data);
+        setCourse(res.data);
       })
       .catch((err) => {
         console.log(err.message);
@@ -17,8 +27,22 @@ function CourseDetail() {
   }, []);
 
   return (
-    <>
-      {/* <div>
+    <div className="">
+      <div className="d-flex">
+      <div className="border w-50 m-2 mt-4 ">
+        <h5 className="text-center "> What will You learn</h5>
+
+        {course.sectionDto.map((section)=>(
+
+          <div className="d-flex align-item-center  m-2 ">
+            <GiCheckMark className="me-2"/>
+            <p>{section.objective}</p>
+          </div>
+        ))
+        }
+      </div>
+
+      <div className="w-50">
         <div className="accordion-container px-3 w-100">
           <div
             id="accordianWrapper"
@@ -32,7 +56,7 @@ function CourseDetail() {
               Course Content
             </h4>
 
-            {sections.map((section, index) => (
+            {course.sectionDto.map((section, index) => (
               <div
                 className="accordion accordion-flush"
                 id="accordionFlushExample"
@@ -80,8 +104,35 @@ function CourseDetail() {
             ))}
           </div>
         </div>
-      </div> */}
-    </>
+      </div>
+</div>
+      {/** About course */}
+      <div className="  m-2 mt-4 d-flex  ">
+        <div className=" border w-50">
+
+        <h5 className="text-center "> About the course</h5>
+          <p>{course.about}</p>
+          <p> instructor: {course.creater}</p>
+          <p>Original Price:<del>{course.originalPrice}</del></p>
+          <p>Original Price:{course.discountedPrice}</p>
+        </div>
+
+          <div className="border w-50 m-3 ">
+            <div className="text-center">
+            {!cart.courses.some((c) => c.courseId == course.courseId)?
+           
+            <button className="btn btn-success mt-2  "  onClick={()=>dispatch(addToCart(course))} style={{width:"86%"}}> Add To Cart</button>:
+            <button className="btn btn-danger mt-2  " onClick={()=>dispatch(removeFromCart(course.courseId))} style={{width:"86%"}}> Remove From Cart</button>
+           
+            }
+            <button className="btn btn-success mt-2  d-none"  style={{width:"86%"}}> Start Learning</button>
+            </div>
+             
+          </div>
+        
+      </div>
+
+    </div>
   );
 }
 

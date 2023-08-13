@@ -33,7 +33,7 @@ function Review() {
 
   function handleSubmit(event){
     event.preventDefault();
-    if(data.duration===null || data.duration<0 || data.timeUnit==='' || data.duration<30 &&  data.timeUnit==='minute' || data.timeUnit===null || data.timeUnit==='select' ){
+    if(data.duration===null || data.duration<0 || data.timeUnit==='' || (data.duration<30 &&  data.timeUnit==='minute' ) || data.timeUnit===null || data.timeUnit==='select' ){
       setErrors({...errors,duration:"course duration must be 30 minutes "})
       return
     }
