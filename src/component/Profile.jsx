@@ -36,9 +36,7 @@ function Profile() {
    <Link to="/instructor/overview" style={{textDecoration:"none"}}> <li className="list-group-item">Instructor DashBoard</li> </Link>
   :""}
    <Link to="/auth/change-password" style={{textDecoration:"none"}}> <li className="list-group-item">Change Password</li> </Link>
-  <li onClick={()=>{
-      dispatch(logoutSuccess)
-  }} className="list-group-item " style={{cursor:'pointer'}}>Log Out</li> 
+   <Link to="/logout"> <li  className="list-group-item " style={{cursor:'pointer'}}>Log Out</li> </Link>
   </ul>
 </div>
     </div>

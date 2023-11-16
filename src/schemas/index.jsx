@@ -30,14 +30,11 @@ export const addCourseSchema=yup.object({
 })
 
 export const updateUserSchema=yup.object({
-    firstName:yup.string().min(3).max(10).required(" first name can not be empty"),
+    firstName:yup.string().min(3).max(15).required(" first name can not be empty"),
     lastName:yup.string().min(3).max(10).required("last name can not be empty"),
     phone:yup.number().min(10).max(12).required("phone number  can not be empty")
 })
 
-export const publishCourseSchema=yup.object({
-    
-})
 
 export const changePasswordSchema=yup.object({
     oldPassword:yup.string().min(9).required("Please enter your password"),

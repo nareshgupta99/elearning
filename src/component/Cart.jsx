@@ -47,7 +47,7 @@ function Cart() {
     initiatePayment(formData)
       .then(({ data }) => {
         if (data.status === "created") {
-          checkOut(data, key);
+          checkOut(data, key);  
         }
       })
       .catch((err) => {

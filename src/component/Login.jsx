@@ -24,7 +24,7 @@ function Login() {
       onSubmit: (values, action) => {
         AuthService.login(values)
           .then((resp) => {
-            let roles = AuthService.fetchUserRoles();
+            // let roles = AuthService.fetchUserRoles();
             let token = resp.data.token;
             dispatch(loginSuccess(token));
             toast.success("Loggin Success !", {

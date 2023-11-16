@@ -26,7 +26,7 @@ class AuthService {
   }
 
   fetchUserRoles() {
-    return privateAxios.get("/user/roles");
+    return privateAxios.get(APP_BASE_URL+"/user/roles");
   }
 
   isStudentPresent(roles) {

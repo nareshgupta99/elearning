@@ -63,7 +63,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/teach-with-us" element={<TeachWithUs />} />
         </Route>
-        <Route path="logout" element={<Logout />} />
+        <Route path="/logout" element={<Logout />} />
         <Route path="/cart" element={<Cart />} />
 
         <Route path="/auth" element={<PrivateRoutes auth={auth} />}>
