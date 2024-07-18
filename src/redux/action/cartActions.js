@@ -1,6 +1,7 @@
 import { ADD_TO_CART, CHECK_CART, EMPTY_CART, REMOVE_FROM_CART } from "./action-type";
 
 export function addToCart(course){
+    console.log(1);
     return {type:ADD_TO_CART, payload:course};
 }
 

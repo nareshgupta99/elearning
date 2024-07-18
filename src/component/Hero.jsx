@@ -5,20 +5,23 @@ import { Popover } from "antd";
 import { getAllPublicCourse, imageToUrl } from "../service/CourseService";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../redux/action/cartActions";
+import { addItemToCart } from "../service/CartService";
+import { toast } from "react-toastify";
 
 function Hero() {
   const [courses, setCourses] = useState([]);
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
+
   useEffect(() => {
     getAllPublicCourse()
       .then((res) => {
         let data = res.data;
         console.log(data);
-        data.map((d) => {
-          let image = imageToUrl(d.imageBytes);
-          d.image = URL.createObjectURL(image);
-        });
+        // data.map((d) => {
+        //   let image = imageToUrl(d.imageBytes);
+        //   d.image = URL.createObjectURL(image);
+        // });
         setCourses(data);
       })
       .catch((err) => {
@@ -27,6 +30,18 @@ function Hero() {
   }, []);
 
   useEffect(() => {}, [cart]);
+
+  let cartHandler=(courseId)=>{
+    addItemToCart(courseId).then((data)=>{
+      dispatch(addToCart(courseId));
+      console.log(data);
+  }).catch((err)=>{
+      toast.error("login to continue", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      console.log(err);
+  })
+  }
 
   const content = (course) => (
     <div className="card m-2 " id="" style={{ width: "20rem" }}>
@@ -63,7 +78,7 @@ function Hero() {
           <button
             className="card-button btn"
             onClick={() => {
-              dispatch(addToCart(course));
+            dispatch(addToCart(course));
             }}
           >
             Add to cart
@@ -83,7 +98,7 @@ function Hero() {
               style={{ width: "18rem" }}
             >
               <Link to={`course/${course.courseId}`}>
-                <img src={course.image} className="card-img-top" alt="..." />
+                <img src={course.image.url} className="card-img-top" alt="..." />
               </Link>
 
               <div className="card-body d-flex flex-column">

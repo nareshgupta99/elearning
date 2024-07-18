@@ -27,46 +27,53 @@ import UserProfile from "./component/UserProfile";
 import ChangePassword from "./component/ChangePassword";
 import ResetPassword from "./component/ResetPassword";
 import ForgotPassword from "./component/ForgotPassword";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import SimpleRoutes from "./routes/SimpleRoutes";
 import CourseDetail from "./component/admin/CourseDetail";
 import Search from "./component/Search";
+import MyCourses from "./component/MyCourses";
 
 
 function App() {
 
 
-  const auth=useSelector((state)=>state.auth);
+  const auth = useSelector((state) => state.auth);
 
-  const cart=useSelector((state)=>state.cart);
+  const cart = useSelector((state) => state.cart);
 
-  
-  
-  
-  
+
+
+
+
   return (
     <BrowserRouter>
-      <Navbar auth={auth}/>
+      <Navbar auth={auth} />
       <ToastContainer autoClose={2000} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/course/:id" element={<CourseDetail />} />
         <Route path="/search/:q" element={<Search />} />
-        
+
         <Route path="/" element={<SimpleRoutes auth={auth} />}  >
 
-         <Route path="/student/register" element={<Student />} />
-        <Route path="/instructor/register" element={<Instructor />} />
-        <Route path="login" element={<Login />} />
-        <Route path="/forgot-password/reset-password" element={<ResetPassword />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/teach-with-us" element={<TeachWithUs />} />
+
+          <Route path="/student/register" element={<Student />} />
+          <Route path="/instructor/register" element={<Instructor />} />
+          <Route path="login" element={<Login />} />
+          <Route path="/forgot-password/reset-password" element={<ResetPassword />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/teach-with-us" element={<TeachWithUs />} />
         </Route>
+
+
+        
         <Route path="/logout" element={<Logout />} />
         <Route path="/cart" element={<Cart />} />
 
         <Route path="/auth" element={<PrivateRoutes auth={auth} />}>
+
+          <Route path="my-courses" element={<MyCourses />} />
           <Route path="course-content" element={<CourseContent />} />
           <Route path="instructor" element={<AdminRoutes />} />
           <Route path="course/play/:id" element={<Course />} />
@@ -74,15 +81,15 @@ function App() {
           <Route path="user-profile" element={<UserProfile />} />
           <Route path="change-password" element={<ChangePassword />} />
         </Route>
-        <Route path="instructor" element={<InstructorRoutes  auth={auth}/>} >
+        <Route path="instructor" element={<InstructorRoutes auth={auth} />} >
 
           <Route path="overview" element={<Overview />} />
           <Route path="courses" element={<Courses />} />
           <Route path="curriculum/:id" element={<Curriculum />} />
           <Route path="createCourse" element={<CreateCourse />} />
-          <Route path="students" element={<EnrolledStudent/>} />
-          <Route path="course/review/:id" element={<Review/>} />
-      
+          <Route path="students" element={<EnrolledStudent />} />
+          <Route path="course/review/:id" element={<Review />} />
+
         </Route>
       </Routes>
     </BrowserRouter>

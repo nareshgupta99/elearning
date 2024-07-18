@@ -15,19 +15,19 @@ export default function Courses() {
       .then((res) => {
         let data = res.data;
         console.log(data)
-        data.map((d) => {
-          //decoding a String of data which has been encoded by atob() or decoding  base64String
-          const byteCharacters = atob(d.imageBytes);
-          const byteNumbers = new Array(byteCharacters.length);
-          for (let i = 0; i < byteCharacters.length; i++) {
-            byteNumbers[i] = byteCharacters.charCodeAt(i);
-          }
-          const byteArray = new Uint8Array(byteNumbers);
-          let image = new Blob([byteArray], { type: "image/jpeg" });
-          // creating a image url
-          let imageUrl = URL.createObjectURL(image);
-          d.imageBytes = imageUrl;
-        });
+        // data.map((d) => {
+        //   //decoding a String of data which has been encoded by atob() or decoding  base64String
+        //   const byteCharacters = atob(d.imageBytes);
+        //   const byteNumbers = new Array(byteCharacters.length);
+        //   for (let i = 0; i < byteCharacters.length; i++) {
+        //     byteNumbers[i] = byteCharacters.charCodeAt(i);
+        //   }
+        //   const byteArray = new Uint8Array(byteNumbers);
+        //   let image = new Blob([byteArray], { type: "image/jpeg" });
+        //   // creating a image url
+        //   let imageUrl = URL.createObjectURL(image);
+        //   d.imageBytes = imageUrl;
+        // });
         setData(data);
         console.log(data)
       })
@@ -64,7 +64,7 @@ export default function Courses() {
             style={{ height: "148px" }}
           
           >
-            <img alt="image" src={d.imageBytes} width={"110px"} />
+            <img alt="image" src={d.image.url} width={"110px"} />
             <div className="w-100">
             <p className="course-title-overlay text-center">{d.title} </p>
            

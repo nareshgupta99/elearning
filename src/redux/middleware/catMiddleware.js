@@ -1,10 +1,13 @@
+import { addItemToCart } from "../../service/CartService";
 import { ADD_TO_CART, CHECK_CART, EMPTY_CART, INIT, REMOVE_FROM_CART } from "../action/action-type"
 import { addToCart, checkCart } from "../action/cartActions";
+import { toast } from "react-toastify";
 
 export function saveCourseMiddleware(store){
     return function(next){
         return function(action){
             if(action.type===ADD_TO_CART){
+                console.log(2)
                 let localStorageItem=localStorage.getItem("cart");
                 if(!localStorageItem){
                     let cartArray= [action.payload]
@@ -14,6 +17,7 @@ export function saveCourseMiddleware(store){
                let parseCartData= JSON.parse(localStorageItem)
                parseCartData.push(action.payload);
                 localStorage.setItem("cart",JSON.stringify(parseCartData));    
+                    
             }
 
             if(action.type===REMOVE_FROM_CART){

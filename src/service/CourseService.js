@@ -21,6 +21,7 @@ export function getAllInstructorCourses(){
    return privateAxios.get("/course/instructor");    
 }
 
+
 export function getInstructorCourse({id}){
     return privateAxios.get(`/course/${id}/instructor`);
 }
@@ -33,6 +34,9 @@ export function publishCourse({id},formData){
     return privateAxios.post(`course/${id}/publish`,formData);
 }
 
+export function getAllPurchasedCourses(){
+    return privateAxios.get(`/purchased/course`);
+}
 export function getPurchasedCourse(id){
     return privateAxios.get(`course/${id}/purchase`);
 }

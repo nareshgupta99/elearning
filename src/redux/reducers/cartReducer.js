@@ -9,6 +9,7 @@ export const cartReducer=(state=initialState,action)=>{
     let courses;
     switch(action.type){
         case ADD_TO_CART:
+            console.log(3)
             return {...state,
                 courses:[...state.courses,action.payload]
             }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./cart.css";
 import { useDispatch, useSelector } from "react-redux";
 import { emptyCart, removeFromCart } from "../redux/action/cartActions";
+import { toast } from "react-toastify";
 import {
   initiatePayment,
   paymentVerification,
@@ -10,6 +11,7 @@ import {
 import { privateAxios } from "../service/helper";
 import { Link, useNavigate } from "react-router-dom";
 import { imageToUrl, savePurchasedCourse } from "../service/CourseService";
+import Login from "./Login";
 function Cart() {
   let courses = useSelector((state) => state.cart.courses);
   let cart = useSelector((state) => state.cart);
@@ -40,14 +42,26 @@ function Cart() {
     let key;
     let formData = new FormData();
     formData.append("amount", amt);
+    console.log("form data",amt)
     privateAxios.get("/payment/key").then(({ data }) => {
       key = data;
-    });
+    }).catch((err)=>{
+      let token=localStorage.getItem("token")
+      if(!token){
+        toast.error("Login to Continue !", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
 
+      
+      }
+      // console.log(err,token)
+    });
+      console.log(formData)
     initiatePayment(formData)
       .then(({ data }) => {
         if (data.status === "created") {
           checkOut(data, key);  
+          dispatch(removeFromCart)
         }
       })
       .catch((err) => {
