@@ -17,6 +17,7 @@ function Instructor() {
     initialValues: initialValues,
     validationSchema: signUpSchema,
     onSubmit: (values, action) => {
+
       AuthService.registerInstructor(values)
         .then((resp) => {
           let msg = resp.data.message;
@@ -27,10 +28,16 @@ function Instructor() {
           navigate("/instructor/courses");
         })
         .catch((err) => {
-          let msg = err.response.data.message;
-          toast.error(msg, {
-            position: toast.POSITION.TOP_RIGHT,
-          });
+          if (!err.response) {
+            toast.error("Server is down. Please try again later.", {
+              position: toast.POSITION.TOP_RIGHT,
+            });
+          } else {
+            let msg = err.response.data.message;
+            toast.error(msg, {
+              position: toast.POSITION.TOP_RIGHT,
+            });
+          }
         });
     },
   });

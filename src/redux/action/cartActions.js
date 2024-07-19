@@ -5,8 +5,8 @@ export function addToCart(course){
     return {type:ADD_TO_CART, payload:course};
 }
 
-export function removeFromCart(courseId){
-    return {type:REMOVE_FROM_CART,payload:courseId};
+export function removeFromCart(cartId){
+    return {type:REMOVE_FROM_CART,payload:cartId};
 }
 
 export function checkCart(courses){

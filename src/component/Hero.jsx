@@ -11,18 +11,15 @@ import { toast } from "react-toastify";
 function Hero() {
   const [courses, setCourses] = useState([]);
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart);
+  const cart = useSelector((state) => state.cart.courses);
+  console.log(cart,"from hero")
 
   useEffect(() => {
     getAllPublicCourse()
       .then((res) => {
-        let data = res.data;
-        console.log(data);
-        // data.map((d) => {
-        //   let image = imageToUrl(d.imageBytes);
-        //   d.image = URL.createObjectURL(image);
-        // });
-        setCourses(data);
+        let courses = res.data; 
+        setCourses(courses);
+        console.log(courses)
       })
       .catch((err) => {
         console.log(err.message);
@@ -31,18 +28,16 @@ function Hero() {
 
   useEffect(() => {}, [cart]);
 
-  let cartHandler=(courseId)=>{
-    addItemToCart(courseId).then((data)=>{
-      dispatch(addToCart(courseId));
-      console.log(data);
-  }).catch((err)=>{
-      toast.error("login to continue", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-      console.log(err);
-  })
-  }
-
+  // let cartHandler=(courseId)=>{
+  //   addItemToCart(courseId).then((data)=>{
+  //     dispatch(addToCart(courseId));
+  // }).catch((err)=>{
+  //     toast.error("login to continue", {
+  //         position: toast.POSITION.TOP_RIGHT,
+  //       });
+  //     console.log(err);
+  // })
+  // }
   const content = (course) => (
     <div className="card m-2 " id="" style={{ width: "20rem" }}>
       <div className="card-body">
@@ -63,22 +58,30 @@ function Hero() {
           line of code to help you learn! LEARN key Spring Boot 3 features:
           Core, Annotations, Java Config, Spring MVC, Hibernate/JPA and Maven
         </p>
-
-        {cart.courses.some((c) => c.courseId == course.courseId) ? (
+           
+        {cart.some((c) => c.courseId == course?.courseId) ? (
+          
           <button
-            className="card-button btn "
-            style={{ backgroundColor: "red" }}
-            onClick={() => {
-              dispatch(removeFromCart(course.courseId));
-            }}
+          className="card-button btn "
+          style={{ backgroundColor: "red" }}
+          onClick={() => {
+            let filterdItem=cart.filter((c)=>{
+              return c.courseId==course.courseId;
+            })
+            console.log(filterdItem,"filtered item");
+            dispatch(removeFromCart(filterdItem[0].id));
+          }}
+          
           >
             Remove from cart
           </button>
         ) : (
           <button
             className="card-button btn"
-            onClick={() => {
-            dispatch(addToCart(course));
+            onClick={async () => {
+             let {data} =await addItemToCart(course.courseId);
+             console.log(data,"from hero add to cart")
+            dispatch(addToCart(data));
             }}
           >
             Add to cart

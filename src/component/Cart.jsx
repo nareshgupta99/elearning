@@ -10,10 +10,8 @@ import {
 } from "../service/paymentService";
 import { privateAxios } from "../service/helper";
 import { Link, useNavigate } from "react-router-dom";
-import { imageToUrl, savePurchasedCourse } from "../service/CourseService";
-import Login from "./Login";
+
 function Cart() {
-  let courses = useSelector((state) => state.cart.courses);
   let cart = useSelector((state) => state.cart);
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
@@ -25,11 +23,12 @@ function Cart() {
 
   useEffect(() => {
     let data = [];
-    cartItems.forEach((course) => data.push(course.courseId));
+
+    // cartItems.forEach((course) => data.push(course.courseId));
     let disSum = 0;
     let origSum = 0;
-    setCartItems(courses);
-    courses.forEach((course) => {
+    setCartItems(cart.courses);
+   cartItems.forEach((course) => {
       disSum = disSum + Number.parseInt(course.discountedPrice);
       origSum = origSum + Number.parseInt(course.originalPrice);
     });
@@ -54,7 +53,7 @@ function Cart() {
 
       
       }
-      // console.log(err,token)
+
     });
       console.log(formData)
     initiatePayment(formData)
@@ -81,8 +80,6 @@ function Cart() {
       handler: function (response) {
         const formData = new FormData();
         let courses= cartDetail();
-        console.log("list of course id")
-        console.log(courses)
         let data = {
           paymentId: response.razorpay_payment_id,
           orderId: response.razorpay_order_id,
@@ -142,8 +139,9 @@ function Cart() {
           {cartItems.map((item, index) => (
             <div key={index}>
               <div className="d-flex gap-5 ms-2 ">
+                {console.log(item)}
                 <img
-                  src={URL.createObjectURL(imageToUrl(item.imageBytes))}
+                  src={item?.url}
                   width="120"
                   height="68"
                 />
@@ -158,11 +156,11 @@ function Cart() {
                     <span>{item.level}</span>
                   </div>
                 </div>
-                <p onClick={() => dispatch(removeFromCart(item.courseId))}>
+                <p onClick={() => dispatch(removeFromCart(item.id))}>
                   Remove
                 </p>
                 <div>
-                  <p>&#8377;{item.discountedPrice}</p>
+                  <p>&#8377;{item.originalPrice-item.discountedPrice}</p>
                   <p>
                     <del>{item.originalPrice}</del>
                   </p>
@@ -196,7 +194,7 @@ function Cart() {
             <h5>Total:</h5>
             <h2 style={{ fontSize: "60px" }}>
               <span style={{ fontSize: "60px" }}>&#8377;</span>
-              {total.discountedPrice}
+              {total.originalPrice-total.discountedPrice}
             </h2>
             <h6>
               <del>&#8377;{total.originalPrice}</del>

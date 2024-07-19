@@ -23,7 +23,7 @@ const store = createStore(
   rootReducer,
   composeEnhancers(
 
-    applyMiddleware( thunk, saveTokenMiddleware,  checkTokenMiddleware ,saveCourseMiddleware, checkCartMiddleware)
+    applyMiddleware( thunk, saveTokenMiddleware,  checkTokenMiddleware ,saveCourseMiddleware, checkCartMiddleware,)
     )
   
 );
