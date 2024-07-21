@@ -19,7 +19,7 @@ function Navbar({ auth }) {
   const [searchData, setSearchData] = useState([]);
   const [counter, setCounter] = useState();
   let roles = auth.user.roles;
-  let user=auth.user;
+  const user=useSelector((state)=>state.auth.user);
   let isAuthenticated = auth.isAuthenticated;
   let isTokenValid = AuthService.isTokenValid(auth.token);
 
@@ -214,7 +214,11 @@ function Navbar({ auth }) {
                   <li className="nav-item">
                     <Link className="nav-link " to="/auth/user-profile">
                       <Popover placement="bottom" content={<Profile />} >
+                      {user.profilePic?
+                      <img src={user.profilePic.url} style={{width:"40px",height:"40px",borderRadius:"100%"}} />
+                      :
                         <CgProfile size={25} />
+                      }
                       </Popover>
                     </Link>
                   </li>

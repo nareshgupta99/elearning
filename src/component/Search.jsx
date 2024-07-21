@@ -37,15 +37,17 @@ function Search() {
       >
         <div className="ms-5">
           {courses.map((item, index) => (
+            
             <div key={index} >
+              {console.log(item)}
               <Link to="" style={{textDecoration:"none",color:"black"}}>
               <div className="d-flex gap-5 ms-2 ">
-                <img src={ URL.createObjectURL(imageToUrl(item.imageBytes))} width="120" height="68" />
+                <img src={item.image.url} width="120" height="68" />
                 <div className="heading">
                   <p style={{ fontWeight: " 700" }}>
-                    JSP, Servlets and JDBC for Beginners: Build a Database App
+                    {item.title}
                   </p>
-                  <p>By Chad Darby</p>
+                  <p>{item.instructorName}</p>
                   <div>
                     <span>{item.duration}</span>
                     <span>118 lectures</span>
@@ -53,7 +55,7 @@ function Search() {
                   </div>
                 </div>
                 <div>
-                  <p>&#8377;{item.discountedPrice}</p>
+                  <p>&#8377;{item.originalPrice-item.discountedPrice}</p>
                   <p>
                     <del>{item.originalPrice}</del>
                   </p>

@@ -13,60 +13,56 @@ import { Link, useNavigate } from "react-router-dom";
 
 function Cart() {
   let cart = useSelector((state) => state.cart);
-  const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
-  const dispatch = useDispatch();
   const [total, setTotal] = useState({
     originalPrice: 0,
     discountedPrice: 0,
   });
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    let data = [];
-
-    // cartItems.forEach((course) => data.push(course.courseId));
-    let disSum = 0;
-    let origSum = 0;
     setCartItems(cart.courses);
-   cartItems.forEach((course) => {
-      disSum = disSum + Number.parseInt(course.discountedPrice);
-      origSum = origSum + Number.parseInt(course.originalPrice);
-    });
-    setTotal({ ...total, discountedPrice: disSum, originalPrice: origSum });
+    updateTotal(cart.courses);
   }, [cart]);
 
+  const updateTotal = (items) => {
+    let disSum = 0;
+    let origSum = 0;
+    items.forEach((course) => {
+      disSum += Number.parseInt(course.discountedPrice);
+      origSum += Number.parseInt(course.originalPrice);
+    });
+    setTotal({ originalPrice: origSum, discountedPrice: disSum });
+  };
+
+  function cartDetail() {
+    let course = [];
+    cartItems.forEach((c) => course.push(c.courseId));
+    return course;
+  }
+
+  console.log(cartDetail(),"cart details");
+  
+  
   function paymentStart() {
     console.log("payment started");
     let amt = total.discountedPrice;
     let key;
     let formData = new FormData();
     formData.append("amount", amt);
-    console.log("form data",amt)
-    privateAxios.get("/payment/key").then(({ data }) => {
-      key = data;
-    }).catch((err)=>{
-      let token=localStorage.getItem("token")
-      if(!token){
-        toast.error("Login to Continue !", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-
-      
-      }
-
-    });
-      console.log(formData)
-    initiatePayment(formData)
+      initiatePayment(formData,"formdata")
       .then(({ data }) => {
         if (data.status === "created") {
-          checkOut(data, key);  
+          checkOut(data, key);
           dispatch(removeFromCart)
         }
       })
       .catch((err) => {
         console.log(err);
-      });
+    });
   }
+  
+  
   function checkOut(data, key) {
     const options = {
       key: key,
@@ -79,12 +75,12 @@ function Cart() {
       order_id: data.id,
       handler: function (response) {
         const formData = new FormData();
-        let courses= cartDetail();
+        let courses = cartDetail();
         let data = {
           paymentId: response.razorpay_payment_id,
           orderId: response.razorpay_order_id,
           signature: response.razorpay_signature,
-          coursesId:courses
+          coursesId: courses
         };
         paymentVerification(data)
           .then(({ data }) => {
@@ -123,11 +119,7 @@ function Cart() {
     razorpay.open();
   }
 
-  function cartDetail() {
-    let course = [];
-    cartItems.forEach((c) => course.push(c.courseId));
-    return course;
-  }
+ 
   return (
     <div>
       <h1 className="m-3"> Shopping Cart</h1>
@@ -156,11 +148,14 @@ function Cart() {
                     <span>{item.level}</span>
                   </div>
                 </div>
-                <p onClick={() => dispatch(removeFromCart(item.id))}>
+                <p className="" style={{cursor:"pointer"}} onClick={() => dispatch(removeFromCart(item.id))}>
                   Remove
                 </p>
+                <p style={{cursor:"pointer"}} onClick={() => dispatch(removeFromCart(item.id))}>
+                  Buy
+                </p>
                 <div>
-                  <p>&#8377;{item.originalPrice-item.discountedPrice}</p>
+                  <p>&#8377;{item.originalPrice - item.discountedPrice}</p>
                   <p>
                     <del>{item.originalPrice}</del>
                   </p>
@@ -194,7 +189,7 @@ function Cart() {
             <h5>Total:</h5>
             <h2 style={{ fontSize: "60px" }}>
               <span style={{ fontSize: "60px" }}>&#8377;</span>
-              {total.originalPrice-total.discountedPrice}
+              {total.originalPrice - total.discountedPrice}
             </h2>
             <h6>
               <del>&#8377;{total.originalPrice}</del>

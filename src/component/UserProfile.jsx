@@ -33,7 +33,7 @@ function UserProfile() {
     formData.append("phone",userDetails.phone);
 
     updateUserDetail(formData).then((res)=>{
-      toast.success("Loggin Success !", {
+      toast.success("Profile Updated Successfull !", {
         position: toast.POSITION.TOP_RIGHT,
       });
       navigate("/")
@@ -107,7 +107,7 @@ function UserProfile() {
         </div>
       </div>
 
-      <input type="submit" value={"submit"} className="p-1 mt-2"/>
+      <input type="submit"  value={"Update"} className="px-5 py-3 mt-2 btn btn-success"/>
       </form>
     </div>
   );

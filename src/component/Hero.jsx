@@ -12,12 +12,12 @@ function Hero() {
   const [courses, setCourses] = useState([]);
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.courses);
-  console.log(cart,"from hero")
+  console.log(cart, "from hero")
 
   useEffect(() => {
     getAllPublicCourse()
       .then((res) => {
-        let courses = res.data; 
+        let courses = res.data;
         setCourses(courses);
         console.log(courses)
       })
@@ -26,18 +26,8 @@ function Hero() {
       });
   }, []);
 
-  useEffect(() => {}, [cart]);
+  useEffect(() => { }, [cart]);
 
-  // let cartHandler=(courseId)=>{
-  //   addItemToCart(courseId).then((data)=>{
-  //     dispatch(addToCart(courseId));
-  // }).catch((err)=>{
-  //     toast.error("login to continue", {
-  //         position: toast.POSITION.TOP_RIGHT,
-  //       });
-  //     console.log(err);
-  // })
-  // }
   const content = (course) => (
     <div className="card m-2 " id="" style={{ width: "20rem" }}>
       <div className="card-body">
@@ -51,27 +41,29 @@ function Hero() {
           {/* Spring Boot 3: Learn Spring 6, Spring REST API, Spring MVC, Spring
           Security, Thymeleaf, JPA & Hibernate */}
           {course.about}
+          {console.log(course.about)}
         </p>
         <p className="key-point">
-          NEW FOR 2023: SPRING BOOT 3, SPRING 6 and IntelliJ (free version) You
-          will TYPE IN EVERY LINE of code with me in the videos. I EXPLAIN every
-          line of code to help you learn! LEARN key Spring Boot 3 features:
-          Core, Annotations, Java Config, Spring MVC, Hibernate/JPA and Maven
+           NEW FOR 2023: SPRING BOOT 3, SPRING 6 and IntelliJ (free version) You 
+          // will TYPE IN EVERY LINE of code with me in the videos. I EXPLAIN every
+          // line of code to help you learn! LEARN key Spring Boot 3 features:
+          // Core, Annotations, Java Config, Spring MVC, Hibernate/JPA and Maven 
+
         </p>
-           
+
         {cart.some((c) => c.courseId == course?.courseId) ? (
-          
+
           <button
-          className="card-button btn "
-          style={{ backgroundColor: "red" }}
-          onClick={() => {
-            let filterdItem=cart.filter((c)=>{
-              return c.courseId==course.courseId;
-            })
-            console.log(filterdItem,"filtered item");
-            dispatch(removeFromCart(filterdItem[0].id));
-          }}
-          
+            className="card-button btn "
+            style={{ backgroundColor: "red" }}
+            onClick={() => {
+              let filterdItem = cart.filter((c) => {
+                return c.courseId == course.courseId;
+              })
+              console.log(filterdItem, "filtered item");
+              dispatch(removeFromCart(filterdItem[0].id));
+            }}
+
           >
             Remove from cart
           </button>
@@ -79,9 +71,9 @@ function Hero() {
           <button
             className="card-button btn"
             onClick={async () => {
-             let {data} =await addItemToCart(course.courseId);
-             console.log(data,"from hero add to cart")
-            dispatch(addToCart(data));
+              let { data } = await addItemToCart(course.courseId);
+              console.log(data, "from hero add to cart")
+              dispatch(addToCart(data));
             }}
           >
             Add to cart

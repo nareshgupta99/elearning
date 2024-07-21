@@ -21,6 +21,7 @@ function CreateCourse() {
     level: "",
     category: "",
     subTitle: "",
+    keyPoint:""
   };
   const [imageError,setImageError]=useState(null)
 
@@ -42,6 +43,8 @@ function CreateCourse() {
         formData.append("category", values.category);
         formData.append("image", course.image);
         formData.append("subTitle", values.subTitle);
+        formData.append("keyPoint",values.keyPoint);
+        console.log(formData,"form data")
 
         addCourse(formData)
           .then((res) => {
@@ -165,6 +168,29 @@ function CreateCourse() {
               </div>
               {errors.about && touched.about ? (
                 <p className="form-error text-danger">{errors.about}</p>
+              ) : (
+                ""
+              )}
+            </section>
+          </div>
+
+          <div className="text-editor">
+            <h4 className="fs-5 fw-bold">Key Point</h4>
+            <section className="mx-auto mt-4">
+              <div className="row mt-1">
+                <div className="col">
+                  <textarea
+                    id="textarea1"
+                    placeholder="Write some Important point or Tpics Regarding the course"
+                    name="keyPoint"
+                    value={values.keyPoint}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  ></textarea>
+                </div>
+              </div>
+              {errors.keyPoint && touched.keyPoint ? (
+                <p className="form-error text-danger">{errors.keyPoint}</p>
               ) : (
                 ""
               )}

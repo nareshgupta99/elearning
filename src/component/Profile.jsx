@@ -12,6 +12,7 @@ function Profile() {
   const roles=useSelector((state)=>state.auth.user.roles)
   const dispatch=useDispatch();
   const user=useSelector((state)=>state.auth.user);
+  console.log(user,"user navbar")
   
 
   function checkInstructorRole(roles){
@@ -28,7 +29,7 @@ function Profile() {
     <div >
  <div className="card" style={{width: "18rem"}}>
   <ul className="list-group list-group-flush">
-    <Link to="/auth/user-profile" style={{textDecoration:"none"}} >  <li className="list-group-item pb-5"><img src={user.profile?URL.createObjectURL(imageToUrl(user.profile)):initialImage} style={{width:"100px",height:"100px",borderRadius:"100%"}} /> {user.firstName}<p style={{fontSize:"10px"}}> {user.email}</p></li> </Link>
+    <Link to="/auth/user-profile" style={{textDecoration:"none"}} >  <li className="list-group-item pb-5"><img src={user.profilePic?user.profilePic.url:initialImage} style={{width:"100px",height:"100px",borderRadius:"100%"}} /> {user.firstName}<p style={{fontSize:"10px"}}> {user.email}</p></li> </Link>
    <Link to="/auth/purchase-history"  style={{textDecoration:"none"}}> <li className="list-group-item">Purchased History</li> </Link>
    <Link to="/auth/my-courses" style={{textDecoration:"none"}} > <li className="list-group-item">My Course</li> </Link>
    <Link to="/cart" style={{textDecoration:"none"}}> <li className="list-group-item">My Cart</li> </Link>
