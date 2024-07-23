@@ -13,3 +13,8 @@ export function getAllItemFromCart(){
 export function removeItemFromCart(courseId){
     return privateAxios.delete(`/cart/course/${courseId}`);
 }
+
+
+export function removeAllCart(){
+    return privateAxios.delete("/cart/remove");
+}

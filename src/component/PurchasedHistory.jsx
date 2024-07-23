@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { getAllPurchasedCourses } from '../service/CourseService';
+import { getAllOrders } from '../service/OrdersService';
 
 function PurchasedHistory() {
 
-  const [courses, setCourses] = useState([])
+  const [orders, setOrders] = useState([])
 
   useEffect(() => {
-    getAllPurchasedCourses().then((courses) => {
-      let { data } = courses;
+    getAllOrders().then((res) => {
+      let { data } = res;
       console.log(data)
-      setCourses(data)
+      setOrders(data)
     }).catch((err) => {
       console.log(err)
     })
-    console.log(courses)
   }, [])
 
   return (
@@ -26,20 +25,18 @@ function PurchasedHistory() {
               <th scope="col"></th>
               <th scope="col" style={{ color: "grey" }}>Date</th>
               <th scope="col" className='' style={{ color: "grey" }}>Total price</th>
-              <th scope="col" className='' style={{ color: "grey" }}>Payment type</th>
               <th scope="col"></th>
               <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
-            {courses.map((course,index)=>(
+            {orders.map((order,index)=>(
 
               
               <tr>
                 <th scope="row">{index+1}</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+                <td>{order.purchaseDate}</td>
+                <td>{order.toatalAmt}</td>
               </tr>
           )) }
 

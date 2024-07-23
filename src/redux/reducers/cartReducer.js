@@ -1,6 +1,6 @@
 
 import { getAllItemFromCart } from "../../service/CartService";
-import { ADD_TO_CART, CHECK_CART, EMPTY_CART, REMOVE_FROM_CART } from "../action/action-type";
+import { ADD_TO_CART, CHECK_CART, REMOVE_ALL_FROM_CART, REMOVE_FROM_CART } from "../action/action-type";
 
 const initialState={
    courses:[]
@@ -21,7 +21,7 @@ export const cartReducer= (state=initialState,action)=>{
         case CHECK_CART:
             courses=action.payload;
             return {...state.courses,courses}
-        case EMPTY_CART:
+        case REMOVE_ALL_FROM_CART:
             courses=[];
             return {...state,courses:courses};
 

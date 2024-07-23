@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./cart.css";
 import { useDispatch, useSelector } from "react-redux";
-import { emptyCart, removeFromCart } from "../redux/action/cartActions";
+import {  removeAllFromCart, removeFromCart } from "../redux/action/cartActions";
 import { toast } from "react-toastify";
 import {
   initiatePayment,
@@ -39,33 +39,34 @@ function Cart() {
     let course = [];
     cartItems.forEach((c) => course.push(c.courseId));
     return course;
-  }
-
-  console.log(cartDetail(),"cart details");
-  
+  }  
   
   function paymentStart() {
-    console.log("payment started");
-    let amt = total.discountedPrice;
-    let key;
-    let formData = new FormData();
-    formData.append("amount", amt);
-      initiatePayment(formData,"formdata")
-      .then(({ data }) => {
-        if (data.status === "created") {
-          checkOut(data, key);
-          dispatch(removeFromCart)
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-    });
-  }
+      console.log("payment started");
+      let amt = total.originalPrice-total.discountedPrice;
+
+      let formData = new FormData();
+      formData.append("amount", amt);
+        initiatePayment(formData,"formdata")
+        .then(({ data }) => {
+          if (data.status === "created") {
+            checkOut(data, "");
+            
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+      });
   
-  
-  function checkOut(data, key) {
+      console.log("order created")
+    }
+    
+
+
+  function  checkOut(data) {
+    
     const options = {
-      key: key,
+      key:"",
       amount: data.amount,
       currency: "INR",
       name: "E-Learning ",
@@ -76,21 +77,23 @@ function Cart() {
       handler: function (response) {
         const formData = new FormData();
         let courses = cartDetail();
-        let data = {
+        let paymentDetails = {
           paymentId: response.razorpay_payment_id,
           orderId: response.razorpay_order_id,
           signature: response.razorpay_signature,
           coursesId: courses
         };
-        paymentVerification(data)
+         paymentVerification(paymentDetails)
           .then(({ data }) => {
             if (data) {
               let coursesId = [];
               cartItems.forEach((course) => coursesId.push(course.courseId));
+              console.log("payment successfull");
+              dispatch(removeAllFromCart())
             }
           })
           .catch((err) => {
-            console.log(err.message);
+            console.log(err.message,"cancel");
           });
       },
       prefill: {
@@ -139,9 +142,9 @@ function Cart() {
                 />
                 <div className="heading">
                   <p style={{ fontWeight: " 700" }}>
-                    JSP, Servlets and JDBC for Beginners: Build a Database App
+                    {item.title}
                   </p>
-                  <p>By Chad Darby</p>
+                  <p>{item.instructorName}</p>
                   <div>
                     <span>{item.duration}</span>
                     <span>118 lectures</span>
@@ -151,9 +154,7 @@ function Cart() {
                 <p className="" style={{cursor:"pointer"}} onClick={() => dispatch(removeFromCart(item.id))}>
                   Remove
                 </p>
-                <p style={{cursor:"pointer"}} onClick={() => dispatch(removeFromCart(item.id))}>
-                  Buy
-                </p>
+                
                 <div>
                   <p>&#8377;{item.originalPrice - item.discountedPrice}</p>
                   <p>
