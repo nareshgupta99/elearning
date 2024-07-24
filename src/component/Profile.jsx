@@ -12,7 +12,7 @@ function Profile() {
   const roles=useSelector((state)=>state.auth.user.roles)
   const dispatch=useDispatch();
   const user=useSelector((state)=>state.auth.user);
-  console.log(user,"user navbar")
+  
   
 
   function checkInstructorRole(roles){

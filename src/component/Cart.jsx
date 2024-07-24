@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./cart.css";
 import { useDispatch, useSelector } from "react-redux";
-import {  removeAllFromCart, removeFromCart } from "../redux/action/cartActions";
+import { removeAllFromCart, removeFromCart } from "../redux/action/cartActions";
 import { toast } from "react-toastify";
 import {
   initiatePayment,
@@ -39,34 +39,33 @@ function Cart() {
     let course = [];
     cartItems.forEach((c) => course.push(c.courseId));
     return course;
-  }  
-  
+  }
+
   function paymentStart() {
-      console.log("payment started");
-      let amt = total.originalPrice-total.discountedPrice;
 
-      let formData = new FormData();
-      formData.append("amount", amt);
-        initiatePayment(formData,"formdata")
-        .then(({ data }) => {
-          if (data.status === "created") {
-            checkOut(data, "");
-            
-          }
-        })
-        .catch((err) => {
-          console.log(err);
+    let amt = total.originalPrice - total.discountedPrice;
+
+    let formData = new FormData();
+    formData.append("amount", amt);
+    initiatePayment(formData, "formdata")
+      .then(({ data }) => {
+        if (data.status === "created") {
+          checkOut(data, "");
+
+        }
+      })
+      .catch((err) => {
+        console.log(err);
       });
-  
-      console.log("order created")
-    }
-    
+
+  }
 
 
-  function  checkOut(data) {
-    
+
+  function checkOut(data) {
+
     const options = {
-      key:"",
+      key: "",
       amount: data.amount,
       currency: "INR",
       name: "E-Learning ",
@@ -83,17 +82,16 @@ function Cart() {
           signature: response.razorpay_signature,
           coursesId: courses
         };
-         paymentVerification(paymentDetails)
+        paymentVerification(paymentDetails)
           .then(({ data }) => {
             if (data) {
               let coursesId = [];
               cartItems.forEach((course) => coursesId.push(course.courseId));
-              console.log("payment successfull");
               dispatch(removeAllFromCart())
             }
           })
           .catch((err) => {
-            console.log(err.message,"cancel");
+            console.log(err.message, "cancel");
           });
       },
       prefill: {
@@ -122,7 +120,7 @@ function Cart() {
     razorpay.open();
   }
 
- 
+
   return (
     <div>
       <h1 className="m-3"> Shopping Cart</h1>
@@ -134,7 +132,6 @@ function Cart() {
           {cartItems.map((item, index) => (
             <div key={index}>
               <div className="d-flex gap-5 ms-2 ">
-                {console.log(item)}
                 <img
                   src={item?.url}
                   width="120"
@@ -151,10 +148,10 @@ function Cart() {
                     <span>{item.level}</span>
                   </div>
                 </div>
-                <p className="" style={{cursor:"pointer"}} onClick={() => dispatch(removeFromCart(item.id))}>
+                <p className="" style={{ cursor: "pointer" }} onClick={() => dispatch(removeFromCart(item.id))}>
                   Remove
                 </p>
-                
+
                 <div>
                   <p>&#8377;{item.originalPrice - item.discountedPrice}</p>
                   <p>

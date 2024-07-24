@@ -18,6 +18,7 @@ function Curriculum() {
   });
   const [sections, setSections] = useState([]);
   const [lecture, setLecture] = useState([]);
+  const [isPublish,setIsPublish]=useState();
   const id = useParams("id");
   const navigate = useNavigate();
 
@@ -27,14 +28,13 @@ function Curriculum() {
       ...prevSectionData,
       [name]: value,
     }));
-    console.log(sectionData);
   }
 
   useEffect(() => {
     getInstructorCourse(id)
       .then((res) => {
         setSections(res.data.sections);
-        console.log(res.data.sections);
+        setIsPublish(res.data.publish)
       })
       .catch((err) => {
         console.log(err.message);
@@ -414,13 +414,16 @@ function Curriculum() {
             </div>
           ))}
           <div>
-            <input
+            {
+              !isPublish?
+              <input
               type="button"
               value="next"
               className="px-3 mt-4 btn btn-success"
               onClick={handleNext}
               style={{ position: "relative", top: 1, left: "93%" }}
-            />
+              />
+            :""}
             {errors.next?<p className="text-danger">{errors.next}</p>:""}
           </div>
         </div>

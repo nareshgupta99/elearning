@@ -14,9 +14,7 @@ export default function Courses() {
     getAllInstructorCourses()
       .then((res) => {
         let data = res.data;
-        console.log(data)
         setData(data);
-        console.log(data)
       })
       .catch((err) => console.log(err.message));
   }, []);

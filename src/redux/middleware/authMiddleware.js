@@ -16,10 +16,8 @@ export const saveTokenMiddleware = (store) => (next) => (action) => {
 };
 
 export const checkTokenMiddleware = (store) => (next) => (action) => {
-  console.log("check token")
   if (action.type === INIT) {
     const token = localStorage.getItem('token');
-    console.log(token)
     if (token) {
       store.dispatch(loginSuccess(token));
     } else {

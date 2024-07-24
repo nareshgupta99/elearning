@@ -32,7 +32,6 @@ const Course = () => {
    useEffect(()=>{
      getPurchasedCourse(id).then((res)=>{
       let sec=res.data.sectionDto
-      console.log(sec)
        setSections(sec);
        setVideoUrl(sec[0].lectureDto[0].videoName)
      }).catch((err)=>{

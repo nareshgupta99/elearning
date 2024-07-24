@@ -6,7 +6,6 @@ import { removeFromCart } from "../redux/action/cartActions";
 function CartPopover() {
   let cart = useSelector((state) => state.cart.courses);
   const dispatch=useDispatch();
-  console.log(cart)
 
   return (
     <div >

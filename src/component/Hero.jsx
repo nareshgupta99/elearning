@@ -12,14 +12,13 @@ function Hero() {
   const [courses, setCourses] = useState([]);
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.courses);
-  console.log(cart, "from hero")
+
 
   useEffect(() => {
     getAllPublicCourse()
       .then((res) => {
         let courses = res.data;
         setCourses(courses);
-        console.log(courses)
       })
       .catch((err) => {
         console.log(err.message);
@@ -41,7 +40,6 @@ function Hero() {
           {/* Spring Boot 3: Learn Spring 6, Spring REST API, Spring MVC, Spring
           Security, Thymeleaf, JPA & Hibernate */}
           {course.about}
-          {console.log(course.about)}
         </p>
         <p className="key-point">
            NEW FOR 2023: SPRING BOOT 3, SPRING 6 and IntelliJ (free version) You 
@@ -60,7 +58,6 @@ function Hero() {
               let filterdItem = cart.filter((c) => {
                 return c.courseId == course.courseId;
               })
-              console.log(filterdItem, "filtered item");
               dispatch(removeFromCart(filterdItem[0].id));
             }}
 
@@ -72,7 +69,6 @@ function Hero() {
             className="card-button btn"
             onClick={async () => {
               let { data } = await addItemToCart(course.courseId);
-              console.log(data, "from hero add to cart")
               dispatch(addToCart(data));
             }}
           >

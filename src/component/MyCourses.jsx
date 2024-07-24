@@ -14,7 +14,6 @@ function MyCourses() {
     getAllPurchasedCourses().then((res) => {
       let { data } = res;
       setData(data);
-      console.log(data)
 
     }).catch((err) => console.log(err))
   }, []);

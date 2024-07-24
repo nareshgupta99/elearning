@@ -17,7 +17,6 @@ export function saveCourseMiddleware(store) {
             }
 
             if (action.type === REMOVE_FROM_CART) {
-                console.log("remove from cart", action.payload)
                 try{
                     removeItemFromCart(action.payload);
                 }catch(err){
@@ -51,7 +50,6 @@ export const checkCartMiddleware = (store) => (next) => async (action) => {
                 store.dispatch(checkCart(data));
             }
         } catch (err) {
-            console.log(err.response.status)
             const { status } = err;
         }
     }
