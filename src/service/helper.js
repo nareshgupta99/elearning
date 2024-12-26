@@ -18,4 +18,18 @@ import { getToken } from "./UserDetail";
         config.headers.Authorization=`Bearer ${token}`
         return config;
     }
+    return Promise.reject(new Error("Login To Add Item")); 
  },err=>Promise.reject(err))
+
+ privateAxios.interceptors.response.use(
+   (response) => {
+     return response;
+   },
+   async (error) => {
+     if (error.response && error.response.status === 401) {
+       localStorage.setItem("token","");
+       window.location.replace('/login'); // Redirect to login page
+     }
+     return Promise.reject(error);
+   }
+ );

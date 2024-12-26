@@ -33,6 +33,7 @@ export function saveCourseMiddleware(store) {
                  
             }
 
+            
 
 
             next(action);
@@ -43,7 +44,7 @@ export function saveCourseMiddleware(store) {
 
 
 export const checkCartMiddleware = (store) => (next) => async (action) => {
-    if (action.type === INIT) {
+    if (action.type === INIT ) {
         try {
             const { data } = await getAllItemFromCart()
             if (data) {

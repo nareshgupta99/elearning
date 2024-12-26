@@ -8,6 +8,7 @@ import { addToCart, removeFromCart } from "../redux/action/cartActions";
 import { addItemToCart } from "../service/CartService";
 import { toast } from "react-toastify";
 
+
 function Hero() {
   const [courses, setCourses] = useState([]);
   const dispatch = useDispatch();
@@ -68,8 +69,17 @@ function Hero() {
           <button
             className="card-button btn"
             onClick={async () => {
-              let { data } = await addItemToCart(course.courseId);
-              dispatch(addToCart(data));
+              try{
+
+                let { data } = await addItemToCart(course.courseId);
+                dispatch(addToCart(data));
+              }catch(err){
+                console.log(err.message)
+                toast.info(err.message, {
+                  position: toast.POSITION.TOP_RIGHT,
+                });
+    
+              }
             }}
           >
             Add to cart

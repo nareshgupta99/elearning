@@ -2,6 +2,7 @@
 
 import { INIT, LOGIN_SUCCESS, LOGOUT_SUCCESS } from '../action/action-type';
 import { loginSuccess, logoutSuccess } from '../action/authActions';
+import { removeAllFromCart } from '../action/cartActions';
 
 
 
@@ -26,3 +27,14 @@ export const checkTokenMiddleware = (store) => (next) => (action) => {
   }
   next(action);
 };
+
+ const logoutMiddleware=(store)=>(next)=>(action)=>{
+  if(action.type === LOGOUT_SUCCESS){
+    store.dispatch(removeAllFromCart());
+  }
+  next(action);
+};
+
+
+
+export {logoutMiddleware}

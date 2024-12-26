@@ -1,5 +1,3 @@
-
-import { getAllItemFromCart } from "../../service/CartService";
 import { ADD_TO_CART, CHECK_CART, REMOVE_ALL_FROM_CART, REMOVE_FROM_CART } from "../action/action-type";
 
 const initialState={
